@@ -1,0 +1,38 @@
+{
+  "topbar": { "claim": "Flexible packaging with purpose · Lima, Peru" },
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "news": "News",
+    "contact": "Contact",
+    "careers": "Work with us"
+  },
+  "cta": { "advisor": "Talk to an advisor", "seeProducts": "See products", "seeCatalog": "See full product catalog" },
+  "home": {
+    "hero": {
+      "eyebrow": "Flexible packaging manufacturer · Peru",
+      "title": "Transforming ideas,",
+      "titleAccent": "protecting your brand",
+      "lead": "We design, develop and manufacture PE and PP flexible packaging that protects, preserves and enhances the value of your product.",
+      "chipFda": "FDA food-grade",
+      "chipRecycle": "Recyclable & compostable",
+      "chipPrint": "Full-color printing"
+    },
+    "process": {
+      "eyebrow": "Our production processes",
+      "title": "Full control, from resin to finished packaging",
+      "intro": "We integrate the entire production chain under one roof to guarantee quality, traceability and compliance in every delivery."
+    },
+    "products": {
+      "eyebrow": "Our products",
+      "title": "A packaging solution for every industry",
+      "intro": "We develop flexible packaging tailored to the demands of each industry."
+    }
+  },
+  "footer": {
+    "navTitle": "Navigation",
+    "contactTitle": "Contact",
+    "rights": "© 2026 Gamma Plast. All rights reserved."
+  }
+}

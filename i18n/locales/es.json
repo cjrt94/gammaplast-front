@@ -1,0 +1,56 @@
+{
+  "topbar": { "claim": "Empaques flexibles con propósito · Lima, Perú" },
+  "nav": {
+    "home": "Inicio",
+    "about": "Nosotros",
+    "products": "Productos",
+    "news": "Novedades",
+    "contact": "Contacto",
+    "careers": "Trabaja con nosotros"
+  },
+  "cta": { "advisor": "Contacta a un asesor", "seeProducts": "Ver productos", "seeCatalog": "Ver catálogo completo de productos" },
+  "home": {
+    "hero": {
+      "eyebrow": "Fabricante de empaques flexibles · Perú",
+      "title": "Transformando ideas,",
+      "titleAccent": "cuidamos tu marca",
+      "lead": "Diseñamos, desarrollamos y fabricamos empaques flexibles de PE y PP que protegen, conservan y realzan el valor de tu producto.",
+      "chipFda": "Grado alimentario FDA",
+      "chipRecycle": "Reciclable y compostable",
+      "chipPrint": "Impresión full color"
+    },
+    "process": {
+      "eyebrow": "Nuestros procesos productivos",
+      "title": "Control total, de la resina al empaque terminado",
+      "intro": "Integramos toda la cadena productiva bajo un mismo techo para garantizar calidad, trazabilidad y cumplimiento en cada entrega.",
+      "steps": [
+        { "label": "Extrusión blown film", "title": "Película a medida", "desc": "Convertimos la resina en película con el calibre y las propiedades mecánicas que cada producto necesita." },
+        { "label": "Impresión flexográfica", "title": "Full color de alta definición", "desc": "Damos vida a tu marca sobre el empaque con impresión flexográfica precisa y colores fieles." },
+        { "label": "Corte y rebobinado", "title": "Formato exacto", "desc": "Ajustamos ancho, largo y presentación en bobinas o láminas según tu línea de envasado." },
+        { "label": "Sellado y acabado final", "title": "Empaque terminado", "desc": "Sellado, troquelado y acabados que definen el formato final, listo para tu producto." }
+      ]
+    },
+    "products": {
+      "eyebrow": "Nuestros productos",
+      "title": "Una solución de empaque para cada industria",
+      "intro": "Desarrollamos empaques flexibles a la medida de las exigencias de cada industria."
+    }
+  },
+  "categories": {
+    "food": { "name": "Alimentos y bebidas", "short": "Preservan la calidad, frescura y seguridad de alimentos y bebidas, con grado alimentario FDA." },
+    "industry": { "name": "Industria en general", "short": "Soluciones resistentes y versátiles, adaptadas a cada aplicación industrial." },
+    "retail": { "name": "Retail y e-commerce", "short": "Practicidad, resistencia y presentación para el punto de venta y la entrega." },
+    "agro": { "name": "Pesca y agroindustria", "short": "Resistencia y eficiencia para el almacenamiento y transporte desde el origen." }
+  },
+  "footer": {
+    "about": "Empresa peruana especializada en el diseño, desarrollo y fabricación de empaques flexibles de alta calidad, reciclables y compostables.",
+    "navTitle": "Navegación",
+    "contactTitle": "Contacto",
+    "address": "Calle Luis Galvani 310, Urb. Santa Rosa, Ate — Lima, Perú",
+    "phones": "+51 908 865 429 · +51 908 858 154",
+    "rights": "© 2026 Gamma Plast. Todos los derechos reservados.",
+    "certFda": "Normativa FDA",
+    "certRecycle": "Reciclable",
+    "certCompost": "Compostable"
+  }
+}

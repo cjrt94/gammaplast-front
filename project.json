@@ -1,0 +1,16 @@
+{
+  "id": "a3eb2e92-d898-4a9e-a87e-b8604d09044a",
+  "name": "Gamma Plast",
+  "slug": "gammaplast",
+  "path": "/Volumes/Projects/gammaplast",
+  "summary": "Web corporativa (landing) de Gamma Plast, empresa peruana de empaques flexibles funcionales y sostenibles.",
+  "type": "web",
+  "complexity": "medium",
+  "agents": ["charlie", "rowena", "bobby"],
+  "primaryAgent": "charlie",
+  "keywords": ["gammaplast", "gamma plast", "empaques", "empaques flexibles", "packaging", "bolsas", "flexible packaging", "sostenible", "b2b", "industrial", "landing", "web corporativa", "nuxt", "tailwind", "vercel", "lima", "perú"],
+  "features": ["Landing corporativa", "Brand kit (paleta + tipografía)", "SEO", "Formulario de contacto"],
+  "createdAt": "2026-07-08T00:00:00.000Z",
+  "updatedAt": "2026-07-08T00:00:00.000Z",
+  "status": "planning"
+}
