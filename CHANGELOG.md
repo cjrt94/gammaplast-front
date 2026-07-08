@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [Semantic Ve
 
 ## [Unreleased]
 
+- docs: documento de estado/handoff (`docs/ESTADO.md`) — cómo correr, estructura, estado por página, backlog priorizado (bloqueantes/contenido/mejoras), decisiones abiertas y notas de deuda técnica, para retomar el desarrollo
 - feat: scaffold del proyecto **Nuxt 3** (JS nativo) + Tailwind + i18n ES/EN — sistema de diseño en `tailwind.config.js`/`assets/css/main.css` (tokens, Corbel embebida, pills/botones/cards), layout con top bar + header (nav, selector de idioma, CTA) + footer sin CTA, componentes base (`BaseIcon`, `SectionHeader`) y mensajes i18n
 - feat: página **Home** portada del key visual aprobado — hero, procesos productivos (sin fotos, 01–04), productos por 4 categorías (Alimentos y bebidas destacado, sin detalle) y stubs de las demás rutas. Verificada corriendo en Nuxt dev (HTTP 200)
 - feat: **Nosotros** — intro oficial, valores (Excelencia/Trabajo en equipo/Innovación/Respeto/Integridad), misión y visión, capacidades productivas (01–04 con detalle de materiales/procesos) y certificaciones (RCS/TÜV/D2W/D2P/ISO/FDA)
