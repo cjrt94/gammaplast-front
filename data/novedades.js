@@ -20,7 +20,8 @@ export const novedades = [
     excerpt: 'Materiales reciclados, compostables y estructuras optimizadas marcan el rumbo de un empaque flexible más responsable.',
     body: [
       'La industria del empaque flexible avanza hacia soluciones más responsables con el entorno. En Gamma Plast trabajamos con materiales reciclados y compostables, además de estructuras optimizadas que reducen el uso de recursos sin comprometer el desempeño.',
-      'Contenido de ejemplo — a reemplazar con la nota final del cliente.'
+      // TODO: contenido real
+      'Apostar por materiales de menor impacto y por diseños más eficientes es parte de nuestra manera de entender la industria: acompañar a cada cliente en su transición hacia empaques más responsables, sin renunciar a la protección ni a la presentación que su producto necesita.'
     ]
   },
   {
@@ -31,7 +32,8 @@ export const novedades = [
     excerpt: 'Reforzamos los estándares de calidad e inocuidad que respaldan cada empaque que sale de nuestra planta.',
     body: [
       'Las certificaciones respaldan nuestro compromiso con la calidad, la inocuidad y la sostenibilidad en cada etapa de producción.',
-      'Contenido de ejemplo — a reemplazar con la nota final del cliente.'
+      // TODO: contenido real
+      'Trabajar bajo estándares reconocidos ordena nuestros procesos, facilita la trazabilidad y da a nuestros clientes la tranquilidad de contar con un proveedor que verifica lo que ofrece. Es un compromiso que asumimos de forma permanente, como parte de nuestra cultura de mejora continua.'
     ]
   }
 ]

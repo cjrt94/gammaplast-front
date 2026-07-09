@@ -9,6 +9,7 @@ const P = {
   arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
   leaf: '<path d="M12 2a9 9 0 0 0-9 9c0 5 9 11 9 11s9-6 9-11a9 9 0 0 0-9-9Z"/>',
+  sprout: '<path d="M6 20h12"/><path d="M12 20v-7"/><path d="M12 13C12 10 10 8 7 8c0 3 2 5 5 5Z"/><path d="M12 11c0-2.4 1.8-4 4.4-4 0 2.4-1.8 4-4.4 4Z"/>',
   globe: '<circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/>',
   menu: '<path d="M3 6h18M3 12h18M3 18h18"/>',
   close: '<path d="M18 6 6 18M6 6l12 12"/>',

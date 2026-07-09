@@ -16,7 +16,7 @@ const links = computed(() => [
     <div class="wrap">
       <div class="grid gap-10 md:grid-cols-[1.5fr_1fr_1.4fr] pb-10 border-b border-white/10">
         <div>
-          <img src="/logo-white.png" alt="Gamma Plast" class="h-[34px] mb-5" >
+          <img src="/logo-white-h.png" alt="Gamma Plast" width="1650" height="560" class="h-11 w-auto mb-5" >
           <p class="max-w-[34ch] text-[.96rem] leading-relaxed">{{ t('footer.about') }}</p>
         </div>
         <div>

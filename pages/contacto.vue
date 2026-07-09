@@ -2,9 +2,46 @@
 useHead({ title: 'Contacto — Gamma Plast' })
 
 const form = reactive({ nombre: '', apellido: '', telefono: '', correo: '', empresa: '', mensaje: '' })
-const sent = ref(false)
-// TODO(backend): enviar a comercial@ y comercial2@gammaplast.com.pe vía Resend/Cloud Function.
-function submit () { sent.value = true }
+const errors = reactive({ nombre: '', apellido: '', correo: '', mensaje: '' })
+const status = ref('idle') // 'idle' | 'loading' | 'sent' | 'error'
+const submitError = ref('')
+const successCard = ref(null)
+
+const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function validate () {
+  errors.nombre = form.nombre.trim() ? '' : 'Ingresa tu nombre.'
+  errors.apellido = form.apellido.trim() ? '' : 'Ingresa tu apellido.'
+  errors.correo = !form.correo.trim()
+    ? 'Ingresa tu correo.'
+    : (emailRe.test(form.correo.trim()) ? '' : 'Escribe un correo válido, por ejemplo nombre + arroba + empresa.com.')
+  errors.mensaje = form.mensaje.trim() ? '' : 'Cuéntanos brevemente qué necesitas.'
+  return !errors.nombre && !errors.apellido && !errors.correo && !errors.mensaje
+}
+
+function clearError (field) {
+  if (errors[field]) errors[field] = ''
+}
+
+async function submit () {
+  submitError.value = ''
+  if (!validate()) {
+    await nextTick()
+    document.querySelector('form [aria-invalid="true"]')?.focus()
+    return
+  }
+  status.value = 'loading'
+  try {
+    // TODO(Dean): envío real a comercial@ y comercial2@gammaplast.com.pe (validación server-side + anti-spam).
+    await new Promise(resolve => setTimeout(resolve, 600))
+    status.value = 'sent'
+    await nextTick()
+    successCard.value?.focus()
+  } catch (e) {
+    status.value = 'error'
+    submitError.value = 'No pudimos enviar tu mensaje. Vuelve a intentarlo en unos minutos.'
+  }
+}
 </script>
 
 <template>
@@ -15,7 +52,8 @@ function submit () { sent.value = true }
     <div class="wrap grid lg:grid-cols-[1.15fr_.85fr] gap-12">
       <!-- Formulario -->
       <div class="reveal">
-        <div v-if="sent" class="card p-8 flex items-start gap-4 border-green">
+        <div v-if="status === 'sent'" ref="successCard" tabindex="-1" role="status" aria-live="polite"
+          class="card p-8 flex items-start gap-4 border-green outline-none focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-green focus-visible:outline-offset-2">
           <span class="ico-tile shrink-0"><BaseIcon name="check" class="w-6 h-6" /></span>
           <div>
             <h2 class="text-[1.3rem] mb-1">¡Gracias por escribirnos!</h2>
@@ -23,36 +61,67 @@ function submit () { sent.value = true }
           </div>
         </div>
 
-        <form v-else class="grid gap-5" @submit.prevent="submit">
+        <form v-else class="grid gap-5" novalidate @submit.prevent="submit">
+          <p class="text-[.85rem] text-slate m-0"><span class="text-green-700" aria-hidden="true">*</span> Campo obligatorio</p>
+
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
-              <label class="field-label" for="c-nombre">Nombre</label>
-              <input id="c-nombre" v-model="form.nombre" class="field-input" required autocomplete="given-name">
+              <label class="field-label" for="c-nombre">Nombre <span class="text-green-700" aria-hidden="true">*</span></label>
+              <input id="c-nombre" v-model="form.nombre" class="field-input" :class="{ '!border-red-600': errors.nombre }"
+                required autocomplete="given-name"
+                :aria-invalid="errors.nombre ? 'true' : 'false'"
+                :aria-describedby="errors.nombre ? 'c-nombre-error' : undefined"
+                @input="clearError('nombre')">
+              <p v-if="errors.nombre" id="c-nombre-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.nombre }}</p>
             </div>
             <div>
-              <label class="field-label" for="c-apellido">Apellido</label>
-              <input id="c-apellido" v-model="form.apellido" class="field-input" required autocomplete="family-name">
+              <label class="field-label" for="c-apellido">Apellido <span class="text-green-700" aria-hidden="true">*</span></label>
+              <input id="c-apellido" v-model="form.apellido" class="field-input" :class="{ '!border-red-600': errors.apellido }"
+                required autocomplete="family-name"
+                :aria-invalid="errors.apellido ? 'true' : 'false'"
+                :aria-describedby="errors.apellido ? 'c-apellido-error' : undefined"
+                @input="clearError('apellido')">
+              <p v-if="errors.apellido" id="c-apellido-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.apellido }}</p>
             </div>
           </div>
+
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label class="field-label" for="c-telefono">Teléfono</label>
               <input id="c-telefono" v-model="form.telefono" type="tel" class="field-input" autocomplete="tel">
             </div>
             <div>
-              <label class="field-label" for="c-correo">Correo</label>
-              <input id="c-correo" v-model="form.correo" type="email" class="field-input" required autocomplete="email">
+              <label class="field-label" for="c-correo">Correo <span class="text-green-700" aria-hidden="true">*</span></label>
+              <input id="c-correo" v-model="form.correo" type="email" class="field-input" :class="{ '!border-red-600': errors.correo }"
+                required autocomplete="email"
+                :aria-invalid="errors.correo ? 'true' : 'false'"
+                :aria-describedby="errors.correo ? 'c-correo-error' : undefined"
+                @input="clearError('correo')">
+              <p v-if="errors.correo" id="c-correo-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.correo }}</p>
             </div>
           </div>
+
           <div>
             <label class="field-label" for="c-empresa">Empresa / Compañía</label>
             <input id="c-empresa" v-model="form.empresa" class="field-input" autocomplete="organization">
           </div>
+
           <div>
-            <label class="field-label" for="c-mensaje">Mensaje</label>
-            <textarea id="c-mensaje" v-model="form.mensaje" rows="5" class="field-input resize-y" required />
+            <label class="field-label" for="c-mensaje">Mensaje <span class="text-green-700" aria-hidden="true">*</span></label>
+            <textarea id="c-mensaje" v-model="form.mensaje" rows="5" class="field-input resize-y" :class="{ '!border-red-600': errors.mensaje }"
+              required
+              :aria-invalid="errors.mensaje ? 'true' : 'false'"
+              :aria-describedby="errors.mensaje ? 'c-mensaje-error' : undefined"
+              @input="clearError('mensaje')" />
+            <p v-if="errors.mensaje" id="c-mensaje-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.mensaje }}</p>
           </div>
-          <button type="submit" class="btn btn-green w-fit">Enviar mensaje</button>
+
+          <p v-if="status === 'error'" role="alert" class="m-0 text-[.9rem] text-red-700 font-semibold border border-red-300 bg-red-50 rounded px-4 py-3">{{ submitError }}</p>
+
+          <button type="submit" class="btn btn-green w-full sm:w-fit justify-center min-h-[44px] disabled:opacity-60 disabled:cursor-not-allowed"
+            :disabled="status === 'loading'" :aria-busy="status === 'loading' ? 'true' : 'false'">
+            {{ status === 'loading' ? 'Enviando…' : 'Enviar mensaje' }}
+          </button>
         </form>
       </div>
 

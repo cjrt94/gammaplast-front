@@ -6,10 +6,10 @@ const steps = tm('home.process.steps')
 const stepIcons = ['film', 'print', 'scissors', 'seal']
 
 const categories = computed(() => [
-  { key: 'food', icon: 'food', name: t('categories.food.name'), short: t('categories.food.short'), feat: true },
-  { key: 'industry', icon: 'industry', name: t('categories.industry.name'), short: t('categories.industry.short') },
-  { key: 'retail', icon: 'retail', name: t('categories.retail.name'), short: t('categories.retail.short') },
-  { key: 'agro', icon: 'agro', name: t('categories.agro.name'), short: t('categories.agro.short') }
+  { key: 'food', icon: 'food', slug: 'alimentos-y-bebidas', name: t('categories.food.name'), short: t('categories.food.short'), feat: true },
+  { key: 'industry', icon: 'industry', slug: 'industria-en-general', name: t('categories.industry.name'), short: t('categories.industry.short') },
+  { key: 'retail', icon: 'retail', slug: 'retail-y-e-commerce', name: t('categories.retail.name'), short: t('categories.retail.short') },
+  { key: 'agro', icon: 'agro', slug: 'pesca-y-agroindustria', name: t('categories.agro.name'), short: t('categories.agro.short') }
 ])
 
 useHead({ title: 'Gamma Plast — Empaques flexibles' })
@@ -17,8 +17,7 @@ useHead({ title: 'Gamma Plast — Empaques flexibles' })
 
 <template>
   <!-- HERO -->
-  <section class="relative overflow-hidden"
-    style="background:radial-gradient(120% 120% at 88% 8%, #F2FAF4 0%, transparent 46%), linear-gradient(180deg,#fff,#F4F6F6)">
+  <section class="relative overflow-hidden bg-[radial-gradient(120%_120%_at_88%_8%,theme(colors.green.tint2)_0%,transparent_46%),linear-gradient(180deg,theme(colors.paper),theme(colors.mist))]">
     <div class="wrap grid md:grid-cols-[1.05fr_.95fr] gap-10 items-center py-[74px] max-md:py-[52px]">
       <div class="reveal">
         <span class="eyebrow block mb-4">{{ t('home.hero.eyebrow') }}</span>
@@ -38,13 +37,13 @@ useHead({ title: 'Gamma Plast — Empaques flexibles' })
       </div>
 
       <div class="reveal relative min-h-[440px] max-md:min-h-[360px] grid place-items-center">
-        <img src="/isotipo.png" alt="" aria-hidden="true"
+        <img src="/isotipo.png" alt="" aria-hidden="true" width="5000" height="5000" loading="lazy"
           class="absolute w-[118%] max-w-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none z-0">
-        <img src="/products/pouch-valvula.png" alt="Pouch con válvula Gamma Plast"
+        <img src="/products/pouch-valvula.png" alt="Pouch con válvula Gamma Plast" width="385" height="640" loading="lazy"
           class="absolute w-[34%] right-0 top-[4%] z-[2]">
-        <img src="/products/tote.png" alt="Bolsa con asas Gamma Plast"
+        <img src="/products/tote.png" alt="Bolsa con asas Gamma Plast" width="508" height="640" loading="lazy"
           class="absolute w-[40%] left-[-2%] bottom-[2%] z-[2]">
-        <img src="/products/doypack.png" alt="Doypack Gamma Plast"
+        <img src="/products/doypack.png" alt="Doypack Gamma Plast" width="391" height="640" fetchpriority="high"
           class="relative w-[60%] z-[3]">
       </div>
     </div>
@@ -55,12 +54,11 @@ useHead({ title: 'Gamma Plast — Empaques flexibles' })
     <div class="wrap">
       <SectionHeader :eyebrow="t('home.process.eyebrow')" :title="t('home.process.title')" :intro="t('home.process.intro')" />
       <div class="grid md:grid-cols-4 gap-[18px] relative">
-        <div class="hidden md:block absolute top-[38px] left-[6%] right-[6%] h-0.5 z-0"
-          style="background:repeating-linear-gradient(90deg,#E6EAEA 0 10px,transparent 10px 18px)" />
+        <div class="hidden md:block absolute top-[38px] left-[6%] right-[6%] h-0.5 z-0 bg-[repeating-linear-gradient(90deg,theme(colors.line)_0_10px,transparent_10px_18px)]" />
         <article v-for="(s, i) in steps" :key="i" class="card card-hover relative z-[1] p-[26px_22px_24px] flex flex-col gap-3.5">
           <div class="flex items-center justify-between">
             <span class="ico-tile"><BaseIcon :name="stepIcons[i]" class="w-6 h-6" /></span>
-            <span class="font-display font-bold text-[1.6rem] text-line tabular-nums">0{{ i + 1 }}</span>
+            <span class="font-display font-bold text-[1.6rem] text-slate tabular-nums">0{{ i + 1 }}</span>
           </div>
           <span class="pill pill-tint self-start">{{ rt(s.label) }}</span>
           <h3 class="text-[1.16rem]">{{ rt(s.title) }}</h3>
@@ -74,27 +72,23 @@ useHead({ title: 'Gamma Plast — Empaques flexibles' })
   <section class="sec">
     <div class="wrap">
       <SectionHeader center :eyebrow="t('home.products.eyebrow')" :title="t('home.products.title')" :intro="t('home.products.intro')" />
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-[18px]">
-        <NuxtLink v-for="c in categories" :key="c.key" :to="localePath('/productos')"
-          class="reveal p-[26px_22px] flex flex-col gap-3.5 min-h-[186px] rounded-card transition-all"
-          :class="c.feat
-            ? 'lg:col-span-1 text-white border-0'
-            : 'card card-hover'"
-          :style="c.feat ? 'background:linear-gradient(135deg,#00B140,#0A7E33)' : ''">
-          <span class="grid place-items-center w-12 h-12 rounded"
-            :class="c.feat ? 'bg-white/20 text-white' : 'bg-green-tint text-green-700'">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-[18px]">
+        <NuxtLink v-for="c in categories" :key="c.key" :to="localePath('/productos/' + c.slug)"
+          class="reveal p-[26px_22px] flex flex-col gap-3.5 min-h-[186px] rounded-card transition-all card-hover"
+          :class="c.feat ? 'border border-green bg-green-tint2' : 'card'">
+          <span class="grid place-items-center w-12 h-12 rounded bg-green-tint text-green-700">
             <BaseIcon :name="c.icon" class="w-[26px] h-[26px]" />
           </span>
-          <h3 class="text-[1.12rem]" :class="c.feat ? 'text-white' : ''">{{ c.name }}</h3>
-          <p class="text-[.9rem] flex-1" :class="c.feat ? 'text-white/90' : 'text-slate'">{{ c.short }}</p>
-          <span class="inline-flex items-center gap-1.5 font-display font-bold text-[.9rem]"
-            :class="c.feat ? 'text-white' : 'text-green-700'">
+          <span v-if="c.feat" class="pill pill-tint self-start">Destacado</span>
+          <h3 class="text-[1.12rem]">{{ c.name }}</h3>
+          <p class="text-[.9rem] flex-1" :class="c.feat ? 'text-body' : 'text-slate'">{{ c.short }}</p>
+          <span class="inline-flex items-center gap-1.5 font-display font-bold text-[.9rem] text-green-700">
             {{ t('cta.seeProducts') }} <BaseIcon name="arrow" class="w-4 h-4" />
           </span>
         </NuxtLink>
 
         <NuxtLink :to="localePath('/productos')"
-          class="reveal grid place-content-center text-center rounded-card border-0 p-[22px] bg-green-tint md:col-span-2 lg:col-span-3">
+          class="reveal grid place-content-center text-center rounded-card border-0 p-[22px] bg-green-tint md:col-span-2 lg:col-span-4">
           <span class="inline-flex items-center gap-2 font-display font-bold text-green-700 text-[1.02rem]">
             {{ t('cta.seeCatalog') }} <BaseIcon name="arrow" class="w-4 h-4" />
           </span>

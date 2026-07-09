@@ -48,8 +48,8 @@
            border border-transparent transition-transform;
     font-size: .92rem;
   }
-  .btn-green { @apply bg-green text-white; }
-  .btn-green:hover { @apply bg-green-600 -translate-y-px; }
+  .btn-green { @apply bg-green-700 text-white; }
+  .btn-green:hover { @apply bg-green-800 -translate-y-px; }
   .btn-ghost { @apply bg-transparent text-ink border-line; }
   .btn-ghost:hover { @apply text-green-700 border-green; }
 
@@ -57,7 +57,7 @@
   .pill { @apply inline-flex items-center gap-2 rounded-pill font-display font-bold; padding: .5em 1.05em; font-size: .82rem; }
   .pill-outline { @apply bg-transparent text-green-700 border border-green; }
   .pill-tint { @apply bg-green-tint text-green-700; }
-  .pill-green { @apply bg-green text-white; }
+  .pill-green { @apply bg-green-700 text-white; }
 
   /* Chips */
   .chip {
@@ -84,7 +84,8 @@
     @apply w-full border border-line rounded bg-paper text-ink px-4 py-3 text-[1rem] transition-colors;
     font-family: var(--tw-font-body, inherit);
   }
-  .field-input:focus { @apply border-green; outline: none; }
+  .field-input:focus { @apply border-green; }
+  .field-input:focus-visible { @apply border-green; outline: 3px solid theme('colors.green.DEFAULT'); outline-offset: 2px; }
   .field-input::placeholder { color: theme('colors.slate'); opacity: .6; }
 }
 

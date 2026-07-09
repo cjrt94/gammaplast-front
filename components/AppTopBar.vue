@@ -4,7 +4,7 @@ const { t } = useI18n()
 
 <template>
   <div class="bg-footer text-footer-soft text-[.82rem]">
-    <div class="wrap flex flex-wrap items-center justify-between gap-4 min-h-[40px]">
+    <div class="wrap flex flex-wrap items-center justify-between gap-4 min-h-[40px] py-2">
       <div class="hidden sm:flex items-center gap-2">
         <span class="w-[7px] h-[7px] rounded-full bg-green inline-block" />
         {{ t('topbar.claim') }}

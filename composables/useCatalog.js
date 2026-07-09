@@ -1,5 +1,6 @@
 // Catálogo — 4 categorías con productos de referencia (fuente: Info.docx + mockup).
-// Las imágenes son dummies de referencia (public/products/N.png); a afinar con el cliente.
+// Las imágenes son dummies de referencia (public/products/*.png), una distinta por
+// producto; a reemplazar por foto/render real con el cliente.
 export const useCatalog = () => {
   const categories = [
     {
@@ -34,7 +35,7 @@ export const useCatalog = () => {
         { name: 'Polybag con solapa', img: '/products/4.png' },
         { name: 'Mascotas', img: '/products/13.png' },
         { name: 'Limpieza y cuidado del hogar', img: '/products/17.png' },
-        { name: 'Microperforado', img: '/products/33.png' },
+        { name: 'Microperforado', img: '/products/32.png' },
         { name: 'Sobreempaque', img: '/products/11.png' },
         { name: 'Resmas', img: '/products/18.png' }
       ]
@@ -49,7 +50,7 @@ export const useCatalog = () => {
         { name: 'T-shirt', img: '/products/21.png' },
         { name: 'Asa parche', img: '/products/23.png' },
         { name: 'Asa brida', img: '/products/22.png' },
-        { name: 'Asa troquel', img: '/products/24.png' },
+        { name: 'Asa troquel', img: '/products/tote.png' },
         { name: 'E-commerce y courier', img: '/products/24.png' },
         { name: 'Polipasacalles', img: '/products/9.png' }
       ]
@@ -66,9 +67,9 @@ export const useCatalog = () => {
         { name: 'Mulch', img: '/products/28.png' },
         { name: 'Almácigos', img: '/products/29.png' },
         { name: 'Fertilizante', img: '/products/30.png' },
-        { name: 'Fundas protectoras', img: '/products/31.png' },
-        { name: 'Fundas de colores', img: '/products/30.png' },
-        { name: 'Fundas microperforadas', img: '/products/33.png' }
+        { name: 'Fundas protectoras', img: '/products/doypack.png' },
+        { name: 'Fundas de colores', img: '/products/25.png' },
+        { name: 'Fundas microperforadas', img: '/products/19.png' }
       ]
     }
   ]

@@ -21,9 +21,15 @@ onBeforeUnmount(() => io?.disconnect())
 
 <template>
   <div>
+    <a href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-3 focus:left-3
+             focus:bg-green-700 focus:text-white focus:font-display focus:font-bold
+             focus:px-4 focus:py-2.5 focus:rounded">
+      Saltar al contenido
+    </a>
     <AppTopBar />
     <AppHeader />
-    <main>
+    <main id="main">
       <slot />
     </main>
     <AppFooter />

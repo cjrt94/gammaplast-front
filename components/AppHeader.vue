@@ -12,13 +12,15 @@ const links = computed(() => [
   { to: localePath('/contacto'), label: t('nav.contact') }
 ])
 const otherLocale = computed(() => (locale.value === 'es' ? 'en' : 'es'))
+const switchLangLabel = computed(() =>
+  otherLocale.value === 'en' ? 'Cambiar idioma a inglés' : 'Cambiar idioma a español')
 </script>
 
 <template>
   <header class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-line">
     <div class="wrap flex items-center gap-7 min-h-[72px]">
       <NuxtLink :to="localePath('/')" class="shrink-0" aria-label="Gamma Plast — inicio">
-        <img src="/logo.png" alt="Gamma Plast" class="h-[34px] w-auto" >
+        <img src="/logo-h.png" alt="Gamma Plast" width="1650" height="560" class="h-10 w-auto" >
       </NuxtLink>
 
       <nav class="hidden lg:flex gap-8 ml-auto">
@@ -30,8 +32,8 @@ const otherLocale = computed(() => (locale.value === 'es' ? 'en' : 'es'))
       </nav>
 
       <div class="hidden lg:flex items-center gap-4 ml-auto lg:ml-0">
-        <NuxtLink :to="switchLocalePath(otherLocale)"
-          class="font-display font-bold text-[.82rem] text-slate hover:text-green-700 uppercase tracking-wide">
+        <NuxtLink :to="switchLocalePath(otherLocale)" :aria-label="switchLangLabel"
+          class="inline-flex items-center min-h-[44px] px-2 font-display font-bold text-[.82rem] text-slate hover:text-green-700 uppercase tracking-wide">
           {{ otherLocale }}
         </NuxtLink>
         <NuxtLink :to="localePath('/contacto')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
@@ -47,10 +49,10 @@ const otherLocale = computed(() => (locale.value === 'es' ? 'en' : 'es'))
       <div v-if="open" class="lg:hidden border-t border-line bg-paper">
         <nav class="wrap py-4 flex flex-col gap-1">
           <NuxtLink v-for="l in links" :key="l.to" :to="l.to" @click="open = false"
-            class="font-display font-semibold text-ink py-2.5 border-b border-line/70">{{ l.label }}</NuxtLink>
+            class="flex items-center min-h-[44px] font-display font-semibold text-ink py-3 border-b border-line/70">{{ l.label }}</NuxtLink>
           <div class="flex items-center justify-between pt-4">
-            <NuxtLink :to="switchLocalePath(otherLocale)" @click="open = false"
-              class="font-display font-bold text-slate uppercase">{{ otherLocale }}</NuxtLink>
+            <NuxtLink :to="switchLocalePath(otherLocale)" :aria-label="switchLangLabel" @click="open = false"
+              class="inline-flex items-center min-h-[44px] px-2 -ml-2 font-display font-bold text-slate uppercase">{{ otherLocale }}</NuxtLink>
             <NuxtLink :to="localePath('/contacto')" class="btn btn-green" @click="open = false">{{ t('cta.advisor') }}</NuxtLink>
           </div>
         </nav>
