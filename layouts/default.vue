@@ -16,7 +16,7 @@ function observe () {
     })
   }, { threshold: 0.12 })
   document.querySelectorAll('.reveal:not(.in)').forEach((el, i) => {
-    el.style.transitionDelay = (Math.min(i, 6) * 40) + 'ms'
+    el.style.animationDelay = (Math.min(i, 6) * 40) + 'ms'
     io.observe(el)
   })
 }

@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [Semantic Ve
 
 ## [Unreleased]
 
+- fix: el **hover-lift de las cards** (`.card-hover`) no se aplicaba en cards con `.reveal` — la animación de entrada fijaba `transform` en reposo (`transform: none`, unlayered) y pisaba el `translateY` del hover; `.reveal` pasa a `@keyframes` con `fill: backwards`, así el hover-lift vuelve a funcionar en Home (Productos por industria), Novedades y Productos; el stagger usa `animationDelay`
 - feat: capa de **SEO para buscadores y agentes de IA** — `hreflang`/`canonical`/`<html lang>` por locale vía `useLocaleHead` (corrige el `lang` fijo en `/en`); meta por página (`useSeo` + namespace `seo.*` en i18n ES/EN); **sitemap i18n** (`@nuxtjs/sitemap`, 18 URLs incl. las notas dinámicas); **JSON-LD** — grafo global `Organization`+`LocalBusiness`+`WebSite` y por página `CollectionPage`+`ItemList` (33 productos), `NewsArticle`, `AboutPage`/`ContactPage`/`WebPage` y `BreadcrumbList`; `robots.txt` con allow explícito a crawlers de IA (GPTBot/ClaudeBot/PerplexityBot/Google-Extended…); `llms.txt`; sección **FAQ + `FAQPage`** en Productos; favicon + `og-cover.jpg`. Verificado en dev (head, hreflang, 13 rutas 200) y build (sitemap con dominio real)
 - docs: informe de **revisión QA + UX + UX writing** (`docs/REVISION-QA-UX.md`)
 - refactor: **reestructura del catálogo de Productos por tipo de empaque** con filtro por industria — elimina el drilldown `/productos/[categoria]`; `useCatalog` aplanado (33 productos, 5 familias, 4 industrias)
