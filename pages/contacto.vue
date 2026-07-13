@@ -24,16 +24,10 @@ const status = ref('idle') // 'idle' | 'loading' | 'sent' | 'error'
 const submitError = ref('')
 const successCard = ref(null)
 
-const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
 function validate () {
-  errors.nombre = form.nombre.trim() ? '' : 'Ingresa tu nombre.'
-  errors.apellido = form.apellido.trim() ? '' : 'Ingresa tu apellido.'
-  errors.correo = !form.correo.trim()
-    ? 'Ingresa tu correo.'
-    : (emailRe.test(form.correo.trim()) ? '' : 'Escribe un correo válido, por ejemplo nombre + arroba + empresa.com.')
-  errors.mensaje = form.mensaje.trim() ? '' : 'Cuéntanos brevemente qué necesitas.'
-  return !errors.nombre && !errors.apellido && !errors.correo && !errors.mensaje
+  const fe = fieldErrors(contactSchema.safeParse(form))
+  for (const k in errors) errors[k] = fe[k] || ''
+  return Object.keys(fe).length === 0
 }
 
 function clearError (field) {
@@ -47,9 +41,11 @@ async function submit () {
     document.querySelector('form [aria-invalid="true"]')?.focus()
     return
   }
+  const payload = contactSchema.parse(form) // datos normalizados (trim/lowercase) listos para el envío
   status.value = 'loading'
   try {
-    // TODO(Dean): envío real a comercial@ y comercial2@gammaplast.com.pe (validación server-side + anti-spam).
+    // TODO(Dean): envío real a comercial@ y comercial2@gammaplast.com.pe con `payload`
+    // (revalidar server-side con contactSchema + anti-spam).
     await new Promise(resolve => setTimeout(resolve, 600))
     status.value = 'sent'
     await nextTick()
@@ -85,7 +81,7 @@ async function submit () {
             <div>
               <label class="field-label" for="c-nombre">Nombre <span class="text-green-700" aria-hidden="true">*</span></label>
               <input id="c-nombre" v-model="form.nombre" class="field-input" :class="{ '!border-red-600': errors.nombre }"
-                required autocomplete="given-name"
+                required maxlength="40" autocomplete="given-name"
                 :aria-invalid="errors.nombre ? 'true' : 'false'"
                 :aria-describedby="errors.nombre ? 'c-nombre-error' : undefined"
                 @input="clearError('nombre')">
@@ -94,7 +90,7 @@ async function submit () {
             <div>
               <label class="field-label" for="c-apellido">Apellido <span class="text-green-700" aria-hidden="true">*</span></label>
               <input id="c-apellido" v-model="form.apellido" class="field-input" :class="{ '!border-red-600': errors.apellido }"
-                required autocomplete="family-name"
+                required maxlength="40" autocomplete="family-name"
                 :aria-invalid="errors.apellido ? 'true' : 'false'"
                 :aria-describedby="errors.apellido ? 'c-apellido-error' : undefined"
                 @input="clearError('apellido')">
@@ -105,12 +101,12 @@ async function submit () {
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label class="field-label" for="c-telefono">Teléfono</label>
-              <input id="c-telefono" v-model="form.telefono" type="tel" class="field-input" autocomplete="tel">
+              <input id="c-telefono" v-model="form.telefono" type="tel" class="field-input" maxlength="20" autocomplete="tel">
             </div>
             <div>
               <label class="field-label" for="c-correo">Correo <span class="text-green-700" aria-hidden="true">*</span></label>
               <input id="c-correo" v-model="form.correo" type="email" class="field-input" :class="{ '!border-red-600': errors.correo }"
-                required autocomplete="email"
+                required maxlength="120" autocomplete="email"
                 :aria-invalid="errors.correo ? 'true' : 'false'"
                 :aria-describedby="errors.correo ? 'c-correo-error' : undefined"
                 @input="clearError('correo')">
@@ -120,13 +116,13 @@ async function submit () {
 
           <div>
             <label class="field-label" for="c-empresa">Empresa / Compañía</label>
-            <input id="c-empresa" v-model="form.empresa" class="field-input" autocomplete="organization">
+            <input id="c-empresa" v-model="form.empresa" class="field-input" maxlength="80" autocomplete="organization">
           </div>
 
           <div>
             <label class="field-label" for="c-mensaje">Mensaje <span class="text-green-700" aria-hidden="true">*</span></label>
             <textarea id="c-mensaje" v-model="form.mensaje" rows="5" class="field-input resize-y" :class="{ '!border-red-600': errors.mensaje }"
-              required
+              required maxlength="1500"
               :aria-invalid="errors.mensaje ? 'true' : 'false'"
               :aria-describedby="errors.mensaje ? 'c-mensaje-error' : undefined"
               @input="clearError('mensaje')" />

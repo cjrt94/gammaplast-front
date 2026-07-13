@@ -26,7 +26,6 @@ const status = ref('idle') // 'idle' | 'loading' | 'sent' | 'error'
 const submitError = ref('')
 const successCard = ref(null)
 
-const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const MAX_CV_BYTES = 5 * 1024 * 1024
 const CV_EXTS = ['pdf', 'doc', 'docx']
 const cvDescribedby = computed(() => (errors.cv ? 't-cv-error' : 't-cv-hint'))
@@ -55,11 +54,10 @@ function clearError (field) {
 }
 
 function validate () {
-  errors.nombre = form.nombre.trim() ? '' : 'Ingresa tu nombre.'
-  errors.apellido = form.apellido.trim() ? '' : 'Ingresa tu apellido.'
-  errors.correo = !form.correo.trim()
-    ? 'Ingresa tu correo.'
-    : (emailRe.test(form.correo.trim()) ? '' : 'Escribe un correo válido, por ejemplo nombre + arroba + empresa.com.')
+  const fe = fieldErrors(careersSchema.safeParse(form))
+  errors.nombre = fe.nombre || ''
+  errors.apellido = fe.apellido || ''
+  errors.correo = fe.correo || ''
   if (!errors.cv) errors.cv = cvFile.value ? '' : 'Adjunta tu CV (PDF, DOC o DOCX, máx. 5 MB).'
   return !errors.nombre && !errors.apellido && !errors.correo && !errors.cv
 }
@@ -71,9 +69,11 @@ async function submit () {
     document.querySelector('form [aria-invalid="true"]')?.focus()
     return
   }
+  const payload = careersSchema.parse(form) // datos normalizados (trim/lowercase) listos para el envío
   status.value = 'loading'
   try {
-    // TODO(Dean): envío real a recursoshumanos@gammaplast.com.pe con el CV adjunto (validación server-side, anti-spam y storage del archivo).
+    // TODO(Dean): envío real a recursoshumanos@gammaplast.com.pe con `payload` + el CV adjunto
+    // (revalidar server-side con careersSchema, anti-spam y storage del archivo).
     await new Promise(resolve => setTimeout(resolve, 600))
     status.value = 'sent'
     await nextTick()
@@ -107,7 +107,7 @@ async function submit () {
           <div>
             <label class="field-label" for="t-nombre">Nombre <span class="text-green-700" aria-hidden="true">*</span></label>
             <input id="t-nombre" v-model="form.nombre" class="field-input" :class="{ '!border-red-600': errors.nombre }"
-              required autocomplete="given-name"
+              required maxlength="40" autocomplete="given-name"
               :aria-invalid="errors.nombre ? 'true' : 'false'"
               :aria-describedby="errors.nombre ? 't-nombre-error' : undefined"
               @input="clearError('nombre')">
@@ -116,7 +116,7 @@ async function submit () {
           <div>
             <label class="field-label" for="t-apellido">Apellido <span class="text-green-700" aria-hidden="true">*</span></label>
             <input id="t-apellido" v-model="form.apellido" class="field-input" :class="{ '!border-red-600': errors.apellido }"
-              required autocomplete="family-name"
+              required maxlength="40" autocomplete="family-name"
               :aria-invalid="errors.apellido ? 'true' : 'false'"
               :aria-describedby="errors.apellido ? 't-apellido-error' : undefined"
               @input="clearError('apellido')">
@@ -127,12 +127,12 @@ async function submit () {
         <div class="grid sm:grid-cols-2 gap-5">
           <div>
             <label class="field-label" for="t-telefono">Teléfono</label>
-            <input id="t-telefono" v-model="form.telefono" type="tel" class="field-input" autocomplete="tel">
+            <input id="t-telefono" v-model="form.telefono" type="tel" class="field-input" maxlength="20" autocomplete="tel">
           </div>
           <div>
             <label class="field-label" for="t-correo">Correo <span class="text-green-700" aria-hidden="true">*</span></label>
             <input id="t-correo" v-model="form.correo" type="email" class="field-input" :class="{ '!border-red-600': errors.correo }"
-              required autocomplete="email"
+              required maxlength="120" autocomplete="email"
               :aria-invalid="errors.correo ? 'true' : 'false'"
               :aria-describedby="errors.correo ? 't-correo-error' : undefined"
               @input="clearError('correo')">
@@ -142,7 +142,7 @@ async function submit () {
 
         <div>
           <label class="field-label" for="t-mensaje">Mensaje</label>
-          <textarea id="t-mensaje" v-model="form.mensaje" rows="4" class="field-input resize-y" />
+          <textarea id="t-mensaje" v-model="form.mensaje" rows="4" class="field-input resize-y" maxlength="1500" />
         </div>
 
         <!-- CV: input real oculto visualmente pero enfocable (sr-only + peer); el label es la superficie clicable y muestra el foco -->
