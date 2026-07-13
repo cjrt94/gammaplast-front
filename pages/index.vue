@@ -6,18 +6,30 @@ const steps = tm('home.process.steps')
 const stepIcons = ['film', 'print', 'scissors', 'seal']
 
 const categories = computed(() => [
-  { key: 'food', icon: 'food', slug: 'alimentos-y-bebidas', name: t('categories.food.name'), short: t('categories.food.short'), feat: true },
+  { key: 'food', icon: 'food', slug: 'alimentos-y-bebidas', name: t('categories.food.name'), short: t('categories.food.short') },
   { key: 'industry', icon: 'industry', slug: 'industria-en-general', name: t('categories.industry.name'), short: t('categories.industry.short') },
   { key: 'retail', icon: 'retail', slug: 'retail-y-e-commerce', name: t('categories.retail.name'), short: t('categories.retail.short') },
   { key: 'agro', icon: 'agro', slug: 'pesca-y-agroindustria', name: t('categories.agro.name'), short: t('categories.agro.short') }
 ])
 
-useHead({ title: 'Gamma Plast — Empaques flexibles' })
+useSeo({ title: t('seo.home.title'), description: t('seo.home.description'), appendBrand: false })
+
+const homeUrl = 'https://gammaplast.com.pe' + localePath('/')
+useJsonLd({
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': homeUrl + '#webpage',
+  url: homeUrl,
+  name: t('seo.home.title'),
+  description: t('seo.home.description'),
+  isPartOf: { '@id': 'https://gammaplast.com.pe/#website' },
+  about: orgRef
+})
 </script>
 
 <template>
   <!-- HERO -->
-  <section class="relative overflow-hidden bg-[radial-gradient(120%_120%_at_88%_8%,theme(colors.green.tint2)_0%,transparent_46%),linear-gradient(180deg,theme(colors.paper),theme(colors.mist))]">
+  <section class="relative overflow-hidden bg-paper bg-[radial-gradient(120%_120%_at_88%_8%,theme(colors.green.tint2)_0%,transparent_46%)]">
     <div class="wrap grid md:grid-cols-[1.05fr_.95fr] gap-10 items-center py-[74px] max-md:py-[52px]">
       <div class="reveal">
         <span class="eyebrow block mb-4">{{ t('home.hero.eyebrow') }}</span>
@@ -50,7 +62,7 @@ useHead({ title: 'Gamma Plast — Empaques flexibles' })
   </section>
 
   <!-- PROCESOS PRODUCTIVOS (sin fotos) -->
-  <section class="sec sec-mist">
+  <section class="sec sec-mist border-t border-line">
     <div class="wrap">
       <SectionHeader :eyebrow="t('home.process.eyebrow')" :title="t('home.process.title')" :intro="t('home.process.intro')" />
       <div class="grid md:grid-cols-4 gap-[18px] relative">
@@ -68,20 +80,50 @@ useHead({ title: 'Gamma Plast — Empaques flexibles' })
     </div>
   </section>
 
+  <!-- Nuestra planta (preview de galería → Nosotros) -->
+  <section class="sec sec-mist">
+    <div class="wrap">
+      <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-5 mb-10">
+        <div class="max-w-[620px] reveal">
+          <span class="pill pill-outline">Nuestra planta</span>
+          <h2 class="text-[clamp(1.9rem,3.4vw,2.6rem)] mt-5 mb-4">Producción integrada en nuestra planta</h2>
+          <p class="text-[1.12rem] text-slate">Extrusión, impresión, corte y sellado en nuestra planta en Lima, con control de calidad en cada etapa.</p>
+        </div>
+        <NuxtLink :to="localePath('/nosotros')" class="btn btn-ghost reveal shrink-0">Conócenos</NuxtLink>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 auto-rows-[150px] md:auto-rows-[190px]">
+        <figure class="reveal group relative overflow-hidden rounded-card col-span-2 row-span-2">
+          <img src="/photos/home-planta-band.jpg" alt="Interior de la planta de producción de empaques flexibles" width="1200" height="800" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-impresion.jpg" alt="Prensa flexográfica imprimiendo empaque a color" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-rollos.jpg" alt="Nave de producción con rollos de material" width="800" height="1100" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-shrinkfilm.jpg" alt="Máquina de shrink film con rollo de película" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-linea.jpg" alt="Línea de producción en planta" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <!-- PRODUCTOS (categorías, sin detalle) -->
   <section class="sec">
     <div class="wrap">
       <SectionHeader center :eyebrow="t('home.products.eyebrow')" :title="t('home.products.title')" :intro="t('home.products.intro')" />
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-[18px]">
-        <NuxtLink v-for="c in categories" :key="c.key" :to="localePath('/productos/' + c.slug)"
-          class="reveal p-[26px_22px] flex flex-col gap-3.5 min-h-[186px] rounded-card transition-all card-hover"
-          :class="c.feat ? 'border border-green bg-green-tint2' : 'card'">
+        <NuxtLink v-for="c in categories" :key="c.key"
+          :to="localePath({ path: '/productos', query: { ind: c.slug } })"
+          class="reveal card card-hover p-[26px_22px] flex flex-col gap-3.5 min-h-[186px]">
           <span class="grid place-items-center w-12 h-12 rounded bg-green-tint text-green-700">
             <BaseIcon :name="c.icon" class="w-[26px] h-[26px]" />
           </span>
-          <span v-if="c.feat" class="pill pill-tint self-start">Destacado</span>
           <h3 class="text-[1.12rem]">{{ c.name }}</h3>
-          <p class="text-[.9rem] flex-1" :class="c.feat ? 'text-body' : 'text-slate'">{{ c.short }}</p>
+          <p class="text-[.9rem] flex-1 text-slate">{{ c.short }}</p>
           <span class="inline-flex items-center gap-1.5 font-display font-bold text-[.9rem] text-green-700">
             {{ t('cta.seeProducts') }} <BaseIcon name="arrow" class="w-4 h-4" />
           </span>

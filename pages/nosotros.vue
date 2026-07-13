@@ -1,9 +1,24 @@
 <script setup>
 const localePath = useLocalePath()
-useHead({ title: 'Nosotros — Gamma Plast' })
+const { t } = useI18n()
+
+useSeo({ title: t('seo.about.title'), description: t('seo.about.description') })
+useJsonLd({
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  url: 'https://gammaplast.com.pe' + localePath('/nosotros'),
+  name: t('seo.about.title'),
+  description: t('seo.about.description'),
+  about: orgRef,
+  isPartOf: { '@id': 'https://gammaplast.com.pe/#website' }
+})
+useJsonLd(breadcrumbLd([
+  { name: t('nav.home'), path: localePath('/') },
+  { name: t('nav.about'), path: localePath('/nosotros') }
+]))
 
 const valores = [
-  { icon: 'award', name: 'Damos siempre más' },
+  { icon: 'award', name: 'Compromiso con cada cliente' },
   { icon: 'leaf', name: 'Cuidamos el planeta' },
   { icon: 'target', name: 'Eficiencia y eficacia' },
   { icon: 'users', name: 'Colaboración constante' },
@@ -42,11 +57,10 @@ const certs = [
             <NuxtLink :to="localePath('/contacto')" class="btn btn-green">Contáctanos</NuxtLink>
           </div>
         </div>
-        <!-- panel de marca (stand-in de foto real) -->
-        <div class="reveal relative rounded-card border border-line overflow-hidden min-h-[300px] lg:min-h-[440px] grid place-items-center bg-green-tint">
-          <!-- TODO: reemplazar por foto real de planta / maquinaria -->
-          <div class="absolute inset-0 bg-[radial-gradient(120%_90%_at_100%_0%,theme(colors.green.tint2),transparent_65%)]"></div>
-          <img src="/isotipo-hero.png" alt="" aria-hidden="true" width="600" height="600" loading="lazy" class="relative w-[60%] max-w-[300px] opacity-25" >
+        <!-- foto real de planta -->
+        <div class="reveal relative rounded-card border border-line overflow-hidden min-h-[300px] lg:min-h-[440px]">
+          <img src="/photos/nosotros-hero.jpg" alt="Equipo de Gamma Plast revisando la producción en planta"
+            width="1000" height="1200" loading="lazy" class="absolute inset-0 w-full h-full object-cover">
         </div>
       </div>
     </div>
@@ -127,6 +141,37 @@ const certs = [
             </div>
           </li>
         </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- Galería de planta -->
+  <section class="sec">
+    <div class="wrap">
+      <div class="max-w-[620px] mb-10 reveal">
+        <span class="pill pill-outline">Nuestra planta</span>
+        <h2 class="text-[clamp(1.9rem,3.4vw,2.6rem)] mt-5 mb-4">Detrás de cada empaque</h2>
+        <p class="text-[1.12rem] text-slate">Extrusión, impresión flexográfica, corte y sellado: el proceso completo, en imágenes.</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[150px] md:auto-rows-[190px]">
+        <figure class="reveal group relative overflow-hidden rounded-card col-span-2 row-span-2">
+          <img src="/photos/galeria-impresion.jpg" alt="Prensa flexográfica imprimiendo empaque a color" width="1200" height="900" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-rollos.jpg" alt="Nave de producción con rollos de material" width="800" height="1100" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-shrinkfilm.jpg" alt="Máquina de shrink film con rollo de película" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-film.jpg" alt="Detalle de film plástico transparente" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-rodillos.jpg" alt="Detalle de rodillos de impresión" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
+        <figure class="reveal group relative overflow-hidden rounded-card">
+          <img src="/photos/galeria-linea.jpg" alt="Línea de producción en planta" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+        </figure>
       </div>
     </div>
   </section>

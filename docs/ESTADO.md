@@ -1,6 +1,6 @@
 # Estado del proyecto — Web Gamma Plast
 
-> Documento de **handoff** para retomar el desarrollo. Última actualización: incremento inicial (todas las páginas maquetadas en Nuxt 3).
+> Documento de **handoff** para retomar el desarrollo. Última actualización: pase de QA/UX (catálogo por tipo de empaque, fotos, rediseño de Novedades) + **capa de SEO para buscadores y agentes de IA** (hreflang/canonical, meta por página, sitemap i18n, JSON-LD, robots IA, llms.txt, FAQ).
 > Ver también: [`PLAN-REDISENO.md`](PLAN-REDISENO.md) (arquitectura y contenido) · [`DESIGN.md`](DESIGN.md) (sistema de diseño) · [`BRAND.md`](BRAND.md) (marca).
 
 Repo: **https://github.com/cjrt94/gammaplast-front** (rama `main`).
@@ -11,7 +11,7 @@ Repo: **https://github.com/cjrt94/gammaplast-front** (rama `main`).
 
 Web corporativa institucional de **Gamma Plast** (fabricante peruano de empaques flexibles), en **Nuxt 3 + Tailwind + i18n ES/EN**. El key visual del Home fue aprobado y se portó a código; el resto de páginas están **maquetadas con contenido real** (fuente: `Info.docx` + catálogo + mockup) y **verificadas corriendo en dev**. Falta pulido, backend de formularios y contenido/traducciones finales.
 
-**Estado global:** ✅ estructura y maqueta completas · 🟡 pendiente backend, contenido final, i18n EN y QA.
+**Estado global:** ✅ estructura, maqueta y **SEO (buscadores + IA)** completos · 🟡 pendiente backend de formularios, contenido final, **traducción EN del cuerpo** (categorías, pasos de proceso, footer — el SEO y las FAQ ya están en EN) y `sameAs` de redes en el JSON-LD.
 
 ---
 

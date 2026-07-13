@@ -1,5 +1,22 @@
 <script setup>
-useHead({ title: 'Contacto — Gamma Plast' })
+const { t } = useI18n()
+const localePath = useLocalePath()
+const site = 'https://gammaplast.com.pe'
+
+useSeo({ title: t('seo.contact.title'), description: t('seo.contact.description') })
+useJsonLd({
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  url: site + localePath('/contacto'),
+  name: t('seo.contact.title'),
+  description: t('seo.contact.description'),
+  isPartOf: { '@id': site + '/#website' },
+  about: orgRef
+})
+useJsonLd(breadcrumbLd([
+  { name: t('nav.home'), path: localePath('/') },
+  { name: t('nav.contact'), path: localePath('/contacto') }
+]))
 
 const form = reactive({ nombre: '', apellido: '', telefono: '', correo: '', empresa: '', mensaje: '' })
 const errors = reactive({ nombre: '', apellido: '', correo: '', mensaje: '' })

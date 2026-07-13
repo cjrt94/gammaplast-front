@@ -1,5 +1,11 @@
 <script setup>
 const route = useRoute()
+
+// SEO i18n: fija <html lang/dir> por locale y emite canonical + hreflang (es/en/x-default)
+// + og:locale en todas las rutas. Requiere i18n.baseUrl en nuxt.config.js.
+const i18nHead = useLocaleHead()
+useHead(i18nHead)
+
 let io = null
 function observe () {
   if (!import.meta.client) return
