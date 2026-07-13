@@ -5,6 +5,18 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/i18n', '@nuxtjs/sitemap'],
   css: ['~/assets/css/main.css'],
 
+  // Config privada de servidor para el envío de formularios (Resend).
+  // Se sobreescribe en runtime SOLO con env prefijadas NUXT_ (mecanismo de Nuxt):
+  //   NUXT_RESEND_API_KEY · NUXT_MAIL_FROM · NUXT_CONTACT_TO · NUXT_CAREERS_TO   (ver .env.example)
+  // IMPORTANT: `mailFrom` debe usar un dominio VERIFICADO en Resend antes de producción
+  // (por defecto cae a onboarding@resend.dev, que solo entrega a la cuenta dueña de la API key).
+  runtimeConfig: {
+    resendApiKey: '',
+    mailFrom: 'Gamma Plast <onboarding@resend.dev>',
+    contactTo: 'comercial@gammaplast.com.pe, comercial2@gammaplast.com.pe',
+    careersTo: 'recursoshumanos@gammaplast.com.pe'
+  },
+
   // Config de sitio compartida (nuxt-site-config): usada por el sitemap y el SEO.
   site: {
     url: 'https://gammaplast.com.pe',

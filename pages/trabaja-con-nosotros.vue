@@ -25,6 +25,7 @@ const cvFile = ref(null)
 const status = ref('idle') // 'idle' | 'loading' | 'sent' | 'error'
 const submitError = ref('')
 const successCard = ref(null)
+const hp = ref('') // honeypot anti-spam: humanos lo dejan vacío
 
 const MAX_CV_BYTES = 5 * 1024 * 1024
 const CV_EXTS = ['pdf', 'doc', 'docx']
@@ -69,18 +70,20 @@ async function submit () {
     document.querySelector('form [aria-invalid="true"]')?.focus()
     return
   }
-  const payload = careersSchema.parse(form) // datos normalizados (trim/lowercase) listos para el envío
+  const payload = careersSchema.parse(form) // datos normalizados (trim/lowercase)
   status.value = 'loading'
   try {
-    // TODO(Dean): envío real a recursoshumanos@gammaplast.com.pe con `payload` + el CV adjunto
-    // (revalidar server-side con careersSchema, anti-spam y storage del archivo).
-    await new Promise(resolve => setTimeout(resolve, 600))
+    const fd = new FormData()
+    Object.entries(payload).forEach(([k, v]) => fd.append(k, v))
+    fd.append('website', hp.value) // honeypot
+    fd.append('cv', cvFile.value)
+    await $fetch('/api/postular', { method: 'POST', body: fd })
     status.value = 'sent'
     await nextTick()
     successCard.value?.focus()
   } catch (e) {
     status.value = 'error'
-    submitError.value = 'No pudimos enviar tu postulación. Vuelve a intentarlo en unos minutos.'
+    submitError.value = e?.data?.statusMessage || 'No pudimos enviar tu postulación. Vuelve a intentarlo en unos minutos.'
   }
 }
 </script>
@@ -102,6 +105,12 @@ async function submit () {
 
       <form v-else class="reveal grid gap-5" novalidate @submit.prevent="submit">
         <p class="text-[.85rem] text-slate m-0"><span class="text-green-700" aria-hidden="true">*</span> Campo obligatorio</p>
+
+        <!-- Honeypot anti-spam: oculto y fuera del flujo de foco. -->
+        <div class="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+          <label for="t-website">No completar</label>
+          <input id="t-website" v-model="hp" type="text" name="website" tabindex="-1" autocomplete="off">
+        </div>
 
         <div class="grid sm:grid-cols-2 gap-5">
           <div>

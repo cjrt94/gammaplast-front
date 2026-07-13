@@ -13,14 +13,16 @@ const correo = z.string().trim().toLowerCase()
   .min(1, 'Ingresa tu correo.')
   .max(120, 'Máximo 120 caracteres.')
   .regex(EMAIL, 'Escribe un correo válido, por ejemplo nombre@empresa.com.')
-const telefono = z.string().trim().max(20, 'Máximo 20 caracteres.') // opcional (vacío permitido)
+// Campos opcionales: `.default('')` acepta clave ausente (undefined → '') además de vacío,
+// para que el servidor sea robusto ante payloads que no envíen los opcionales.
+const telefono = z.string().trim().max(20, 'Máximo 20 caracteres.').default('')
 
 export const contactSchema = z.object({
   nombre,
   apellido,
   telefono,
   correo,
-  empresa: z.string().trim().max(80, 'Máximo 80 caracteres.'), // opcional
+  empresa: z.string().trim().max(80, 'Máximo 80 caracteres.').default(''),
   mensaje: z.string().trim().min(1, 'Cuéntanos brevemente qué necesitas.').max(1500, 'Máximo 1500 caracteres.')
 })
 
@@ -29,7 +31,7 @@ export const careersSchema = z.object({
   apellido,
   telefono,
   correo,
-  mensaje: z.string().trim().max(1500, 'Máximo 1500 caracteres.') // opcional
+  mensaje: z.string().trim().max(1500, 'Máximo 1500 caracteres.').default('')
 })
 
 // Mapea el resultado de safeParse a { campo: primerMensaje } para pintar los errores por campo.

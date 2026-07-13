@@ -23,6 +23,7 @@ const errors = reactive({ nombre: '', apellido: '', correo: '', mensaje: '' })
 const status = ref('idle') // 'idle' | 'loading' | 'sent' | 'error'
 const submitError = ref('')
 const successCard = ref(null)
+const hp = ref('') // honeypot anti-spam: humanos lo dejan vacío
 
 function validate () {
   const fe = fieldErrors(contactSchema.safeParse(form))
@@ -41,18 +42,16 @@ async function submit () {
     document.querySelector('form [aria-invalid="true"]')?.focus()
     return
   }
-  const payload = contactSchema.parse(form) // datos normalizados (trim/lowercase) listos para el envío
+  const payload = contactSchema.parse(form) // datos normalizados (trim/lowercase)
   status.value = 'loading'
   try {
-    // TODO(Dean): envío real a comercial@ y comercial2@gammaplast.com.pe con `payload`
-    // (revalidar server-side con contactSchema + anti-spam).
-    await new Promise(resolve => setTimeout(resolve, 600))
+    await $fetch('/api/contacto', { method: 'POST', body: { ...payload, website: hp.value } })
     status.value = 'sent'
     await nextTick()
     successCard.value?.focus()
   } catch (e) {
     status.value = 'error'
-    submitError.value = 'No pudimos enviar tu mensaje. Vuelve a intentarlo en unos minutos.'
+    submitError.value = e?.data?.statusMessage || 'No pudimos enviar tu mensaje. Vuelve a intentarlo en unos minutos.'
   }
 }
 </script>
@@ -76,6 +75,12 @@ async function submit () {
 
         <form v-else class="grid gap-5" novalidate @submit.prevent="submit">
           <p class="text-[.85rem] text-slate m-0"><span class="text-green-700" aria-hidden="true">*</span> Campo obligatorio</p>
+
+          <!-- Honeypot anti-spam: oculto y fuera del flujo de foco; los humanos no lo ven ni lo llenan. -->
+          <div class="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+            <label for="c-website">No completar</label>
+            <input id="c-website" v-model="hp" type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
 
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
