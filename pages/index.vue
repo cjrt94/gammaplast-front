@@ -48,7 +48,8 @@ useJsonLd({
         </div>
       </div>
 
-      <div class="reveal relative min-h-[440px] max-md:min-h-[360px] grid place-items-center">
+      <!-- Sin .reveal: contiene la imagen LCP (doypack, fetchpriority=high); no debe arrancar oculta. -->
+      <div class="relative min-h-[440px] max-md:min-h-[360px] grid place-items-center">
         <img src="/isotipo.png" alt="" aria-hidden="true" width="5000" height="5000" loading="lazy"
           class="absolute w-[118%] max-w-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none z-0">
         <img src="/products/pouch-valvula.png" alt="Pouch con válvula Gamma Plast" width="385" height="640" loading="lazy"

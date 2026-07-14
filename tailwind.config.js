@@ -25,7 +25,13 @@ export default {
       },
       borderRadius: { DEFAULT: '3px', card: '3px', pill: '4px' },
       maxWidth: { site: '1200px' },
-      letterSpacing: { tight2: '-.02em', label: '.14em' }
+      letterSpacing: { tight2: '-.02em', label: '.14em' },
+      // Tokens de motion (espejo de las CSS vars en main.css :root).
+      transitionDuration: { fast: '150ms', base: '250ms', slow: '400ms' },
+      transitionTimingFunction: {
+        brand: 'cubic-bezier(.2, .7, .3, 1)',
+        smooth: 'cubic-bezier(.4, 0, .2, 1)'
+      }
     }
   }
 }

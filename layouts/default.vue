@@ -6,23 +6,40 @@ const route = useRoute()
 const i18nHead = useLocaleHead()
 useHead(i18nHead)
 
-let io = null
-function observe () {
+// Reveal on scroll — motor GSAP (decisión de motion #1). ScrollTrigger.batch escalona
+// lo que entra junto al viewport (mejor que un índice global). Import dinámico client-only
+// para no cargar GSAP en SSR ni en el critical path. Tokens espejados de main.css :root:
+// --rise 18px · --dur-reveal .6s · --stag 60ms.
+let ctx = null
+async function setupReveal () {
   if (!import.meta.client) return
-  io?.disconnect()
-  io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target) }
+  const gsap = (await import('gsap')).gsap
+  const { ScrollTrigger } = await import('gsap/ScrollTrigger')
+  gsap.registerPlugin(ScrollTrigger)
+
+  ctx?.revert() // limpia triggers de la ruta anterior
+  ctx = gsap.context(() => {
+    const els = gsap.utils.toArray('.reveal')
+    if (!els.length) return
+    const mm = gsap.matchMedia()
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.set(els, { opacity: 0, y: 18 })
+      ScrollTrigger.batch(els, {
+        start: 'top 88%',
+        once: true,
+        onEnter: (batch) => gsap.to(batch, {
+          opacity: 1, y: 0, duration: 0.6, ease: 'power2.out', stagger: 0.06, overwrite: true
+        })
+      })
     })
-  }, { threshold: 0.12 })
-  document.querySelectorAll('.reveal:not(.in)').forEach((el, i) => {
-    el.style.animationDelay = (Math.min(i, 6) * 40) + 'ms'
-    io.observe(el)
+    mm.add('(prefers-reduced-motion: reduce)', () => {
+      gsap.set(els, { opacity: 1, y: 0 })
+    })
   })
 }
-onMounted(() => nextTick(observe))
-watch(() => route.fullPath, () => nextTick(() => setTimeout(observe, 60)))
-onBeforeUnmount(() => io?.disconnect())
+onMounted(() => nextTick(setupReveal))
+watch(() => route.fullPath, () => nextTick(() => setTimeout(setupReveal, 80)))
+onBeforeUnmount(() => ctx?.revert())
 </script>
 
 <template>

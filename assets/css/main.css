@@ -17,6 +17,21 @@
   font-display: swap;
 }
 
+/* Tokens de motion — fuente única de verdad (ver docs/DESIGN.md §motion).
+   GSAP los espeja en JS (layouts/default.vue). Registro discreto: gestos cortos,
+   techo de desplazamiento 4px, sin rebotes. */
+:root {
+  --dur-fast: 150ms;
+  --dur-base: 250ms;
+  --dur-slow: 400ms;
+  --dur-reveal: 600ms;
+  --ease-brand: cubic-bezier(.2, .7, .3, 1); /* deceleración — entradas */
+  --ease-inout: cubic-bezier(.4, 0, .2, 1);  /* estado/hover reversible */
+  --lift: -4px;   /* techo canónico del hover-lift */
+  --rise: 18px;   /* distancia del reveal */
+  --stag: 60ms;   /* unidad de escalonado */
+}
+
 @layer base {
   html { scroll-behavior: smooth; }
   body {
@@ -89,16 +104,22 @@
   .field-input::placeholder { color: theme('colors.slate'); opacity: .6; }
 }
 
-/* Reveal on scroll — vía animation (fill backwards) para NO fijar transform en reposo;
-   así el hover-lift de .card-hover sigue funcionando en cards con .reveal. */
-.reveal { opacity: 0; }
-.reveal.in { opacity: 1; animation: reveal-in .7s cubic-bezier(.2,.7,.3,1) backwards; }
-@keyframes reveal-in {
-  from { opacity: 0; transform: translateY(22px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Reveal on scroll — motor GSAP (ScrollTrigger.batch en layouts/default.vue).
+   Progressive enhancement: VISIBLE por defecto (sin JS o sin GSAP el contenido nunca
+   queda oculto); con JS se oculta antes del paint vía `html.js` y GSAP lo revela. */
+.reveal { opacity: 1; }
+html.js .reveal { opacity: 0; transform: translateY(var(--rise)); }
+
+/* Accesibilidad — cobertura global de prefers-reduced-motion (no solo el reveal): */
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; }
-  .reveal.in { animation: none; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
   html { scroll-behavior: auto; }
+  html.js .reveal { opacity: 1; transform: none; }
+  /* Sin desplazamientos ni zoom en hover; se conserva el feedback de color/borde. */
+  .card-hover:hover, .btn-green:hover, .btn:hover { transform: none !important; }
+  .group:hover [class*="group-hover:scale"] { transform: none !important; }
 }
