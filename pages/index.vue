@@ -93,21 +93,11 @@ useJsonLd({
         <NuxtLink :to="localePath('/nosotros')" class="btn btn-ghost reveal shrink-0">Conócenos</NuxtLink>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 auto-rows-[150px] md:auto-rows-[190px]">
-        <figure class="reveal group relative overflow-hidden rounded-card col-span-2 row-span-2">
-          <img src="/photos/home-planta-band.jpg" alt="Interior de la planta de producción de empaques flexibles" width="1200" height="800" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
-        </figure>
-        <figure class="reveal group relative overflow-hidden rounded-card">
-          <img src="/photos/galeria-impresion.jpg" alt="Prensa flexográfica imprimiendo empaque a color" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
-        </figure>
-        <figure class="reveal group relative overflow-hidden rounded-card">
-          <img src="/photos/galeria-rollos.jpg" alt="Nave de producción con rollos de material" width="800" height="1100" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
-        </figure>
-        <figure class="reveal group relative overflow-hidden rounded-card">
-          <img src="/photos/galeria-shrinkfilm.jpg" alt="Máquina de shrink film con rollo de película" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
-        </figure>
-        <figure class="reveal group relative overflow-hidden rounded-card">
-          <img src="/photos/galeria-linea.jpg" alt="Línea de producción en planta" width="1100" height="730" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
-        </figure>
+        <GalleryFigure class="col-span-2 row-span-2" src="/photos/home-planta-band.jpg" alt="Interior de la planta de producción de empaques flexibles" width="1200" height="800" />
+        <GalleryFigure src="/photos/galeria-impresion.jpg" alt="Prensa flexográfica imprimiendo empaque a color" width="1100" height="730" />
+        <GalleryFigure src="/photos/galeria-rollos.jpg" alt="Nave de producción con rollos de material" width="800" height="1100" />
+        <GalleryFigure src="/photos/galeria-shrinkfilm.jpg" alt="Máquina de shrink film con rollo de película" width="1100" height="730" />
+        <GalleryFigure src="/photos/galeria-linea.jpg" alt="Línea de producción en planta" width="1100" height="730" />
       </div>
     </div>
   </section>

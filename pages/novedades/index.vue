@@ -40,7 +40,7 @@ useJsonLd(breadcrumbLd([
           :aria-label="'Leer nota: ' + n.title"
           class="reveal group card card-hover overflow-hidden flex flex-col">
           <div class="relative aspect-[16/10] bg-mist overflow-hidden">
-            <img :src="n.image" :alt="n.title" width="800" height="500" loading="lazy" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.04]">
+            <ZoomImage :src="n.image" :alt="n.title" width="800" height="500" />
           </div>
           <div class="p-6 flex flex-col gap-2 flex-1 border-t border-line">
             <time :datetime="n.date" class="text-xs font-display font-semibold uppercase tracking-wide text-green-700">{{ formatDate(n.date) }}</time>
