@@ -128,7 +128,7 @@ const certs = [
             class="reveal relative grid grid-cols-[56px_1fr] md:grid-cols-[64px_1fr] gap-x-5 md:gap-x-8 pb-11 last:pb-0">
             <!-- conector -->
             <span v-if="i < procesos.length - 1"
-              class="absolute left-7 md:left-8 -translate-x-1/2 top-7 md:top-8 bottom-0 w-px bg-line" aria-hidden="true"></span>
+              class="timeline-line absolute left-7 md:left-8 -translate-x-1/2 top-7 md:top-8 bottom-0 w-px bg-line" aria-hidden="true"></span>
             <!-- nodo numérico -->
             <div class="relative z-10">
               <span class="grid place-items-center w-14 h-14 md:w-16 md:h-16 rounded-full border font-display font-bold text-[1.2rem] md:text-[1.35rem]"

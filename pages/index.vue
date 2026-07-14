@@ -34,7 +34,7 @@ useJsonLd({
       <div class="reveal">
         <span class="eyebrow block mb-4">{{ t('home.hero.eyebrow') }}</span>
         <h1 class="text-[clamp(2.5rem,5.4vw,4rem)] mb-5">
-          {{ t('home.hero.title') }} <span class="text-green">{{ t('home.hero.titleAccent') }}</span>
+          {{ t('home.hero.title') }} <span class="text-green-700">{{ t('home.hero.titleAccent') }}</span>
         </h1>
         <p class="text-[1.2rem] max-w-[33ch] mb-7 text-body">{{ t('home.hero.lead') }}</p>
         <div class="flex flex-wrap gap-3.5 mb-8">

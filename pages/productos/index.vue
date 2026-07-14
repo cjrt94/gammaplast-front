@@ -131,8 +131,8 @@ const filterBtn = (on) =>
           </div>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[18px]">
-          <article v-for="p in g.items" :key="p.name" class="reveal card card-hover overflow-hidden flex flex-col">
+        <TransitionGroup tag="div" name="flip" class="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[18px]">
+          <article v-for="p in g.items" :key="p.name" class="card card-hover overflow-hidden flex flex-col">
             <div class="relative h-44 sm:h-48 bg-mist">
               <img :src="p.img" :alt="p.name" width="400" height="400" loading="lazy" class="absolute inset-0 h-full w-full object-contain p-4">
             </div>
@@ -143,8 +143,14 @@ const filterBtn = (on) =>
               </div>
             </div>
           </article>
-        </div>
+        </TransitionGroup>
       </div>
+
+      <!-- Estado vacío (defensivo: hoy toda industria tiene ≥1 producto). -->
+      <p v-if="!groups.length" class="text-slate text-center py-12">
+        No hay productos para esta industria.
+        <button type="button" class="text-green-700 font-semibold underline underline-offset-2" @click="setIndustry(null)">Ver todos</button>
+      </p>
     </div>
   </section>
 
