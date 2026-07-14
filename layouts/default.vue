@@ -19,7 +19,7 @@ async function setupReveal () {
 
   ctx?.revert() // limpia triggers de la ruta anterior
   ctx = gsap.context(() => {
-    const els = gsap.utils.toArray('.reveal')
+    const els = gsap.utils.toArray('#main .reveal') // solo contenido de página (no header/footer persistentes)
     if (!els.length) return
     const mm = gsap.matchMedia()
     mm.add('(prefers-reduced-motion: no-preference)', () => {

@@ -170,7 +170,7 @@ const filterBtn = (on) =>
       </div>
       <ul class="flex flex-col gap-3">
         <li v-for="(f, i) in faqItems" :key="i" class="reveal card">
-          <details class="group">
+          <details class="group faq">
             <summary class="flex items-center justify-between gap-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden p-5 font-display font-bold text-ink">
               <span>{{ f.q }}</span>
               <BaseIcon name="arrow" class="w-4 h-4 shrink-0 rotate-90 text-green-700 transition-transform group-open:-rotate-90" />

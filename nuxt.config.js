@@ -24,6 +24,9 @@ export default defineNuxtConfig({
   },
 
   app: {
+    // Transición entre rutas: cross-fade con micro-rise. `out-in` evita la coexistencia
+    // de DOM entrante/saliente y cierra el FOUC de navegación cliente. CSS en main.css.
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       // El <html lang/dir> lo fija useLocaleHead() por locale (ver layouts/default.vue).
       title: 'Gamma Plast — Empaques flexibles',

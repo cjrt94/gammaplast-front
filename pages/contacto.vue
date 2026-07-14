@@ -64,7 +64,8 @@ async function submit () {
     <div class="wrap grid lg:grid-cols-[1.15fr_.85fr] gap-12">
       <!-- Formulario -->
       <div class="reveal">
-        <div v-if="status === 'sent'" ref="successCard" tabindex="-1" role="status" aria-live="polite"
+        <Transition name="rise" mode="out-in">
+        <div v-if="status === 'sent'" key="sent" ref="successCard" tabindex="-1" role="status" aria-live="polite"
           class="card p-8 flex items-start gap-4 border-green outline-none focus-visible:outline focus-visible:outline-[3px] focus-visible:outline-green focus-visible:outline-offset-2">
           <span class="ico-tile shrink-0"><BaseIcon name="check" class="w-6 h-6" /></span>
           <div>
@@ -73,7 +74,7 @@ async function submit () {
           </div>
         </div>
 
-        <form v-else class="grid gap-5" novalidate @submit.prevent="submit">
+        <form v-else key="form" class="grid gap-5" novalidate @submit.prevent="submit">
           <p class="text-[.85rem] text-slate m-0"><span class="text-green-700" aria-hidden="true">*</span> Campo obligatorio</p>
 
           <!-- Honeypot anti-spam: oculto y fuera del flujo de foco; los humanos no lo ven ni lo llenan. -->
@@ -141,6 +142,7 @@ async function submit () {
             {{ status === 'loading' ? 'Enviando…' : 'Enviar mensaje' }}
           </button>
         </form>
+        </Transition>
       </div>
 
       <!-- Datos + mapa -->

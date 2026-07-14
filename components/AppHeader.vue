@@ -14,11 +14,19 @@ const links = computed(() => [
 const otherLocale = computed(() => (locale.value === 'es' ? 'en' : 'es'))
 const switchLangLabel = computed(() =>
   otherLocale.value === 'en' ? 'Cambiar idioma a inglés' : 'Cambiar idioma a español')
+
+// Header "scrolled": compacta altura + muestra el borde inferior al despegar del top.
+const scrolled = ref(false)
+function onScroll () { scrolled.value = window.scrollY > 8 }
+onMounted(() => { onScroll(); window.addEventListener('scroll', onScroll, { passive: true }) })
+onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b border-line">
-    <div class="wrap flex items-center gap-7 min-h-[72px]">
+  <header class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b transition-colors duration-base"
+    :class="scrolled ? 'border-line' : 'border-transparent'">
+    <div class="wrap flex items-center gap-7 transition-[min-height] duration-base"
+      :class="scrolled ? 'min-h-[58px]' : 'min-h-[72px]'">
       <NuxtLink :to="localePath('/')" class="shrink-0" aria-label="Gamma Plast — inicio">
         <img src="/logo-h.png" alt="Gamma Plast" width="1650" height="560" class="h-10 w-auto" >
       </NuxtLink>

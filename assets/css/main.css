@@ -60,8 +60,11 @@
   /* Botones */
   .btn {
     @apply inline-flex items-center gap-2 font-display font-bold rounded-pill px-5 py-3 cursor-pointer
-           border border-transparent transition-transform;
+           border border-transparent;
     font-size: .92rem;
+    /* Transición completa: el .btn-ghost cambia color/borde sin saltar (antes solo transform). */
+    transition: transform var(--dur-fast) var(--ease-brand), color var(--dur-fast) var(--ease-brand),
+                background-color var(--dur-fast) var(--ease-brand), border-color var(--dur-fast) var(--ease-brand);
   }
   .btn-green { @apply bg-green-700 text-white; }
   .btn-green:hover { @apply bg-green-800 -translate-y-px; }
@@ -122,4 +125,33 @@ html.js .reveal { opacity: 0; transform: translateY(var(--rise)); }
   /* Sin desplazamientos ni zoom en hover; se conserva el feedback de color/borde. */
   .card-hover:hover, .btn-green:hover, .btn:hover { transform: none !important; }
   .group:hover [class*="group-hover:scale"] { transform: none !important; }
+}
+
+/* Page transition (Nuxt `page`, mode out-in) — cross-fade con micro-rise. */
+.page-enter-active, .page-leave-active {
+  transition: opacity var(--dur-base) var(--ease-brand), transform var(--dur-base) var(--ease-brand);
+}
+.page-enter-from { opacity: 0; transform: translateY(8px); }
+.page-leave-to { opacity: 0; transform: translateY(-4px); }
+
+/* Transiciones reutilizables para <Transition> de Vue (feedback de formularios, etc.). */
+.fade-enter-active, .fade-leave-active { transition: opacity var(--dur-base) var(--ease-brand); }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
+.rise-enter-active, .rise-leave-active {
+  transition: opacity var(--dur-base) var(--ease-brand), transform var(--dur-base) var(--ease-brand);
+}
+.rise-enter-from { opacity: 0; transform: translateY(8px); }
+.rise-leave-to { opacity: 0; transform: translateY(-6px); }
+
+/* Acordeón FAQ — anima la altura del panel nativo con ::details-content (Chrome/Edge).
+   Con @supports: donde no hay soporte (Safari/Firefox) el <details> togglea al instante
+   (degradación segura). Ver pages/productos/index.vue (details.faq). */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  details.faq::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition: block-size var(--dur-base) var(--ease-brand), content-visibility var(--dur-base) allow-discrete;
+  }
+  details.faq[open]::details-content { block-size: auto; }
 }
