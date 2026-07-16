@@ -1,5 +1,5 @@
 <script setup>
-const route = useRoute()
+const nuxtApp = useNuxtApp()
 
 // SEO i18n: fija <html lang/dir> por locale y emite canonical + hreflang (es/en/x-default)
 // + og:locale en todas las rutas. Requiere i18n.baseUrl en nuxt.config.js.
@@ -44,7 +44,10 @@ async function setupReveal () {
   ST.refresh()
 }
 onMounted(() => nextTick(setupReveal))
-watch(() => route.fullPath, () => nextTick(() => setTimeout(setupReveal, 80)))
+// Re-escanea tras cada navegación. Se engancha al FIN de la page transition (no a un
+// setTimeout): con `mode: out-in` la página entrante monta DESPUÉS de la salida (~--dur-base),
+// así que un delay fijo corría antes de existir el DOM nuevo y dejaba el contenido en opacity:0.
+nuxtApp.hook('page:transition:finish', () => nextTick(setupReveal))
 onBeforeUnmount(() => ST?.getAll().forEach((t) => t.kill()))
 </script>
 
