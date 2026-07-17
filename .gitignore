@@ -15,3 +15,4 @@ coverage/
 # Brand source files — heavy binaries, kept on disk but not versioned
 *.ai
 *.psd
+.vercel

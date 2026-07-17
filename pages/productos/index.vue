@@ -1,5 +1,5 @@
 <script setup>
-const { types, products, industries, industryBySlug } = useCatalog()
+const { sectors, products, materials, sectorBySlug } = useCatalog()
 const localePath = useLocalePath()
 const route = useRoute()
 const router = useRouter()
@@ -9,7 +9,7 @@ const { t, tm, rt } = useI18n()
 useSeo({ title: t('seo.products.title'), description: t('seo.products.description') })
 
 const site = 'https://gammaplast.com.pe'
-const typeLabel = (slug) => types.find((x) => x.slug === slug)?.label
+const sectorLabel = (slug) => sectorBySlug(slug)?.label
 
 useJsonLd({
   '@context': 'https://schema.org',
@@ -28,7 +28,7 @@ useJsonLd({
       item: {
         '@type': 'Product',
         name: p.name,
-        category: typeLabel(p.type),
+        category: sectorLabel(p.sector),
         material: 'Plástico flexible (PE/PP)',
         brand: orgRef
       }
@@ -40,8 +40,7 @@ useJsonLd(breadcrumbLd([
   { name: t('nav.products'), path: localePath('/productos') }
 ]))
 
-// FAQ — contenido en i18n (faq.items). NOTA(cliente): validar la respuesta de
-// pedido mínimo / tiempos de entrega antes de publicar.
+// FAQ — contenido en i18n (faq.items). NOTA(cliente): validar pedido mínimo / tiempos de entrega.
 const faqItems = computed(() => tm('faq.items').map((it) => ({ q: rt(it.q), a: rt(it.a) })))
 useJsonLd({
   '@context': 'https://schema.org',
@@ -53,34 +52,27 @@ useJsonLd({
   }))
 })
 
-// Filtro por industria (etiqueta). null = todas las industrias.
-const activeIndustry = ref(null)
+// Filtro por sector. null = todos.
+const activeSector = ref(null)
 
-// Deep-link opcional: /productos?ind=<slug> (usado desde la Home).
+// Deep-link opcional: /productos?sec=<slug> (usado desde la Home).
 onMounted(() => {
-  const q = route.query.ind
-  if (typeof q === 'string' && industryBySlug(q)) activeIndustry.value = q
+  const q = route.query.sec
+  if (typeof q === 'string' && sectorBySlug(q)) activeSector.value = q
 })
 
-function setIndustry (slug) {
-  activeIndustry.value = slug
-  router.replace({ query: slug ? { ind: slug } : {} })
+function setSector (slug) {
+  activeSector.value = slug
+  router.replace({ query: slug ? { sec: slug } : {} })
 }
 
-const filtered = computed(() =>
-  activeIndustry.value
-    ? products.filter((p) => p.industries.includes(activeIndustry.value))
-    : products
-)
-
-// Productos agrupados por familia de empaque, en el orden de `types`; se omiten las vacías.
+// Grupos por sector, en el orden de `sectors`; se omiten los vacíos y se respeta el filtro.
 const groups = computed(() =>
-  types
-    .map((t) => ({ ...t, items: filtered.value.filter((p) => p.type === t.slug) }))
+  sectors
+    .filter((s) => !activeSector.value || s.slug === activeSector.value)
+    .map((s) => ({ ...s, items: products.filter((p) => p.sector === s.slug) }))
     .filter((g) => g.items.length)
 )
-
-const activeMeta = computed(() => (activeIndustry.value ? industryBySlug(activeIndustry.value) : null))
 
 const filterBtn = (on) =>
   'inline-flex items-center gap-1.5 rounded-pill px-4 min-h-[40px] font-display font-bold text-[.85rem] ' +
@@ -94,76 +86,93 @@ const filterBtn = (on) =>
   <div>
     <PageHero
       eyebrow="Nuestros productos"
-      title="Nuestro catálogo por tipo de empaque"
-      intro="Explora nuestra línea de empaques flexibles agrupada por familia. Filtra por industria para ver las soluciones pensadas para tu sector." />
+      title="Una solución de empaque para cada sector"
+      intro="Explora nuestra línea de empaques flexibles agrupada por sector. Filtra para ver las soluciones pensadas para tu industria." />
 
-    <!-- Barra de filtro por industria (sticky bajo el header) -->
+    <!-- Barra de filtro por sector (sticky bajo el header; 2 filas al envolver) -->
     <div class="sticky top-[72px] z-30 bg-paper/95 backdrop-blur-md border-b border-line">
-      <div class="wrap py-4 flex flex-wrap items-center gap-2.5" role="group" aria-label="Filtrar productos por industria">
-        <span class="text-[.85rem] font-display font-bold text-slate mr-1">Industria:</span>
-        <button type="button" :class="filterBtn(!activeIndustry)" :aria-pressed="!activeIndustry" @click="setIndustry(null)">
-          Todas
+      <div class="wrap py-4 flex flex-wrap items-center gap-2.5" role="group" aria-label="Filtrar productos por sector">
+        <span class="text-[.85rem] font-display font-bold text-slate mr-1">Sector:</span>
+        <button type="button" :class="filterBtn(!activeSector)" :aria-pressed="!activeSector" @click="setSector(null)">
+          Todos
         </button>
-        <button v-for="i in industries" :key="i.slug" type="button"
-          :class="filterBtn(activeIndustry === i.slug)" :aria-pressed="activeIndustry === i.slug"
-          @click="setIndustry(i.slug)">
-          <BaseIcon :name="i.icon" class="w-4 h-4" /> {{ i.short }}
+        <button v-for="s in sectors" :key="s.slug" type="button"
+          :class="filterBtn(activeSector === s.slug)" :aria-pressed="activeSector === s.slug"
+          @click="setSector(s.slug)">
+          <BaseIcon :name="s.icon" class="w-4 h-4" /> {{ s.short }}
         </button>
       </div>
     </div>
 
     <section class="sec">
       <div class="wrap">
-        <!-- Contexto del filtro activo -->
-        <p v-if="activeMeta" class="reveal text-body max-w-[62ch] mb-2 -mt-2">{{ activeMeta.desc }}</p>
-        <p class="reveal text-[.9rem] text-slate mb-10" aria-live="polite">
-          {{ filtered.length }} {{ filtered.length === 1 ? 'producto' : 'productos' }}<template v-if="activeMeta"> en {{ activeMeta.label }}</template>
-        </p>
-
-        <!-- Grupos por familia de empaque -->
-        <div v-for="g in groups" :key="g.slug" class="mb-16 last:mb-0">
-          <div class="flex items-start gap-3 mb-6 reveal">
+        <!-- Grupos por sector (separados por encabezado + divisor, sin franja/foto) -->
+        <div v-for="g in groups" :key="g.slug" class="mb-14 last:mb-0 pt-12 border-t border-line first:border-0 first:pt-0 scroll-mt-32" :id="g.slug">
+          <!-- Encabezado de sector -->
+          <div class="flex items-start gap-3.5 mb-6 reveal">
             <span class="ico-tile shrink-0"><BaseIcon :name="g.icon" class="w-6 h-6" /></span>
             <div>
-              <h2 class="text-[1.4rem] leading-tight">
+              <h2 class="text-[1.5rem] md:text-[1.8rem] leading-tight">
                 {{ g.label }} <span class="text-slate font-normal text-[.95rem] tabular-nums">· {{ g.items.length }}</span>
               </h2>
-              <p class="text-slate text-[.92rem] m-0">{{ g.intro }}</p>
+              <p class="text-slate text-[.98rem] max-w-[62ch] mt-1">{{ g.desc }}</p>
             </div>
           </div>
 
           <TransitionGroup tag="div" name="flip" class="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[18px]">
             <article v-for="p in g.items" :key="p.name" class="card card-hover overflow-hidden flex flex-col">
-              <div class="relative h-44 sm:h-48 bg-mist">
-                <img :src="p.img" :alt="p.name" width="400" height="400" loading="lazy" class="absolute inset-0 h-full w-full object-contain p-4">
+              <!-- Más vertical (4:5) y object-contain para que el producto se vea completo. -->
+              <div class="relative aspect-[4/5] bg-mist">
+                <img :src="p.img" :alt="p.name" width="400" height="500" loading="lazy"
+                  class="absolute inset-0 h-full w-full object-contain p-3">
               </div>
-              <div class="p-4 border-t border-line flex flex-col gap-2 flex-1">
+              <div class="p-4 border-t border-line">
                 <h3 class="text-[1.02rem] font-display font-bold text-ink leading-snug">{{ p.name }}</h3>
-                <div class="mt-auto flex flex-wrap gap-1.5 pt-1">
-                  <span v-for="s in p.industries" :key="s" class="pill pill-tint !text-[.7rem] !py-1">{{ industryBySlug(s).short }}</span>
-                </div>
               </div>
             </article>
           </TransitionGroup>
         </div>
-
-        <!-- Estado vacío (defensivo: hoy toda industria tiene ≥1 producto). -->
-        <p v-if="!groups.length" class="text-slate text-center py-12">
-          No hay productos para esta industria.
-          <button type="button" class="text-green-700 font-semibold underline underline-offset-2" @click="setIndustry(null)">Ver todos</button>
-        </p>
       </div>
     </section>
 
-    <!-- Cierre: materiales + CTA -->
+    <!-- Cierre: estructuras y materiales + CTA (feedback cliente: incluir junto al CTA de asesor) -->
     <section class="sec-mist py-14">
-      <div class="wrap flex flex-wrap items-center justify-between gap-6">
-        <div class="flex flex-wrap gap-3">
-          <span class="chip"><BaseIcon name="check" />Materiales monocapa y laminado / coextrusión</span>
-          <span class="chip"><BaseIcon name="check" />Grado alimentario FDA</span>
-          <span class="chip"><BaseIcon name="recycle" />Reciclables y compostables</span>
+      <div class="wrap">
+        <div class="max-w-[640px] mb-9 reveal">
+          <span class="pill pill-outline">Estructuras y materiales</span>
+          <h2 class="text-[clamp(1.7rem,3vw,2.3rem)] mt-5 mb-3">Materiales a la medida de tu producto</h2>
+          <p class="text-slate text-[1.05rem]">Trabajamos estructuras monocapa, laminados y coextrusiones, en distintos colores y acabados.</p>
+          <div class="flex items-center gap-2 mt-5" aria-label="Colores disponibles">
+            <span class="text-[.8rem] font-display font-bold text-slate mr-1">Colores:</span>
+            <span v-for="c in materials.colores" :key="c" class="w-5 h-5 rounded-full border border-line"
+              :style="{ backgroundColor: c }" />
+          </div>
         </div>
-        <NuxtLink :to="localePath('/contacto')" class="btn btn-green">Contacta a un asesor</NuxtLink>
+        <div class="grid md:grid-cols-2 gap-5">
+          <div class="card p-6 md:p-7 reveal">
+            <h3 class="font-display font-bold text-ink text-[1.15rem] mb-4">Monocapa</h3>
+            <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
+              <li v-for="m in materials.monocapa" :key="m" class="flex items-center gap-2 text-body text-[.98rem]">
+                <BaseIcon name="check" class="w-4 h-4 text-green-700 shrink-0" />{{ m }}
+              </li>
+            </ul>
+          </div>
+          <div class="card p-6 md:p-7 reveal">
+            <h3 class="font-display font-bold text-ink text-[1.15rem] mb-4">Laminado y coextrusión</h3>
+            <ul class="grid sm:grid-cols-2 gap-x-6 gap-y-2.5">
+              <li v-for="m in materials.laminado" :key="m" class="flex items-center gap-2 text-body text-[.98rem]">
+                <BaseIcon name="check" class="w-4 h-4 text-green-700 shrink-0" />{{ m }}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="mt-9 flex flex-wrap items-center justify-between gap-5 rounded-card bg-green-tint p-7 reveal">
+          <div class="flex flex-wrap gap-3">
+            <span class="chip"><BaseIcon name="check" />Grado alimentario FDA</span>
+            <span class="chip"><BaseIcon name="recycle" />Reciclables y compostables</span>
+          </div>
+          <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">Contacta a un asesor</NuxtLink>
+        </div>
       </div>
     </section>
 

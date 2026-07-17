@@ -61,7 +61,11 @@
     },
     "contact": {
       "title": "Contacto",
-      "description": "Contacta a Gamma Plast para tu próximo empaque flexible. Cuéntanos sobre tu producto y un asesor te ayudará a encontrar la solución ideal. Planta en Ate, Lima."
+      "description": "Contacto general de Gamma Plast, fabricante de empaques flexibles en Ate, Lima. Escríbenos tu consulta y te responderemos a la brevedad."
+    },
+    "advisor": {
+      "title": "Contacta a un asesor",
+      "description": "Cotiza tu próximo empaque flexible con Gamma Plast. Cuéntanos sobre tu producto y un asesor comercial te contactará con la solución ideal. Planta en Ate, Lima."
     },
     "careers": {
       "title": "Trabaja con nosotros",

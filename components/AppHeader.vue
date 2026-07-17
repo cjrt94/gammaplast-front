@@ -44,7 +44,7 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
           class="inline-flex items-center min-h-[44px] px-2 font-display font-bold text-[.82rem] text-slate hover:text-green-700 uppercase tracking-wide">
           {{ otherLocale }}
         </NuxtLink>
-        <NuxtLink :to="localePath('/contacto')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
+        <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
       </div>
 
       <button class="lg:hidden ml-auto p-2 text-ink" :aria-expanded="open"
@@ -61,7 +61,7 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
           <div class="flex items-center justify-between pt-4">
             <NuxtLink :to="switchLocalePath(otherLocale)" :aria-label="switchLangLabel" @click="open = false"
               class="inline-flex items-center min-h-[44px] px-2 -ml-2 font-display font-bold text-slate uppercase">{{ otherLocale }}</NuxtLink>
-            <NuxtLink :to="localePath('/contacto')" class="btn btn-green" @click="open = false">{{ t('cta.advisor') }}</NuxtLink>
+            <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green" @click="open = false">{{ t('cta.advisor') }}</NuxtLink>
           </div>
         </nav>
       </div>

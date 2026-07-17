@@ -7,7 +7,7 @@ const links = computed(() => [
   { to: localePath('/productos'), label: t('nav.products') },
   { to: localePath('/novedades'), label: t('nav.news') },
   { to: localePath('/contacto'), label: t('nav.contact') },
-  { to: localePath('/trabaja-con-nosotros'), label: t('nav.careers') }
+  { to: localePath('/contacta-un-asesor'), label: t('cta.advisor') }
 ])
 </script>
 

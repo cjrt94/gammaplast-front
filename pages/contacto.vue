@@ -18,6 +18,7 @@ useJsonLd(breadcrumbLd([
   { name: t('nav.contact'), path: localePath('/contacto') }
 ]))
 
+// Contacto general — form corto. Obligatorios: nombre, apellido, correo, mensaje.
 const form = reactive({ nombre: '', apellido: '', telefono: '', correo: '', empresa: '', mensaje: '' })
 const errors = reactive({ nombre: '', apellido: '', correo: '', mensaje: '' })
 const status = ref('idle') // 'idle' | 'loading' | 'sent' | 'error'
@@ -58,8 +59,8 @@ async function submit () {
 
 <template>
   <div>
-    <PageHero eyebrow="Contacto" title="Hablemos de tu próximo empaque"
-      intro="Cuéntanos sobre tu producto y un asesor te contactará para encontrar la solución de empaque flexible ideal." />
+    <PageHero eyebrow="Contacto" title="Estamos para ayudarte"
+      intro="¿Tienes una consulta general? Escríbenos y te responderemos a la brevedad." />
 
     <section class="sec">
       <div class="wrap grid lg:grid-cols-[1.15fr_.85fr] gap-12">
@@ -71,7 +72,7 @@ async function submit () {
             <span class="ico-tile shrink-0"><BaseIcon name="check" class="w-6 h-6" /></span>
             <div>
               <h2 class="text-[1.3rem] mb-1">¡Gracias por escribirnos!</h2>
-              <p class="text-slate">Hemos recibido tu mensaje. Un asesor comercial se pondrá en contacto contigo a la brevedad.</p>
+              <p class="text-slate">Hemos recibido tu mensaje. Te responderemos a la brevedad.</p>
             </div>
           </div>
 
@@ -89,8 +90,7 @@ async function submit () {
                 <label class="field-label" for="c-nombre">Nombre <span class="text-green-700" aria-hidden="true">*</span></label>
                 <input id="c-nombre" v-model="form.nombre" class="field-input" :class="{ '!border-red-600': errors.nombre }"
                   required maxlength="40" autocomplete="given-name"
-                  :aria-invalid="errors.nombre ? 'true' : 'false'"
-                  :aria-describedby="errors.nombre ? 'c-nombre-error' : undefined"
+                  :aria-invalid="errors.nombre ? 'true' : 'false'" :aria-describedby="errors.nombre ? 'c-nombre-error' : undefined"
                   @input="clearError('nombre')">
                 <p v-if="errors.nombre" id="c-nombre-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.nombre }}</p>
               </div>
@@ -98,8 +98,7 @@ async function submit () {
                 <label class="field-label" for="c-apellido">Apellido <span class="text-green-700" aria-hidden="true">*</span></label>
                 <input id="c-apellido" v-model="form.apellido" class="field-input" :class="{ '!border-red-600': errors.apellido }"
                   required maxlength="40" autocomplete="family-name"
-                  :aria-invalid="errors.apellido ? 'true' : 'false'"
-                  :aria-describedby="errors.apellido ? 'c-apellido-error' : undefined"
+                  :aria-invalid="errors.apellido ? 'true' : 'false'" :aria-describedby="errors.apellido ? 'c-apellido-error' : undefined"
                   @input="clearError('apellido')">
                 <p v-if="errors.apellido" id="c-apellido-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.apellido }}</p>
               </div>
@@ -107,17 +106,16 @@ async function submit () {
 
             <div class="grid sm:grid-cols-2 gap-5">
               <div>
-                <label class="field-label" for="c-telefono">Teléfono</label>
-                <input id="c-telefono" v-model="form.telefono" type="tel" class="field-input" maxlength="20" autocomplete="tel">
-              </div>
-              <div>
                 <label class="field-label" for="c-correo">Correo <span class="text-green-700" aria-hidden="true">*</span></label>
                 <input id="c-correo" v-model="form.correo" type="email" class="field-input" :class="{ '!border-red-600': errors.correo }"
                   required maxlength="120" autocomplete="email"
-                  :aria-invalid="errors.correo ? 'true' : 'false'"
-                  :aria-describedby="errors.correo ? 'c-correo-error' : undefined"
+                  :aria-invalid="errors.correo ? 'true' : 'false'" :aria-describedby="errors.correo ? 'c-correo-error' : undefined"
                   @input="clearError('correo')">
                 <p v-if="errors.correo" id="c-correo-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.correo }}</p>
+              </div>
+              <div>
+                <label class="field-label" for="c-telefono">Teléfono</label>
+                <input id="c-telefono" v-model="form.telefono" type="tel" class="field-input" maxlength="20" autocomplete="tel">
               </div>
             </div>
 
@@ -130,8 +128,7 @@ async function submit () {
               <label class="field-label" for="c-mensaje">Mensaje <span class="text-green-700" aria-hidden="true">*</span></label>
               <textarea id="c-mensaje" v-model="form.mensaje" rows="5" class="field-input resize-y" :class="{ '!border-red-600': errors.mensaje }"
                 required maxlength="1500"
-                :aria-invalid="errors.mensaje ? 'true' : 'false'"
-                :aria-describedby="errors.mensaje ? 'c-mensaje-error' : undefined"
+                :aria-invalid="errors.mensaje ? 'true' : 'false'" :aria-describedby="errors.mensaje ? 'c-mensaje-error' : undefined"
                 @input="clearError('mensaje')" />
               <p v-if="errors.mensaje" id="c-mensaje-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.mensaje }}</p>
             </div>
@@ -146,7 +143,7 @@ async function submit () {
           </Transition>
         </div>
 
-        <!-- Datos + mapa -->
+        <!-- Datos + mapa + CTA a asesor -->
         <aside class="reveal flex flex-col gap-6">
           <div class="card p-7 flex flex-col gap-5">
             <div class="flex gap-3">
@@ -164,6 +161,11 @@ async function submit () {
               <div><div class="font-display font-bold text-ink mb-0.5">Correos</div>
                 <p class="text-slate">comercial@gammaplast.com.pe<br>comercial2@gammaplast.com.pe</p></div>
             </div>
+          </div>
+          <div class="card p-6 bg-green-tint border-0">
+            <div class="font-display font-bold text-ink mb-1">¿Buscas cotizar un empaque?</div>
+            <p class="text-slate text-[.95rem] mb-4">Déjanos los datos de tu proyecto y un asesor te contactará con una propuesta.</p>
+            <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
           </div>
           <div class="card overflow-hidden">
             <iframe title="Ubicación Gamma Plast"

@@ -1,0 +1,5 @@
+# Carpetas que NO se necesitan para build ni runtime (evita subir ~206 MB).
+# El brand kit, el key visual estático y la documentación viven en git pero no en el deploy.
+brand/
+design/
+docs/

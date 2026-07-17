@@ -1,7 +1,7 @@
 import { Resend } from 'resend'
-import { contactSchema } from '~/composables/leadForm'
+import { advisorSchema } from '~/composables/leadForm'
 
-// Envío del formulario de Contacto general → comercial@ / comercial2@gammaplast.com.pe.
+// Envío del formulario "Contacta un asesor" (lead calificado) → comercial@ / comercial2@.
 // Revalida con el MISMO schema Zod del cliente (leadForm.js). La validación cliente es UX;
 // ésta es la barrera real.
 export default defineEventHandler(async (event) => {
@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   // Honeypot anti-spam: humanos dejan `website` vacío. Si viene lleno → bot: fingir éxito sin enviar.
   if (body && body.website) return { ok: true }
 
-  const parsed = contactSchema.safeParse(body || {})
+  const parsed = advisorSchema.safeParse(body || {})
   if (!parsed.success) {
     throw createError({ statusCode: 422, statusMessage: 'Revisa los datos del formulario.' })
   }
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
 
   const { resendApiKey, mailFrom, contactTo } = useRuntimeConfig(event)
   if (!resendApiKey) {
-    console.error('[contacto] RESEND_API_KEY no configurada')
+    console.error('[asesor] RESEND_API_KEY no configurada')
     throw createError({ statusCode: 500, statusMessage: 'El envío de correo no está configurado.' })
   }
 
@@ -27,21 +27,23 @@ export default defineEventHandler(async (event) => {
     from: mailFrom,
     to: contactTo.split(',').map((s) => s.trim()).filter(Boolean),
     replyTo: d.correo,
-    subject: `Nuevo contacto web — ${d.nombre} ${d.apellido}${d.empresa ? ' · ' + d.empresa : ''}`,
+    subject: `Solicitud de asesor — ${d.nombre} ${d.apellido}${d.empresa ? ' · ' + d.empresa : ''}`,
     html: renderLeadEmail({
-      title: 'Nuevo mensaje de contacto',
+      title: 'Nueva solicitud de asesoría',
       rows: [
         ['Nombre', `${d.nombre} ${d.apellido}`],
+        ['Empresa', d.empresa],
+        ['RUC / Identificación', d.ruc],
         ['Correo', d.correo],
         ['Teléfono', d.telefono],
-        ['Empresa', d.empresa]
+        ['Ubicación', `${d.distrito}, ${d.ciudad}, ${d.pais}`]
       ],
       message: d.mensaje
     })
   })
 
   if (error) {
-    console.error('[contacto] Resend error:', error)
+    console.error('[asesor] Resend error:', error)
     throw createError({ statusCode: 502, statusMessage: 'No pudimos enviar tu mensaje. Inténtalo más tarde.' })
   }
 

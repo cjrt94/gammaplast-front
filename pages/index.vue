@@ -4,13 +4,21 @@ const localePath = useLocalePath()
 
 const steps = tm('home.process.steps')
 const stepIcons = ['film', 'print', 'scissors', 'seal']
+const stepImgs = ['/photos/proceso-extrusion.jpg', '/photos/proceso-impresion.jpg', '/photos/proceso-corte.jpg', '/photos/proceso-sellado.jpg']
 
-const categories = computed(() => [
-  { key: 'food', icon: 'food', slug: 'alimentos-y-bebidas', name: t('categories.food.name'), short: t('categories.food.short') },
-  { key: 'industry', icon: 'industry', slug: 'industria-en-general', name: t('categories.industry.name'), short: t('categories.industry.short') },
-  { key: 'retail', icon: 'retail', slug: 'retail-y-e-commerce', name: t('categories.retail.name'), short: t('categories.retail.short') },
-  { key: 'agro', icon: 'agro', slug: 'pesca-y-agroindustria', name: t('categories.agro.name'), short: t('categories.agro.short') }
-])
+// Logos de certificación individuales (recortados del catálogo, fondo transparente).
+const certLogos = [
+  { src: '/photos/certs/recycle.png', alt: 'Reciclable' },
+  { src: '/photos/certs/d2w.png', alt: 'd2w — tecnología oxo-biodegradable' },
+  { src: '/photos/certs/d2p.png', alt: 'd2p — protección antimicrobiana' },
+  { src: '/photos/certs/recyclass.png', alt: 'RecyClass' },
+  { src: '/photos/certs/rcsblended.png', alt: 'Recycled Blended Claim Standard' },
+  { src: '/photos/certs/rcs100.png', alt: 'Recycled 100 Claim Standard' },
+  { src: '/photos/certs/tuv.png', alt: 'OK compost — TÜV Austria Industrial' }
+]
+
+// Categorías del Home = los 7 sectores del catálogo (misma fuente que Productos).
+const { sectors } = useCatalog()
 
 useSeo({ title: t('seo.home.title'), description: t('seo.home.description'), appendBrand: false })
 
@@ -39,7 +47,7 @@ useJsonLd({
           </h1>
           <p class="text-[1.2rem] max-w-[33ch] mb-7 text-body">{{ t('home.hero.lead') }}</p>
           <div class="flex flex-wrap gap-3.5 mb-8">
-            <NuxtLink :to="localePath('/contacto')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
+            <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
             <NuxtLink :to="localePath('/productos')" class="btn btn-ghost">{{ t('cta.seeProducts') }}</NuxtLink>
           </div>
           <div class="flex flex-wrap gap-2.5">
@@ -63,12 +71,24 @@ useJsonLd({
       </div>
     </section>
 
-    <!-- PROCESOS PRODUCTIVOS (sin fotos) -->
+    <!-- Certificaciones (logos del catálogo) -->
+    <section class="border-y border-line bg-paper">
+      <div class="wrap py-9 flex flex-col items-center gap-4 text-center">
+        <span class="eyebrow">Certificaciones</span>
+        <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-6 max-w-[1060px] my-1">
+          <li v-for="c in certLogos" :key="c.src" class="shrink-0">
+            <img :src="c.src" :alt="c.alt" loading="lazy" class="h-9 sm:h-10 md:h-11 w-auto object-contain">
+          </li>
+        </ul>
+        <p class="text-slate text-[.95rem] max-w-[54ch]">Nuestros empaques cuentan con certificaciones y cumplen la normativa FDA para contacto con alimentos.</p>
+      </div>
+    </section>
+
+    <!-- PROCESOS PRODUCTIVOS (con fotos) -->
     <section class="sec sec-mist border-t border-line">
       <div class="wrap">
         <SectionHeader :eyebrow="t('home.process.eyebrow')" :title="t('home.process.title')" :intro="t('home.process.intro')" />
-        <div class="grid md:grid-cols-4 gap-[18px] relative">
-          <div class="hidden md:block absolute top-[38px] left-[6%] right-[6%] h-0.5 z-0 bg-[repeating-linear-gradient(90deg,theme(colors.line)_0_10px,transparent_10px_18px)]" />
+        <div class="grid sm:grid-cols-2 gap-6">
           <article v-for="(s, i) in steps" :key="i" class="card card-hover relative z-[1] p-[26px_22px_24px] flex flex-col gap-3.5">
             <div class="flex items-center justify-between">
               <span class="ico-tile"><BaseIcon :name="stepIcons[i]" class="w-6 h-6" /></span>
@@ -77,13 +97,15 @@ useJsonLd({
             <span class="pill pill-tint self-start">{{ rt(s.label) }}</span>
             <h3 class="text-[1.16rem]">{{ rt(s.title) }}</h3>
             <p class="text-[.98rem] text-slate">{{ rt(s.desc) }}</p>
+            <img :src="stepImgs[i]" :alt="`Proceso: ${rt(s.title)}`" width="600" height="400" loading="lazy"
+              class="mt-2 rounded-lg w-full h-72 object-cover">
           </article>
         </div>
       </div>
     </section>
 
     <!-- Nuestra planta (preview de galería → Nosotros) -->
-    <section class="sec sec-mist">
+    <section class="sec border-t border-line">
       <div class="wrap">
         <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-5 mb-10">
           <div class="max-w-[620px] reveal">
@@ -104,25 +126,26 @@ useJsonLd({
     </section>
 
     <!-- PRODUCTOS (categorías, sin detalle) -->
-    <section class="sec">
+    <section class="sec sec-mist border-t border-line">
       <div class="wrap">
         <SectionHeader center :eyebrow="t('home.products.eyebrow')" :title="t('home.products.title')" :intro="t('home.products.intro')" />
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-[18px]">
-          <NuxtLink v-for="c in categories" :key="c.key"
-            :to="localePath({ path: '/productos', query: { ind: c.slug } })"
+        <div class="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-12">
+          <NuxtLink v-for="(c, i) in sectors" :key="c.slug"
+            :to="localePath({ path: '/productos', query: { sec: c.slug } })"
+            :class="i < 4 ? 'lg:col-span-3' : 'lg:col-span-4'"
             class="reveal card card-hover p-[26px_22px] flex flex-col gap-3.5 min-h-[186px]">
             <span class="grid place-items-center w-12 h-12 rounded bg-green-tint text-green-700">
               <BaseIcon :name="c.icon" class="w-[26px] h-[26px]" />
             </span>
-            <h3 class="text-[1.12rem]">{{ c.name }}</h3>
-            <p class="text-[.9rem] flex-1 text-slate">{{ c.short }}</p>
+            <h3 class="text-[1.12rem]">{{ c.label }}</h3>
+            <p class="text-[.9rem] flex-1 text-slate">{{ c.desc }}</p>
             <span class="inline-flex items-center gap-1.5 font-display font-bold text-[.9rem] text-green-700">
               {{ t('cta.seeProducts') }} <BaseIcon name="arrow" class="w-4 h-4" />
             </span>
           </NuxtLink>
 
           <NuxtLink :to="localePath('/productos')"
-            class="reveal grid place-content-center text-center rounded-card border-0 p-[22px] bg-green-tint md:col-span-2 lg:col-span-4">
+            class="reveal grid place-content-center text-center rounded-card border-0 p-[22px] bg-green-tint sm:col-span-2 lg:col-span-12">
             <span class="inline-flex items-center gap-2 font-display font-bold text-green-700 text-[1.02rem]">
               {{ t('cta.seeCatalog') }} <BaseIcon name="arrow" class="w-4 h-4" />
             </span>
