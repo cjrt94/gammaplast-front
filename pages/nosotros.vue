@@ -17,14 +17,15 @@ useJsonLd(breadcrumbLd([
   { name: t('nav.about'), path: localePath('/nosotros') }
 ]))
 
-// Valores del catálogo (6) con sus símbolos (foco, bolsa, planeta, reciclaje, rollo, empaque).
+// Valores del catálogo (6) con los ÍCONOS OFICIALES del cliente (extraídos de su set
+// y recoloreados al verde de marca, fondo transparente → public/photos/valores/).
 const valores = [
-  { icon: 'bulb', name: 'Innovación y Desarrollo' },
-  { icon: 'bag', name: 'Compromiso con el Cliente' },
-  { icon: 'globe', name: 'Responsabilidad Ambiental' },
-  { icon: 'recycle', name: 'Sostenibilidad' },
-  { icon: 'roll', name: 'Altos Estándares de Calidad' },
-  { icon: 'package', name: 'Eficiencia en Empaques' }
+  { img: '/photos/valores/innovacion.png', name: 'Innovación y Desarrollo' },
+  { img: '/photos/valores/compromiso.png', name: 'Compromiso con el Cliente' },
+  { img: '/photos/valores/ambiental.png', name: 'Responsabilidad Ambiental' },
+  { img: '/photos/valores/sostenibilidad.png', name: 'Sostenibilidad' },
+  { img: '/photos/valores/calidad.png', name: 'Altos Estándares de Calidad' },
+  { img: '/photos/valores/eficiencia.png', name: 'Eficiencia en Empaques' }
 ]
 const procesos = [
   { n: '01', title: 'Extrusión por soplado', img: '/photos/proceso-extrusion.jpg', desc: 'Proceso de fabricación que permite producir películas plásticas flexibles a partir de resinas como PEBD, PEAD, PLA y materiales reciclados. Genera materiales resistentes que sirven como base para distintos tipos de empaques flexibles.' },
@@ -95,7 +96,7 @@ const certs = [
           </div>
           <ul class="grid sm:grid-cols-2 gap-x-10 gap-y-7">
             <li v-for="v in valores" :key="v.name" class="reveal flex items-center gap-4">
-              <span class="ico-tile shrink-0"><BaseIcon :name="v.icon" class="w-6 h-6" /></span>
+              <span class="ico-tile shrink-0"><img :src="v.img" alt="" aria-hidden="true" width="256" height="256" class="w-7 h-7 object-contain" /></span>
               <span class="block font-display font-bold text-ink text-[1.12rem]">{{ v.name }}</span>
             </li>
           </ul>

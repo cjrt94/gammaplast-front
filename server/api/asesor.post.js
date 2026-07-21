@@ -36,7 +36,7 @@ export default defineEventHandler(async (event) => {
         ['RUC / Identificación', d.ruc],
         ['Correo', d.correo],
         ['Teléfono', d.telefono],
-        ['Ubicación', `${d.distrito}, ${d.ciudad}, ${d.pais}`]
+        ['Ubicación', `${d.departamento}, ${d.provincia}, ${d.distrito}`]
       ],
       message: d.mensaje
     })

@@ -21,11 +21,11 @@ useJsonLd(breadcrumbLd([
 // Lead calificado: TODOS los campos obligatorios (+ RUC/Identificación y Ubicación).
 const form = reactive({
   nombre: '', apellido: '', empresa: '', ruc: '', correo: '', telefono: '',
-  pais: '', ciudad: '', distrito: '', mensaje: ''
+  departamento: '', provincia: '', distrito: '', mensaje: ''
 })
 const errors = reactive({
   nombre: '', apellido: '', empresa: '', ruc: '', correo: '', telefono: '',
-  pais: '', ciudad: '', distrito: '', mensaje: ''
+  departamento: '', provincia: '', distrito: '', mensaje: ''
 })
 const status = ref('idle') // 'idle' | 'loading' | 'sent' | 'error'
 const submitError = ref('')
@@ -148,23 +148,23 @@ async function submit () {
               </div>
             </div>
 
-            <fieldset class="grid sm:grid-cols-3 gap-5 border-0 p-0 m-0">
-              <legend class="field-label mb-0 p-0 float-left w-full">Ubicación <span class="text-green-700" aria-hidden="true">*</span></legend>
+            <fieldset class="grid grid-cols-3 gap-3 border-0 p-0 m-0">
+              <legend class="field-label mb-0 p-0 col-span-3">Ubicación <span class="text-green-700" aria-hidden="true">*</span></legend>
               <div>
-                <label class="sr-only" for="a-pais">País</label>
-                <input id="a-pais" v-model="form.pais" class="field-input" :class="{ '!border-red-600': errors.pais }"
-                  placeholder="País" required maxlength="56" autocomplete="country-name"
-                  :aria-invalid="errors.pais ? 'true' : 'false'" :aria-describedby="errors.pais ? 'a-pais-error' : undefined"
-                  @input="clearError('pais')">
-                <p v-if="errors.pais" id="a-pais-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.pais }}</p>
+                <label class="sr-only" for="a-departamento">Departamento</label>
+                <input id="a-departamento" v-model="form.departamento" class="field-input" :class="{ '!border-red-600': errors.departamento }"
+                  placeholder="Departamento" required maxlength="56" autocomplete="address-level1"
+                  :aria-invalid="errors.departamento ? 'true' : 'false'" :aria-describedby="errors.departamento ? 'a-departamento-error' : undefined"
+                  @input="clearError('departamento')">
+                <p v-if="errors.departamento" id="a-departamento-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.departamento }}</p>
               </div>
               <div>
-                <label class="sr-only" for="a-ciudad">Ciudad</label>
-                <input id="a-ciudad" v-model="form.ciudad" class="field-input" :class="{ '!border-red-600': errors.ciudad }"
-                  placeholder="Ciudad" required maxlength="56" autocomplete="address-level2"
-                  :aria-invalid="errors.ciudad ? 'true' : 'false'" :aria-describedby="errors.ciudad ? 'a-ciudad-error' : undefined"
-                  @input="clearError('ciudad')">
-                <p v-if="errors.ciudad" id="a-ciudad-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.ciudad }}</p>
+                <label class="sr-only" for="a-provincia">Provincia</label>
+                <input id="a-provincia" v-model="form.provincia" class="field-input" :class="{ '!border-red-600': errors.provincia }"
+                  placeholder="Provincia" required maxlength="56" autocomplete="address-level2"
+                  :aria-invalid="errors.provincia ? 'true' : 'false'" :aria-describedby="errors.provincia ? 'a-provincia-error' : undefined"
+                  @input="clearError('provincia')">
+                <p v-if="errors.provincia" id="a-provincia-error" role="alert" class="mt-1.5 mb-0 text-[.85rem] text-red-700 font-semibold">{{ errors.provincia }}</p>
               </div>
               <div>
                 <label class="sr-only" for="a-distrito">Distrito</label>

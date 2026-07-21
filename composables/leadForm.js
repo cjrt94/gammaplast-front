@@ -37,8 +37,8 @@ export const advisorSchema = z.object({
   ruc: z.string().trim().min(1, 'Ingresa tu RUC o identificación.').max(20, 'Máximo 20 caracteres.'),
   correo,
   telefono: z.string().trim().min(1, 'Ingresa tu teléfono.').max(20, 'Máximo 20 caracteres.'),
-  pais: z.string().trim().min(1, 'Ingresa tu país.').max(56, 'Máximo 56 caracteres.'),
-  ciudad: z.string().trim().min(1, 'Ingresa tu ciudad.').max(56, 'Máximo 56 caracteres.'),
+  departamento: z.string().trim().min(1, 'Ingresa tu departamento.').max(56, 'Máximo 56 caracteres.'),
+  provincia: z.string().trim().min(1, 'Ingresa tu provincia.').max(56, 'Máximo 56 caracteres.'),
   distrito: z.string().trim().min(1, 'Ingresa tu distrito.').max(56, 'Máximo 56 caracteres.'),
   mensaje: z.string().trim().min(1, 'Cuéntanos brevemente qué necesitas.').max(1500, 'Máximo 1500 caracteres.')
 })
