@@ -63,8 +63,6 @@ useJsonLd({
         </div>
       </div>
 
-      <!-- Franja de marca al pie del hero (como en la referencia del cliente). -->
-      <div class="absolute inset-x-0 bottom-0 h-2.5 bg-green"></div>
     </section>
 
     <!-- Certificaciones (logos del catálogo) -->
