@@ -1,9 +1,15 @@
 <script setup>
 const { t } = useI18n()
+const route = useRoute()
+const localePath = useLocalePath()
+
+// En Home el header va transparente sobre el hero de video: la barra superior se oculta
+// para que el hero arranque a sangre desde el borde de la ventana (como en la referencia).
+const isHome = computed(() => route.path === localePath('/'))
 </script>
 
 <template>
-  <div class="bg-footer text-footer-soft text-[.82rem]">
+  <div v-if="!isHome" class="bg-footer text-footer-soft text-[.82rem]">
     <div class="wrap flex flex-wrap items-center justify-between gap-4 min-h-[40px] py-2">
       <div class="hidden sm:flex items-center gap-2">
         <span class="w-[7px] h-[7px] rounded-full bg-green inline-block" />

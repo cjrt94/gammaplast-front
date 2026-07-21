@@ -110,8 +110,8 @@ Preparación: mapear los ~38 PNG del banco Gemini → producto/proceso/sector (n
 - [x] Home: **tira de logos de certificaciones** (`certificados.jpg`, recortada del catálogo p5 con pdftoppm — el PNG del banco Gemini traía un damero horneado + marca de agua, descartado). *(Ideal a futuro: SVG oficiales individuales.)*
 - [x] Nosotros: **íconos de valores** (recreados como SVG en BaseIcon: bulb/bag/globe/recycle/roll/package). *(Aproximación; fidelidad fina = Rowena.)*
 - [x] Productos: iconos de sector para chips/tarjetas (shirt/package/spray añadidos).
-- [ ] Home hero: soportar **video** de fondo (póster = composición actual como fallback). ⏳ *pendiente video*
-- [ ] Home: **banda de logos de clientes** — estructura + placeholder. ⏳ *pendiente logos*
+- [x] Home hero: **video de fondo a sangre** (2026-07-21) — hero rediseñado full-bleed con `<video>` mudo/loop + póster (`public/videos/hero.mp4`, procesado del `.mov` del cliente); header transparente sobre el hero en Home + barra superior oculta en Home. Verificado desktop/móvil.
+- [ ] Home: **banda de logos de clientes** — estructura + placeholder. ⏳ *pendiente logos* (el cliente aún no entregó los logotipos)
 
 ---
 

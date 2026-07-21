@@ -70,6 +70,9 @@
   .btn-green:hover { @apply bg-green-800 -translate-y-px; }
   .btn-ghost { @apply bg-transparent text-ink border-line; }
   .btn-ghost:hover { @apply text-green-700 border-green; }
+  /* Variante para fondos oscuros (hero con video). */
+  .btn-ghost-light { @apply bg-transparent text-white border-white/45; }
+  .btn-ghost-light:hover { @apply bg-white/10 border-white/80 -translate-y-px; }
 
   /* Pills */
   .pill { @apply inline-flex items-center gap-2 rounded-pill font-display font-bold; padding: .5em 1.05em; font-size: .82rem; }

@@ -1,8 +1,14 @@
 <script setup>
 const { t, locale } = useI18n()
+const route = useRoute()
 const localePath = useLocalePath()
 const switchLocalePath = useSwitchLocalePath()
 const open = ref(false)
+
+// El Home lleva un hero full-bleed con video: el header se dibuja transparente
+// encima (logo/nav en blanco) mientras estamos arriba del todo. Al hacer scroll
+// —o al abrir el menú móvil— pasa a sólido para mantener legibilidad.
+const isHome = computed(() => route.path === localePath('/'))
 
 const links = computed(() => [
   { to: localePath('/'), label: t('nav.home') },
@@ -20,35 +26,40 @@ const scrolled = ref(false)
 function onScroll () { scrolled.value = window.scrollY > 8 }
 onMounted(() => { onScroll(); window.addEventListener('scroll', onScroll, { passive: true }) })
 onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
+
+// Modo overlay (transparente sobre el hero): solo en Home, arriba del todo y con el menú cerrado.
+const overlay = computed(() => isHome.value && !scrolled.value && !open.value)
 </script>
 
 <template>
-  <header class="sticky top-0 z-50 bg-paper/90 backdrop-blur-md border-b transition-colors duration-base"
-    :class="scrolled ? 'border-line' : 'border-transparent'">
+  <header class="sticky top-0 z-50 border-b transition-colors duration-base"
+    :class="overlay ? 'bg-transparent border-transparent' : `bg-paper/90 backdrop-blur-md ${scrolled ? 'border-line' : 'border-transparent'}`">
     <div class="wrap flex items-center gap-7 transition-[min-height] duration-base"
       :class="scrolled ? 'min-h-[58px]' : 'min-h-[72px]'">
       <NuxtLink :to="localePath('/')" class="shrink-0" aria-label="Gamma Plast — inicio">
-        <img src="/logo-h.png" alt="Gamma Plast" width="1650" height="560" class="h-10 w-auto" >
+        <img :src="overlay ? '/logo-white-h.png' : '/logo-h.png'" alt="Gamma Plast" width="1650" height="560" class="h-10 w-auto" >
       </NuxtLink>
 
       <nav class="hidden lg:flex gap-8 ml-auto">
         <NuxtLink v-for="l in links" :key="l.to" :to="l.to"
-          class="font-display font-semibold text-[.95rem] text-ink py-1.5 relative
-                 after:absolute after:left-0 after:right-full after:-bottom-0.5 after:h-0.5 after:bg-green
+          class="font-display font-semibold text-[.95rem] py-1.5 relative transition-colors
+                 after:absolute after:left-0 after:right-full after:-bottom-0.5 after:h-0.5
                  after:transition-all hover:after:right-0"
+          :class="overlay ? 'text-white after:bg-white' : 'text-ink after:bg-green'"
           active-class="after:right-0">{{ l.label }}</NuxtLink>
       </nav>
 
       <div class="hidden lg:flex items-center gap-4 ml-auto lg:ml-0">
         <NuxtLink :to="switchLocalePath(otherLocale)" :aria-label="switchLangLabel"
-          class="inline-flex items-center min-h-[44px] px-2 font-display font-bold text-[.82rem] text-slate hover:text-green-700 uppercase tracking-wide">
+          class="inline-flex items-center min-h-[44px] px-2 font-display font-bold text-[.82rem] uppercase tracking-wide transition-colors"
+          :class="overlay ? 'text-white/90 hover:text-white' : 'text-slate hover:text-green-700'">
           {{ otherLocale }}
         </NuxtLink>
         <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
       </div>
 
-      <button class="lg:hidden ml-auto p-2 text-ink" :aria-expanded="open"
-        aria-label="Menú" @click="open = !open">
+      <button class="lg:hidden ml-auto p-2 transition-colors" :class="overlay ? 'text-white' : 'text-ink'"
+        :aria-expanded="open" aria-label="Menú" @click="open = !open">
         <BaseIcon :name="open ? 'close' : 'menu'" class="w-6 h-6" />
       </button>
     </div>

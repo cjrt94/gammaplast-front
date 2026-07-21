@@ -37,38 +37,34 @@ useJsonLd({
 
 <template>
   <div>
-    <!-- HERO -->
-    <section class="relative overflow-hidden bg-paper bg-[radial-gradient(120%_120%_at_88%_8%,theme(colors.green.tint2)_0%,transparent_46%)]">
-      <div class="wrap grid md:grid-cols-[1.05fr_.95fr] gap-10 items-center py-[74px] max-md:py-[52px]">
-        <div class="reveal">
-          <span class="eyebrow block mb-4">{{ t('home.hero.eyebrow') }}</span>
-          <h1 class="text-[clamp(2.5rem,5.4vw,4rem)] mb-5">
-            {{ t('home.hero.title') }} <span class="text-green-700">{{ t('home.hero.titleAccent') }}</span>
-          </h1>
-          <p class="text-[1.2rem] max-w-[33ch] mb-7 text-body">{{ t('home.hero.lead') }}</p>
-          <div class="flex flex-wrap gap-3.5 mb-8">
-            <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
-            <NuxtLink :to="localePath('/productos')" class="btn btn-ghost">{{ t('cta.seeProducts') }}</NuxtLink>
-          </div>
-          <div class="flex flex-wrap gap-2.5">
-            <span class="chip"><BaseIcon name="check" />{{ t('home.hero.chipFda') }}</span>
-            <span class="chip"><BaseIcon name="recycle" />{{ t('home.hero.chipRecycle') }}</span>
-            <span class="chip"><BaseIcon name="bars" />{{ t('home.hero.chipPrint') }}</span>
-          </div>
-        </div>
+    <!-- HERO — full-bleed con video de fondo (póster de fallback). El header se dibuja
+         transparente por encima en Home (ver AppHeader); el -mt lo mete bajo el header. -->
+    <section class="relative isolate -mt-[72px] overflow-hidden bg-ink">
+      <!-- Fondo: video mudo en loop; póster mientras carga o si el navegador no autoreproduce. -->
+      <video
+        class="absolute inset-0 -z-20 h-full w-full object-cover"
+        autoplay muted loop playsinline aria-hidden="true"
+        poster="/videos/hero-poster.jpg">
+        <source src="/videos/hero.mp4" type="video/mp4">
+      </video>
+      <!-- Velo para contraste AA del texto blanco (más denso a la izquierda, donde va el copy). -->
+      <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/85 via-black/60 to-black/25"></div>
 
-        <!-- Sin .reveal: contiene la imagen LCP (doypack, fetchpriority=high); no debe arrancar oculta. -->
-        <div class="relative min-h-[440px] max-md:min-h-[360px] grid place-items-center">
-          <img src="/isotipo.png" alt="" aria-hidden="true" width="5000" height="5000" loading="lazy"
-            class="absolute w-[118%] max-w-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 pointer-events-none z-0">
-          <img src="/products/pouch-valvula.png" alt="Pouch con válvula Gamma Plast" width="385" height="640" loading="lazy"
-            class="absolute w-[34%] right-0 top-[4%] z-[2]">
-          <img src="/products/tote.png" alt="Bolsa con asas Gamma Plast" width="508" height="640" loading="lazy"
-            class="absolute w-[40%] left-[-2%] bottom-[2%] z-[2]">
-          <img src="/products/doypack.png" alt="Doypack Gamma Plast" width="391" height="640" fetchpriority="high"
-            class="relative w-[60%] z-[3]">
+      <div class="wrap min-h-[92vh] flex flex-col justify-center py-[clamp(96px,17vh,160px)]">
+        <div class="max-w-[620px] text-white">
+          <h1 class="text-white text-[clamp(2rem,6.4vw,4.2rem)] mb-5">
+            {{ t('home.hero.title') }} <span class="text-green">{{ t('home.hero.titleAccent') }}</span>
+          </h1>
+          <p class="text-[1.2rem] max-w-[44ch] mb-8 text-white/85">{{ t('home.hero.lead') }}</p>
+          <div class="flex flex-wrap gap-3.5">
+            <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
+            <NuxtLink :to="localePath('/productos')" class="btn btn-ghost-light">{{ t('cta.seeProducts') }}</NuxtLink>
+          </div>
         </div>
       </div>
+
+      <!-- Franja de marca al pie del hero (como en la referencia del cliente). -->
+      <div class="absolute inset-x-0 bottom-0 h-2.5 bg-green"></div>
     </section>
 
     <!-- Certificaciones (logos del catálogo) -->
