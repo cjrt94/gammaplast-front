@@ -3,6 +3,18 @@
 let _fs
 const fs = () => (_fs ||= import('firebase/firestore'))
 
+// Invalida el cache de /api/content/* tras escribir, para que la web pública muestre el cambio
+// al instante. Fire-and-forget: si falla, el cache expira solo en 5 min (degradación suave).
+async function revalidateContent () {
+  try {
+    const { $fbAuth } = useNuxtApp()
+    const token = await $fbAuth?.currentUser?.getIdToken()
+    if (token) await $fetch('/api/admin/revalidate', { method: 'POST', headers: { authorization: `Bearer ${token}` } })
+  } catch (e) {
+    console.warn('[admin] no se pudo invalidar el cache:', e?.message || e)
+  }
+}
+
 export const useFirestoreCrud = (colName) => {
   const { $fbDb } = useNuxtApp()
 
@@ -27,11 +39,13 @@ export const useFirestoreCrud = (colName) => {
     const payload = { ...data, updatedAt: serverTimestamp() }
     if (isNew) payload.createdAt = serverTimestamp()
     await setDoc(doc($fbDb, colName, id), payload, { merge: true })
+    await revalidateContent()
   }
 
   const remove = async (id) => {
     const { doc, deleteDoc } = await fs()
     await deleteDoc(doc($fbDb, colName, id))
+    await revalidateContent()
   }
 
   const exists = async (id) => {
