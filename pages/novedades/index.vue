@@ -1,8 +1,12 @@
 <script setup>
-import { novedades, formatDate } from '~/data/novedades.js'
+import { formatDate } from '~/data/novedades.js'
 const localePath = useLocalePath()
 const { t } = useI18n()
 const site = 'https://gammaplast.com.pe'
+
+// Novedades desde el CMS (Firestore vía /api/content/novedades). await → SSR espera los datos
+// antes de renderizar el JSON-LD ItemList.
+const { data: novedades } = await useFetch('/api/content/novedades', { default: () => [] })
 
 useSeo({ title: t('seo.news.title'), description: t('seo.news.description') })
 useJsonLd({
@@ -14,8 +18,8 @@ useJsonLd({
   isPartOf: { '@id': site + '/#website' },
   mainEntity: {
     '@type': 'ItemList',
-    numberOfItems: novedades.length,
-    itemListElement: novedades.map((n, i) => ({
+    numberOfItems: novedades.value.length,
+    itemListElement: novedades.value.map((n, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       url: site + localePath('/novedades/' + n.slug),

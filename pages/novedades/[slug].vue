@@ -1,13 +1,15 @@
 <script setup>
-import { novedades, formatDate } from '~/data/novedades.js'
+import { formatDate } from '~/data/novedades.js'
 const route = useRoute()
 const localePath = useLocalePath()
 
-const article = computed(() => novedades.find((n) => n.slug === route.params.slug))
+// Nota + lista de novedades desde el CMS (Firestore). La ruta [slug] devuelve 404 si no existe.
+const { data: article } = await useFetch(`/api/content/novedades/${route.params.slug}`)
 if (!article.value) {
   throw createError({ statusCode: 404, statusMessage: 'Nota no encontrada', fatal: true })
 }
-const otras = computed(() => novedades.filter((n) => n.slug !== route.params.slug).slice(0, 2))
+const { data: lista } = await useFetch('/api/content/novedades', { default: () => [] })
+const otras = computed(() => lista.value.filter((n) => n.slug !== route.params.slug).slice(0, 2))
 const { t } = useI18n()
 const site = 'https://gammaplast.com.pe'
 

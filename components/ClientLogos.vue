@@ -1,24 +1,11 @@
 <script setup>
 // Carousel infinito de logos de clientes (marquee CSS, sin JS).
-// NOTA: logos PLACEHOLDER de marcas reconocidas de la industria de alimentos
-// (public/logos/clientes/) — reemplazar por los clientes reales de Gamma Plast.
-const logos = [
-  { src: '/logos/clientes/nestle.svg', alt: 'Nestlé' },
-  { src: '/logos/clientes/pepsico.svg', alt: 'PepsiCo' },
-  { src: '/logos/clientes/cocacola.svg', alt: 'Coca-Cola' },
-  { src: '/logos/clientes/danone.png', alt: 'Danone' },
-  { src: '/logos/clientes/mondelez.svg', alt: 'Mondelēz International' },
-  { src: '/logos/clientes/kraftheinz.svg', alt: 'Kraft Heinz' },
-  { src: '/logos/clientes/unilever.svg', alt: 'Unilever' },
-  { src: '/logos/clientes/generalmills.svg', alt: 'General Mills' },
-  { src: '/logos/clientes/mars.svg', alt: 'Mars' },
-  { src: '/logos/clientes/kelloggs.svg', alt: "Kellogg's" },
-  { src: '/logos/clientes/bimbo.svg', alt: 'Grupo Bimbo' },
-  { src: '/logos/clientes/alicorp.svg', alt: 'Alicorp' },
-  { src: '/logos/clientes/gloria.png', alt: 'Gloria' }
-]
+// Los logos vienen del CMS (Firestore vía /api/content/clientLogos). Gestionables desde /admin.
+// NOTA: hoy son PLACEHOLDER de marcas reconocidas de alimentos — reemplazar por los reales.
+const { data: logos } = await useFetch('/api/content/clientLogos', { default: () => [] })
+const half = computed(() => logos.value.length)
 // Duplicamos la lista para que el desplazamiento de -50% cierre sin salto.
-const track = [...logos, ...logos]
+const track = computed(() => [...logos.value, ...logos.value])
 </script>
 
 <template>
@@ -28,7 +15,7 @@ const track = [...logos, ...logos]
     <div class="marquee">
       <ul class="marquee-track" aria-hidden="false">
         <li v-for="(l, i) in track" :key="i" class="shrink-0">
-          <img :src="l.src" :alt="i < logos.length ? l.alt : ''" :aria-hidden="i >= logos.length ? 'true' : undefined"
+          <img :src="l.src" :alt="i < half ? l.alt : ''" :aria-hidden="i >= half ? 'true' : undefined"
             loading="lazy" class="h-8 md:h-9 w-auto object-contain" />
         </li>
       </ul>
