@@ -159,13 +159,22 @@ const home = {
     title: 'Transformando ideas,',
     titleAccent: 'cuidamos tu marca',
     lead: 'Diseñamos, desarrollamos y fabricamos empaques flexibles de PE y PP que protegen, conservan y realzan el valor de tu producto.',
-    chips: ['Grado alimentario FDA', 'Reciclable y compostable', 'Impresión full color']
+    chips: ['Grado alimentario FDA', 'Reciclable y compostable', 'Impresión full color'],
+    video: '/videos/hero.mp4',
+    poster: '/videos/hero-poster.jpg'
   },
   certStrip: { note: 'Nuestros empaques cuentan con certificaciones y cumplen la normativa FDA para contacto con alimentos.' },
   plant: {
     eyebrow: 'Nuestra planta',
     title: 'Producción integrada en nuestra planta',
-    intro: 'Extrusión, impresión, corte y sellado en nuestra planta en Lima, con control de calidad en cada etapa.'
+    intro: 'Extrusión, impresión, corte y sellado en nuestra planta en Lima, con control de calidad en cada etapa.',
+    images: [
+      { src: '/photos/home-planta-band.jpg', alt: 'Interior de la planta de producción de empaques flexibles', span: 'big' },
+      { src: '/photos/galeria-impresion.jpg', alt: 'Prensa flexográfica imprimiendo empaque a color', span: '' },
+      { src: '/photos/galeria-rollos.jpg', alt: 'Nave de producción con rollos de material', span: '' },
+      { src: '/photos/galeria-shrinkfilm.jpg', alt: 'Máquina de shrink film con rollo de película', span: '' },
+      { src: '/photos/galeria-linea.jpg', alt: 'Línea de producción en planta', span: '' }
+    ]
   },
   process: {
     eyebrow: 'Nuestros procesos productivos',

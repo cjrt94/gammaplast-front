@@ -9,9 +9,12 @@ const form = ref(null)
 onMounted(async () => {
   const d = await load()
   form.value = d || {}
-  form.value.hero ||= { title: '', titleAccent: '', lead: '', eyebrow: '', chips: [] }
+  form.value.hero ||= { title: '', titleAccent: '', lead: '', eyebrow: '', chips: [], video: '', poster: '' }
   form.value.certStrip ||= { note: '' }
-  form.value.plant ||= { eyebrow: '', title: '', intro: '' }
+  form.value.plant ||= { eyebrow: '', title: '', intro: '', images: [] }
+  form.value.hero.video ??= ''
+  form.value.hero.poster ??= ''
+  form.value.plant.images ??= []
   form.value.process ||= { eyebrow: '', title: '', intro: '', steps: [] }
   form.value.products ||= { eyebrow: '', title: '', intro: '' }
 })
@@ -31,6 +34,8 @@ const onSave = () => run(() => save(form.value))
         </div>
         <div><label class="field-label">Bajada</label><textarea v-model="form.hero.lead" rows="2" class="field-input"></textarea></div>
         <div><label class="field-label">Chips</label><AdminStringList v-model="form.hero.chips" placeholder="Grado alimentario FDA" add-label="Agregar chip" /></div>
+        <AdminImageUploader v-model="form.hero.video" folder="videos" label="Video de fondo (mp4/webm)" accept="video/*" />
+        <AdminImageUploader v-model="form.hero.poster" folder="videos" label="Póster del video (imagen de respaldo)" />
       </div>
 
       <div class="card p-5 space-y-3">
@@ -43,6 +48,13 @@ const onSave = () => run(() => save(form.value))
         <div><label class="field-label">Eyebrow</label><input v-model="form.plant.eyebrow" class="field-input"></div>
         <div><label class="field-label">Título</label><input v-model="form.plant.title" class="field-input"></div>
         <div><label class="field-label">Intro</label><textarea v-model="form.plant.intro" rows="2" class="field-input"></textarea></div>
+        <label class="field-label">Galería de fotos (la 1ª va grande)</label>
+        <AdminRepeatableList v-model="form.plant.images" :new-item="() => ({ src: '', alt: '', span: '' })" add-label="Agregar foto">
+          <template #default="{ item }">
+            <input v-model="item.alt" class="field-input mb-2" placeholder="Texto alternativo">
+            <AdminImageUploader v-model="item.src" folder="planta" label="Foto" />
+          </template>
+        </AdminRepeatableList>
       </div>
 
       <div class="card p-5 space-y-4">

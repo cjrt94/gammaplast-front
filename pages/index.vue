@@ -37,8 +37,8 @@ useJsonLd({
       <video
         class="absolute inset-0 -z-20 h-full w-full object-cover"
         autoplay muted loop playsinline aria-hidden="true"
-        poster="/videos/hero-poster.jpg">
-        <source src="/videos/hero.mp4" type="video/mp4">
+        :poster="home.hero?.poster || '/videos/hero-poster.jpg'">
+        <source :src="home.hero?.video || '/videos/hero.mp4'" type="video/mp4">
       </video>
       <!-- Velo para contraste AA del texto blanco (más denso a la izquierda, donde va el copy). -->
       <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/85 via-black/60 to-black/25"></div>
@@ -106,11 +106,9 @@ useJsonLd({
           <NuxtLink :to="localePath('/nosotros')" class="btn btn-ghost reveal shrink-0">Conócenos</NuxtLink>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3 auto-rows-[150px] md:auto-rows-[190px]">
-          <GalleryFigure class="col-span-2 row-span-2" src="/photos/home-planta-band.jpg" alt="Interior de la planta de producción de empaques flexibles" width="1200" height="800" />
-          <GalleryFigure src="/photos/galeria-impresion.jpg" alt="Prensa flexográfica imprimiendo empaque a color" width="1100" height="730" />
-          <GalleryFigure src="/photos/galeria-rollos.jpg" alt="Nave de producción con rollos de material" width="800" height="1100" />
-          <GalleryFigure src="/photos/galeria-shrinkfilm.jpg" alt="Máquina de shrink film con rollo de película" width="1100" height="730" />
-          <GalleryFigure src="/photos/galeria-linea.jpg" alt="Línea de producción en planta" width="1100" height="730" />
+          <GalleryFigure v-for="(img, i) in (home.plant?.images || [])" :key="i"
+            :class="img.span === 'big' ? 'col-span-2 row-span-2' : ''"
+            :src="img.src" :alt="img.alt" width="1200" height="800" />
         </div>
       </div>
     </section>

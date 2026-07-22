@@ -5,12 +5,14 @@
 const props = defineProps({
   modelValue: { type: String, default: '' },
   folder: { type: String, default: 'misc' },
-  label: { type: String, default: 'Imagen' }
+  label: { type: String, default: 'Imagen' },
+  accept: { type: String, default: 'image/*' }
 })
 const emit = defineEmits(['update:modelValue'])
 
 const uploading = ref(false)
 const error = ref('')
+const isVideo = computed(() => /\.(mp4|webm|mov|ogg)(\?|$)/i.test(props.modelValue || ''))
 
 const onFile = async (e) => {
   const file = e.target.files?.[0]
@@ -40,11 +42,12 @@ const onFile = async (e) => {
     <label class="field-label">{{ label }}</label>
     <div class="flex items-start gap-4">
       <div class="w-24 h-24 shrink-0 rounded border border-line bg-mist grid place-items-center overflow-hidden">
-        <img v-if="modelValue" :src="modelValue" alt="" class="w-full h-full object-contain">
-        <span v-else class="text-slate text-xs">sin imagen</span>
+        <video v-if="modelValue && isVideo" :src="modelValue" class="w-full h-full object-cover" muted />
+        <img v-else-if="modelValue" :src="modelValue" alt="" class="w-full h-full object-contain">
+        <span v-else class="text-slate text-xs">sin archivo</span>
       </div>
       <div class="flex-1 space-y-2">
-        <input type="file" accept="image/*" class="block text-sm text-slate file:mr-3 file:py-2 file:px-3 file:rounded file:border-0 file:bg-green-tint file:text-green-700 file:font-semibold file:cursor-pointer" @change="onFile">
+        <input type="file" :accept="accept" class="block text-sm text-slate file:mr-3 file:py-2 file:px-3 file:rounded file:border-0 file:bg-green-tint file:text-green-700 file:font-semibold file:cursor-pointer" @change="onFile">
         <p v-if="uploading" class="text-[.82rem] text-green-700">Subiendo…</p>
         <p v-if="error" class="text-[.82rem] text-red-600">{{ error }}</p>
         <!-- Ruta editable (para pegar/ajustar manualmente o mantener la actual). -->
