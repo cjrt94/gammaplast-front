@@ -16,6 +16,17 @@ export default defineEventHandler(async (event) => {
   }
   const d = parsed.data
 
+  // Persistimos el lead para la bandeja de /admin. Fuente durable, independiente del email
+  // (no queremos perder el lead si Resend falla). try/catch → nunca rompe el submit.
+  try {
+    await saveLead('contactMessages', {
+      nombre: d.nombre, apellido: d.apellido, telefono: d.telefono,
+      correo: d.correo, empresa: d.empresa, mensaje: d.mensaje, source: 'contacto'
+    })
+  } catch (e) {
+    console.error('[contacto] saveLead falló (se continúa con el email):', e?.message || e)
+  }
+
   const { resendApiKey, mailFrom, contactTo } = useRuntimeConfig(event)
   if (!resendApiKey) {
     console.error('[contacto] RESEND_API_KEY no configurada')

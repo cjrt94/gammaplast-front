@@ -16,6 +16,18 @@ export default defineEventHandler(async (event) => {
   }
   const d = parsed.data
 
+  // Persistimos el lead calificado para la bandeja de /admin. Durable e independiente del email.
+  try {
+    await saveLead('advisorRequests', {
+      nombre: d.nombre, apellido: d.apellido, empresa: d.empresa, ruc: d.ruc,
+      correo: d.correo, telefono: d.telefono,
+      departamento: d.departamento, provincia: d.provincia, distrito: d.distrito,
+      mensaje: d.mensaje
+    })
+  } catch (e) {
+    console.error('[asesor] saveLead falló (se continúa con el email):', e?.message || e)
+  }
+
   const { resendApiKey, mailFrom, contactTo } = useRuntimeConfig(event)
   if (!resendApiKey) {
     console.error('[asesor] RESEND_API_KEY no configurada')
