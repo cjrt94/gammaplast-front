@@ -65,6 +65,9 @@ useJsonLd({
 
     </section>
 
+    <!-- Carousel infinito de logos de clientes (placeholder). Va debajo del hero. -->
+    <ClientLogos />
+
     <!-- Certificaciones (logos del catálogo) -->
     <section class="border-y border-line bg-paper">
       <div class="wrap py-9 flex flex-col items-center gap-4 text-center">
