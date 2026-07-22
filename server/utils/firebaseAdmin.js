@@ -7,9 +7,11 @@
 import { initializeApp, getApps, cert } from 'firebase-admin/app'
 import { getFirestore } from 'firebase-admin/firestore'
 import { getStorage } from 'firebase-admin/storage'
+import { getAuth } from 'firebase-admin/auth'
 
 let _db = null
 let _bucket = null
+let _auth = null
 
 function ensureApp () {
   if (getApps().length) return
@@ -29,4 +31,9 @@ export function adminDb () {
 export function adminBucket () {
   ensureApp()
   return (_bucket ||= getStorage().bucket())
+}
+
+export function adminAuth () {
+  ensureApp()
+  return (_auth ||= getAuth())
 }

@@ -65,5 +65,8 @@ const onLogout = async () => { await logout(); navigateTo(localePath('/admin/log
         <slot />
       </main>
     </div>
+
+    <!-- Confirmación global (sin confirm() nativo). -->
+    <AdminConfirmDialog />
   </div>
 </template>
