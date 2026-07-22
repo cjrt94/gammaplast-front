@@ -6,6 +6,7 @@ Formato: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) + [Semantic Ve
 
 ## [Unreleased]
 
+- fix: **chip de filtro de "Limpieza" muestra el nombre completo** en Productos — el sector `limpieza-y-cuidado-personal` usaba el `short` "Limpieza"; ahora el chip lee **"Limpieza y cuidado personal"** como pidió el cliente
 - chore: **quitar la sección "Nuestra planta" bajo el hero de Nosotros** a pedido del cliente — se elimina el bloque "Producción integrada en nuestra planta" (galería duplicada del Home); la página va del hero directo a Valores. La galería de planta al pie ("Detrás de cada empaque") se mantiene
 - feat: **íconos oficiales del cliente en "Nuestros valores"** (Nosotros) — se reemplazan los SVG aproximados de `BaseIcon` por los **6 íconos del set oficial** que envió el cliente (foco/órbita, bolsa, planeta+hojas, reciclaje, rollo, empaque), extraídos de su lámina y recoloreados al verde de marca con fondo transparente (`public/photos/valores/*.png`). Verificado en navegador
 - fix: **ubicación de "Contacta un asesor" en una sola línea + estructura peruana** — los 3 campos de ubicación pasan a **Departamento · Provincia · Distrito** en una sola fila (`grid-cols-3` siempre, `legend` en su propia línea); antes eran País/Ciudad/Distrito y se apilaban/desalineaban. Renombre de claves consistente en el form, en `advisorSchema` (Zod) y en el correo del endpoint `/api/asesor`. Verificado (build + 422 + render desktop/móvil)

@@ -18,7 +18,7 @@ export const useCatalog = () => {
     { slug: 'envios-seguros-y-valores', label: 'Envíos seguros y valores', short: 'Envíos', icon: 'package',
       banner: '/photos/sector-envios.jpg',
       desc: 'Empaques de seguridad con precinto para e-commerce, courier y manejo de valores.' },
-    { slug: 'limpieza-y-cuidado-personal', label: 'Limpieza y cuidado personal', short: 'Limpieza', icon: 'spray',
+    { slug: 'limpieza-y-cuidado-personal', label: 'Limpieza y cuidado personal', short: 'Limpieza y cuidado personal', icon: 'spray',
       banner: '/photos/sector-limpieza.jpg',
       desc: 'Bolsas y empaques para higiene, limpieza y cuidado personal.' },
     { slug: 'retail-y-marketing', label: 'Retail y marketing', short: 'Retail', icon: 'retail',
