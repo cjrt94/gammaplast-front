@@ -87,7 +87,7 @@ useJsonLd({
             <span class="pill pill-tint self-start">{{ s.label }}</span>
             <h3 class="text-[1.16rem]">{{ s.title }}</h3>
             <p class="text-[.98rem] text-slate">{{ s.desc }}</p>
-            <img :src="stepImgs[i]" :alt="`Proceso: ${s.title}`" width="600" height="400" loading="lazy"
+            <img :src="s.img || stepImgs[i]" :alt="`Proceso: ${s.title}`" width="600" height="400" loading="lazy"
               class="mt-2 rounded-lg w-full h-72 object-cover">
           </article>
         </div>

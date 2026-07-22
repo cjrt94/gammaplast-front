@@ -51,11 +51,12 @@ const onSave = () => run(() => save(form.value))
         <div><label class="field-label">Título</label><input v-model="form.process.title" class="field-input"></div>
         <div><label class="field-label">Intro</label><textarea v-model="form.process.intro" rows="2" class="field-input"></textarea></div>
         <label class="field-label">Pasos</label>
-        <AdminRepeatableList v-model="form.process.steps" :new-item="() => ({ label: '', title: '', desc: '' })" add-label="Agregar paso">
+        <AdminRepeatableList v-model="form.process.steps" :new-item="() => ({ label: '', title: '', desc: '', img: '' })" add-label="Agregar paso">
           <template #default="{ item }">
             <input v-model="item.label" class="field-input mb-2" placeholder="Etiqueta">
             <input v-model="item.title" class="field-input mb-2" placeholder="Título">
-            <textarea v-model="item.desc" rows="2" class="field-input" placeholder="Descripción"></textarea>
+            <textarea v-model="item.desc" rows="2" class="field-input mb-2" placeholder="Descripción"></textarea>
+            <AdminImageUploader v-model="item.img" folder="procesos" label="Foto del proceso" />
           </template>
         </AdminRepeatableList>
       </div>

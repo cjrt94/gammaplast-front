@@ -172,10 +172,10 @@ const home = {
     title: 'Control total, de la resina al empaque terminado',
     intro: 'Integramos toda la cadena productiva bajo un mismo techo para garantizar calidad, trazabilidad y cumplimiento en cada entrega.',
     steps: [
-      { label: 'Extrusión blown film', title: 'Película a medida', desc: 'Convertimos la resina en película con el calibre y las propiedades mecánicas que cada producto necesita.' },
-      { label: 'Impresión flexográfica', title: 'Full color de alta definición', desc: 'Damos vida a tu marca sobre el empaque con impresión flexográfica precisa y colores fieles.' },
-      { label: 'Corte y rebobinado', title: 'Formato exacto', desc: 'Ajustamos ancho, largo y presentación en bobinas o láminas según tu línea de envasado.' },
-      { label: 'Sellado y acabado final', title: 'Empaque terminado', desc: 'Sellado, troquelado y acabados que definen el formato final, listo para tu producto.' }
+      { label: 'Extrusión blown film', title: 'Película a medida', desc: 'Convertimos la resina en película con el calibre y las propiedades mecánicas que cada producto necesita.', img: '/photos/proceso-extrusion.jpg' },
+      { label: 'Impresión flexográfica', title: 'Full color de alta definición', desc: 'Damos vida a tu marca sobre el empaque con impresión flexográfica precisa y colores fieles.', img: '/photos/proceso-impresion.jpg' },
+      { label: 'Corte y rebobinado', title: 'Formato exacto', desc: 'Ajustamos ancho, largo y presentación en bobinas o láminas según tu línea de envasado.', img: '/photos/proceso-corte.jpg' },
+      { label: 'Sellado y acabado final', title: 'Empaque terminado', desc: 'Sellado, troquelado y acabados que definen el formato final, listo para tu producto.', img: '/photos/proceso-sellado.jpg' }
     ]
   },
   products: {
