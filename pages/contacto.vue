@@ -2,14 +2,15 @@
 const { t } = useI18n()
 const localePath = useLocalePath()
 const site = 'https://gammaplast.com.pe'
+const { data: contact } = await useContact()
 
-useSeo({ title: t('seo.contact.title'), description: t('seo.contact.description') })
+const { title: seoTitle, description: seoDesc } = await usePageSeo('contact')
 useJsonLd({
   '@context': 'https://schema.org',
   '@type': 'ContactPage',
   url: site + localePath('/contacto'),
-  name: t('seo.contact.title'),
-  description: t('seo.contact.description'),
+  name: seoTitle,
+  description: seoDesc,
   isPartOf: { '@id': site + '/#website' },
   about: orgRef
 })
@@ -149,17 +150,17 @@ async function submit () {
             <div class="flex gap-3">
               <BaseIcon name="pin" class="w-5 h-5 text-green shrink-0 mt-1" />
               <div><div class="font-display font-bold text-ink mb-0.5">Dirección</div>
-                <p class="text-slate">Calle Luis Galvani 310, Urb. Santa Rosa, Ate — Lima, Perú</p></div>
+                <p class="text-slate">{{ contact.address?.full }}</p></div>
             </div>
             <div class="flex gap-3">
               <BaseIcon name="phone" class="w-5 h-5 text-green shrink-0 mt-1" />
               <div><div class="font-display font-bold text-ink mb-0.5">Teléfonos</div>
-                <p class="text-slate">+51 908 865 429<br>+51 908 858 154</p></div>
+                <p class="text-slate"><template v-for="(p, i) in contact.phones" :key="i">{{ p }}<br v-if="i < contact.phones.length - 1"></template></p></div>
             </div>
             <div class="flex gap-3">
               <BaseIcon name="mail" class="w-5 h-5 text-green shrink-0 mt-1" />
               <div><div class="font-display font-bold text-ink mb-0.5">Correos</div>
-                <p class="text-slate">comercial@gammaplast.com.pe<br>comercial2@gammaplast.com.pe</p></div>
+                <p class="text-slate"><template v-for="(e, i) in contact.emails" :key="i">{{ e }}<br v-if="i < contact.emails.length - 1"></template></p></div>
             </div>
           </div>
           <div class="card p-6 bg-green-tint border-0">
@@ -167,9 +168,8 @@ async function submit () {
             <p class="text-slate text-[.95rem] mb-4">Déjanos los datos de tu proyecto y un asesor te contactará con una propuesta.</p>
             <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
           </div>
-          <div class="card overflow-hidden">
-            <iframe title="Ubicación Gamma Plast"
-              src="https://www.google.com/maps?q=Calle%20Luis%20Galvani%20310,%20Ate,%20Lima,%20Peru&output=embed"
+          <div v-if="contact.mapEmbedUrl" class="card overflow-hidden">
+            <iframe title="Ubicación Gamma Plast" :src="contact.mapEmbedUrl"
               class="w-full h-[280px] border-0" loading="lazy" referrerpolicy="no-referrer-when-downgrade" />
           </div>
         </aside>

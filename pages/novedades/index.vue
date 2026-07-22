@@ -8,13 +8,13 @@ const site = 'https://gammaplast.com.pe'
 // antes de renderizar el JSON-LD ItemList.
 const { data: novedades } = await useFetch('/api/content/novedades', { default: () => [] })
 
-useSeo({ title: t('seo.news.title'), description: t('seo.news.description') })
+const { title: seoTitle, description: seoDesc } = await usePageSeo('news')
 useJsonLd({
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   url: site + localePath('/novedades'),
-  name: t('seo.news.title'),
-  description: t('seo.news.description'),
+  name: seoTitle,
+  description: seoDesc,
   isPartOf: { '@id': site + '/#website' },
   mainEntity: {
     '@type': 'ItemList',

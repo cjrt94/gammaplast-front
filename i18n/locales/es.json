@@ -9,87 +9,10 @@
     "careers": "Trabaja con nosotros"
   },
   "cta": { "advisor": "Contacta a un asesor", "seeProducts": "Ver productos", "seeCatalog": "Ver todos los productos" },
-  "home": {
-    "hero": {
-      "eyebrow": "Fabricante de empaques flexibles · Perú",
-      "title": "Transformando ideas,",
-      "titleAccent": "cuidamos tu marca",
-      "lead": "Diseñamos, desarrollamos y fabricamos empaques flexibles de PE y PP que protegen, conservan y realzan el valor de tu producto.",
-      "chipFda": "Grado alimentario FDA",
-      "chipRecycle": "Reciclable y compostable",
-      "chipPrint": "Impresión full color"
-    },
-    "process": {
-      "eyebrow": "Nuestros procesos productivos",
-      "title": "Control total, de la resina al empaque terminado",
-      "intro": "Integramos toda la cadena productiva bajo un mismo techo para garantizar calidad, trazabilidad y cumplimiento en cada entrega.",
-      "steps": [
-        { "label": "Extrusión blown film", "title": "Película a medida", "desc": "Convertimos la resina en película con el calibre y las propiedades mecánicas que cada producto necesita." },
-        { "label": "Impresión flexográfica", "title": "Full color de alta definición", "desc": "Damos vida a tu marca sobre el empaque con impresión flexográfica precisa y colores fieles." },
-        { "label": "Corte y rebobinado", "title": "Formato exacto", "desc": "Ajustamos ancho, largo y presentación en bobinas o láminas según tu línea de envasado." },
-        { "label": "Sellado y acabado final", "title": "Empaque terminado", "desc": "Sellado, troquelado y acabados que definen el formato final, listo para tu producto." }
-      ]
-    },
-    "products": {
-      "eyebrow": "Nuestros productos",
-      "title": "Una solución de empaque para cada industria",
-      "intro": "Desarrollamos empaques flexibles a la medida de las exigencias de cada industria."
-    }
-  },
-  "categories": {
-    "food": { "name": "Alimentos y bebidas", "short": "Preservan la calidad, frescura y seguridad de alimentos y bebidas, con grado alimentario FDA." },
-    "industry": { "name": "Industria en general", "short": "Soluciones resistentes y versátiles, adaptadas a cada aplicación industrial." },
-    "retail": { "name": "Retail y e-commerce", "short": "Practicidad, resistencia y presentación para el punto de venta y la entrega." },
-    "agro": { "name": "Pesca y agroindustria", "short": "Resistencia y eficiencia para el almacenamiento y transporte desde el origen." }
-  },
-  "seo": {
-    "home": {
-      "title": "Gamma Plast — Empaques flexibles en Perú",
-      "description": "Fabricante peruano de empaques flexibles de PE y PP: pouches, bolsas, bobinas y etiquetas. Diseño, impresión flexográfica full color y opciones reciclables y compostables con grado alimentario FDA."
-    },
-    "about": {
-      "title": "Nosotros",
-      "description": "Conoce a Gamma Plast: fabricamos empaques flexibles con calidad, innovación y procesos integrados —extrusión, impresión, corte y sellado— en nuestra planta en Lima, Perú."
-    },
-    "products": {
-      "title": "Productos",
-      "description": "Catálogo de empaques flexibles por tipo: pouches, bolsas de sello, con asas, bobinas, láminas y etiquetas. Soluciones en PE y PP para alimentos, industria, retail y agroindustria."
-    },
-    "news": {
-      "title": "Novedades",
-      "description": "Noticias de Gamma Plast y del sector de los empaques flexibles: capacidad productiva, sostenibilidad y certificaciones."
-    },
-    "contact": {
-      "title": "Contacto",
-      "description": "Contacto general de Gamma Plast, fabricante de empaques flexibles en Ate, Lima. Escríbenos tu consulta y te responderemos a la brevedad."
-    },
-    "advisor": {
-      "title": "Contacta a un asesor",
-      "description": "Cotiza tu próximo empaque flexible con Gamma Plast. Cuéntanos sobre tu producto y un asesor comercial te contactará con la solución ideal. Planta en Ate, Lima."
-    },
-    "careers": {
-      "title": "Trabaja con nosotros",
-      "description": "Únete al equipo de Gamma Plast. Déjanos tus datos y tu CV; te contactaremos si tu perfil encaja con nuestras vacantes."
-    }
-  },
-  "faq": {
-    "title": "Preguntas frecuentes",
-    "intro": "Respuestas rápidas sobre nuestros empaques flexibles. ¿Necesitas algo más específico? Escríbenos.",
-    "items": [
-      { "q": "¿Qué tipos de empaques flexibles fabrican?", "a": "Producimos pouches, bolsas de sello, bolsas con asas, bobinas, láminas y etiquetas, además de soluciones por aplicación, en polietileno (PE) y polipropileno (PP)." },
-      { "q": "¿Los empaques son aptos para contacto con alimentos?", "a": "Sí. Trabajamos con materiales de grado alimentario conforme a la normativa FDA, respaldados por controles de calidad e inocuidad en cada etapa de producción." },
-      { "q": "¿Fabrican empaques a medida y personalizados?", "a": "Sí. Diseñamos y desarrollamos cada empaque según tu producto, con impresión flexográfica full color para tu marca. Escríbenos y un asesor te acompaña desde el material hasta el acabado." },
-      { "q": "¿Ofrecen opciones reciclables o compostables?", "a": "Sí. Contamos con materiales reciclados y compostables y certificaciones como RCS (Recycled Claim Standard), OK compost de TÜV Austria y D2W, para acompañar tu transición a empaques más responsables." },
-      { "q": "¿A qué industrias atienden?", "a": "Alimentos y bebidas, industria en general, retail y e-commerce, y pesca y agroindustria." },
-      { "q": "¿Cuál es el pedido mínimo y el tiempo de entrega?", "a": "Dependen del formato, el material y el volumen. Escríbenos con los detalles de tu proyecto y un asesor comercial te preparará una cotización con cantidades y plazos." }
-    ]
-  },
   "footer": {
     "about": "Empresa peruana especializada en el diseño, desarrollo y fabricación de empaques flexibles de alta calidad, reciclables y compostables.",
     "navTitle": "Navegación",
     "contactTitle": "Contacto",
-    "address": "Calle Luis Galvani 310, Urb. Santa Rosa, Ate — Lima, Perú",
-    "phones": "+51 908 865 429 · +51 908 858 154",
     "rights": "© 2026 Gamma Plast. Todos los derechos reservados.",
     "certFda": "Normativa FDA",
     "certRecycle": "Reciclable",

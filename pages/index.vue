@@ -1,26 +1,19 @@
 <script setup>
-const { t, tm, rt } = useI18n()
 const localePath = useLocalePath()
+const { t } = useI18n()
 
-const steps = tm('home.process.steps')
+// Contenido del Home + catálogo desde Firestore (CMS). await → SSR/JSON-LD esperan los datos.
+const { data: homeData } = await useFetch('/api/content/home', { default: () => ({ home: {}, certLogos: [] }) })
+const { data: catalog } = await useFetch('/api/content/catalog', { default: () => ({ sectors: [], products: [], materials: {} }) })
+const home = computed(() => homeData.value.home || {})
+const certLogos = computed(() => homeData.value.certLogos || [])
+const sectors = computed(() => catalog.value.sectors || [])
+const steps = computed(() => home.value.process?.steps || [])
+
 const stepIcons = ['film', 'print', 'scissors', 'seal']
 const stepImgs = ['/photos/proceso-extrusion.jpg', '/photos/proceso-impresion.jpg', '/photos/proceso-corte.jpg', '/photos/proceso-sellado.jpg']
 
-// Logos de certificación individuales (recortados del catálogo, fondo transparente).
-const certLogos = [
-  { src: '/photos/certs/recycle.png', alt: 'Reciclable' },
-  { src: '/photos/certs/d2w.png', alt: 'd2w — tecnología oxo-biodegradable' },
-  { src: '/photos/certs/d2p.png', alt: 'd2p — protección antimicrobiana' },
-  { src: '/photos/certs/recyclass.png', alt: 'RecyClass' },
-  { src: '/photos/certs/rcsblended.png', alt: 'Recycled Blended Claim Standard' },
-  { src: '/photos/certs/rcs100.png', alt: 'Recycled 100 Claim Standard' },
-  { src: '/photos/certs/tuv.png', alt: 'OK compost — TÜV Austria Industrial' }
-]
-
-// Categorías del Home = los 7 sectores del catálogo (misma fuente que Productos).
-const { sectors } = useCatalog()
-
-useSeo({ title: t('seo.home.title'), description: t('seo.home.description'), appendBrand: false })
+const { title: seoTitle, description: seoDesc } = await usePageSeo('home', { appendBrand: false })
 
 const homeUrl = 'https://gammaplast.com.pe' + localePath('/')
 useJsonLd({
@@ -28,8 +21,8 @@ useJsonLd({
   '@type': 'WebPage',
   '@id': homeUrl + '#webpage',
   url: homeUrl,
-  name: t('seo.home.title'),
-  description: t('seo.home.description'),
+  name: seoTitle,
+  description: seoDesc,
   isPartOf: { '@id': 'https://gammaplast.com.pe/#website' },
   about: orgRef
 })
@@ -53,9 +46,9 @@ useJsonLd({
       <div class="wrap min-h-[92vh] flex flex-col justify-center py-[clamp(96px,17vh,160px)]">
         <div class="max-w-[620px] text-white">
           <h1 class="text-white text-[clamp(2rem,6.4vw,4.2rem)] mb-5">
-            {{ t('home.hero.title') }} <span class="text-green">{{ t('home.hero.titleAccent') }}</span>
+            {{ home.hero?.title }} <span class="text-green">{{ home.hero?.titleAccent }}</span>
           </h1>
-          <p class="text-[1.2rem] max-w-[44ch] mb-8 text-white/85">{{ t('home.hero.lead') }}</p>
+          <p class="text-[1.2rem] max-w-[44ch] mb-8 text-white/85">{{ home.hero?.lead }}</p>
           <div class="flex flex-wrap gap-3.5">
             <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
             <NuxtLink :to="localePath('/productos')" class="btn btn-ghost-light">{{ t('cta.seeProducts') }}</NuxtLink>
@@ -73,28 +66,28 @@ useJsonLd({
       <div class="wrap py-9 flex flex-col items-center gap-4 text-center">
         <span class="eyebrow">Certificaciones</span>
         <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-6 max-w-[1060px] my-1">
-          <li v-for="c in certLogos" :key="c.src" class="shrink-0">
+          <li v-for="c in certLogos" :key="c.id || c.src" class="shrink-0">
             <img :src="c.src" :alt="c.alt" loading="lazy" class="h-9 sm:h-10 md:h-11 w-auto object-contain">
           </li>
         </ul>
-        <p class="text-slate text-[.95rem] max-w-[54ch]">Nuestros empaques cuentan con certificaciones y cumplen la normativa FDA para contacto con alimentos.</p>
+        <p class="text-slate text-[.95rem] max-w-[54ch]">{{ home.certStrip?.note }}</p>
       </div>
     </section>
 
     <!-- PROCESOS PRODUCTIVOS (con fotos) -->
     <section class="sec sec-mist border-t border-line">
       <div class="wrap">
-        <SectionHeader :eyebrow="t('home.process.eyebrow')" :title="t('home.process.title')" :intro="t('home.process.intro')" />
+        <SectionHeader :eyebrow="home.process?.eyebrow" :title="home.process?.title" :intro="home.process?.intro" />
         <div class="grid sm:grid-cols-2 gap-6">
           <article v-for="(s, i) in steps" :key="i" class="card card-hover relative z-[1] p-[26px_22px_24px] flex flex-col gap-3.5">
             <div class="flex items-center justify-between">
               <span class="ico-tile"><BaseIcon :name="stepIcons[i]" class="w-6 h-6" /></span>
               <span class="font-display font-bold text-[1.6rem] text-slate tabular-nums">0{{ i + 1 }}</span>
             </div>
-            <span class="pill pill-tint self-start">{{ rt(s.label) }}</span>
-            <h3 class="text-[1.16rem]">{{ rt(s.title) }}</h3>
-            <p class="text-[.98rem] text-slate">{{ rt(s.desc) }}</p>
-            <img :src="stepImgs[i]" :alt="`Proceso: ${rt(s.title)}`" width="600" height="400" loading="lazy"
+            <span class="pill pill-tint self-start">{{ s.label }}</span>
+            <h3 class="text-[1.16rem]">{{ s.title }}</h3>
+            <p class="text-[.98rem] text-slate">{{ s.desc }}</p>
+            <img :src="stepImgs[i]" :alt="`Proceso: ${s.title}`" width="600" height="400" loading="lazy"
               class="mt-2 rounded-lg w-full h-72 object-cover">
           </article>
         </div>
@@ -106,9 +99,9 @@ useJsonLd({
       <div class="wrap">
         <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-5 mb-10">
           <div class="max-w-[620px] reveal">
-            <span class="pill pill-outline">Nuestra planta</span>
-            <h2 class="text-[clamp(1.9rem,3.4vw,2.6rem)] mt-5 mb-4">Producción integrada en nuestra planta</h2>
-            <p class="text-[1.12rem] text-slate">Extrusión, impresión, corte y sellado en nuestra planta en Lima, con control de calidad en cada etapa.</p>
+            <span class="pill pill-outline">{{ home.plant?.eyebrow }}</span>
+            <h2 class="text-[clamp(1.9rem,3.4vw,2.6rem)] mt-5 mb-4">{{ home.plant?.title }}</h2>
+            <p class="text-[1.12rem] text-slate">{{ home.plant?.intro }}</p>
           </div>
           <NuxtLink :to="localePath('/nosotros')" class="btn btn-ghost reveal shrink-0">Conócenos</NuxtLink>
         </div>
@@ -125,7 +118,7 @@ useJsonLd({
     <!-- PRODUCTOS (categorías, sin detalle) -->
     <section class="sec sec-mist border-t border-line">
       <div class="wrap">
-        <SectionHeader center :eyebrow="t('home.products.eyebrow')" :title="t('home.products.title')" :intro="t('home.products.intro')" />
+        <SectionHeader center :eyebrow="home.products?.eyebrow" :title="home.products?.title" :intro="home.products?.intro" />
         <div class="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-12">
           <NuxtLink v-for="(c, i) in sectors" :key="c.slug"
             :to="localePath({ path: '/productos', query: { sec: c.slug } })"

@@ -1,28 +1,32 @@
 <script setup>
-const { sectors, products, materials, sectorBySlug } = useCatalog()
 const localePath = useLocalePath()
 const route = useRoute()
 const router = useRouter()
+const { t } = useI18n()
 
-const { t, tm, rt } = useI18n()
-
-useSeo({ title: t('seo.products.title'), description: t('seo.products.description') })
-
-const site = 'https://gammaplast.com.pe'
+// Catálogo + SEO/FAQ desde Firestore (CMS). await → SSR/JSON-LD esperan los datos.
+const { data: catalog } = await useFetch('/api/content/catalog', { default: () => ({ sectors: [], products: [], materials: {} }) })
+const sectors = computed(() => catalog.value.sectors || [])
+const products = computed(() => catalog.value.products || [])
+const materials = computed(() => catalog.value.materials || {})
+const sectorBySlug = (slug) => sectors.value.find((s) => s.slug === slug)
 const sectorLabel = (slug) => sectorBySlug(slug)?.label
+
+const { seo, title: seoTitle, description: seoDesc } = await usePageSeo('products')
+const site = 'https://gammaplast.com.pe'
 
 useJsonLd({
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   url: site + localePath('/productos'),
-  name: t('seo.products.title'),
-  description: t('seo.products.description'),
+  name: seoTitle,
+  description: seoDesc,
   isPartOf: { '@id': site + '/#website' },
   about: orgRef,
   mainEntity: {
     '@type': 'ItemList',
-    numberOfItems: products.length,
-    itemListElement: products.map((p, i) => ({
+    numberOfItems: products.value.length,
+    itemListElement: products.value.map((p, i) => ({
       '@type': 'ListItem',
       position: i + 1,
       item: {
@@ -40,8 +44,8 @@ useJsonLd(breadcrumbLd([
   { name: t('nav.products'), path: localePath('/productos') }
 ]))
 
-// FAQ — contenido en i18n (faq.items). NOTA(cliente): validar pedido mínimo / tiempos de entrega.
-const faqItems = computed(() => tm('faq.items').map((it) => ({ q: rt(it.q), a: rt(it.a) })))
+// FAQ — contenido desde el CMS (seo.faq).
+const faqItems = computed(() => (seo.value.faq && seo.value.faq.items) || [])
 useJsonLd({
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
@@ -68,9 +72,9 @@ function setSector (slug) {
 
 // Grupos por sector, en el orden de `sectors`; se omiten los vacíos y se respeta el filtro.
 const groups = computed(() =>
-  sectors
+  sectors.value
     .filter((s) => !activeSector.value || s.slug === activeSector.value)
-    .map((s) => ({ ...s, items: products.filter((p) => p.sector === s.slug) }))
+    .map((s) => ({ ...s, items: products.value.filter((p) => p.sector === s.slug) }))
     .filter((g) => g.items.length)
 )
 
@@ -181,8 +185,8 @@ const filterBtn = (on) =>
       <div class="wrap max-w-[760px]">
         <div class="mb-8 reveal">
           <span class="pill pill-outline">FAQ</span>
-          <h2 class="text-[clamp(1.7rem,3vw,2.3rem)] mt-5 mb-3">{{ t('faq.title') }}</h2>
-          <p class="text-slate text-[1.05rem]">{{ t('faq.intro') }}</p>
+          <h2 class="text-[clamp(1.7rem,3vw,2.3rem)] mt-5 mb-3">{{ seo.faq?.title }}</h2>
+          <p class="text-slate text-[1.05rem]">{{ seo.faq?.intro }}</p>
         </div>
         <ul class="flex flex-col gap-3">
           <li v-for="(f, i) in faqItems" :key="i" class="reveal card">

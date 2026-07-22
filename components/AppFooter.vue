@@ -1,6 +1,7 @@
 <script setup>
 const { t } = useI18n()
 const localePath = useLocalePath()
+const { data: contact } = await useContact()
 const links = computed(() => [
   { to: localePath('/'), label: t('nav.home') },
   { to: localePath('/nosotros'), label: t('nav.about') },
@@ -28,9 +29,9 @@ const links = computed(() => [
         <div>
           <h4 class="text-white font-display uppercase tracking-label text-[.82rem] mb-4">{{ t('footer.contactTitle') }}</h4>
           <ul class="flex flex-col gap-3 text-[.95rem]">
-            <li class="flex gap-2.5"><BaseIcon name="pin" class="w-[17px] h-[17px] text-green shrink-0 mt-0.5" />{{ t('footer.address') }}</li>
-            <li class="flex gap-2.5"><BaseIcon name="phone" class="w-[17px] h-[17px] text-green shrink-0 mt-0.5" />{{ t('footer.phones') }}</li>
-            <li class="flex gap-2.5"><BaseIcon name="mail" class="w-[17px] h-[17px] text-green shrink-0 mt-0.5" />comercial@gammaplast.com.pe</li>
+            <li class="flex gap-2.5"><BaseIcon name="pin" class="w-[17px] h-[17px] text-green shrink-0 mt-0.5" />{{ contact.address?.full }}</li>
+            <li class="flex gap-2.5"><BaseIcon name="phone" class="w-[17px] h-[17px] text-green shrink-0 mt-0.5" />{{ (contact.phones || []).join(' · ') }}</li>
+            <li class="flex gap-2.5"><BaseIcon name="mail" class="w-[17px] h-[17px] text-green shrink-0 mt-0.5" />{{ contact.emails?.[0] }}</li>
           </ul>
         </div>
       </div>

@@ -9,69 +9,6 @@
     "careers": "Work with us"
   },
   "cta": { "advisor": "Talk to an advisor", "seeProducts": "See products", "seeCatalog": "See all products" },
-  "home": {
-    "hero": {
-      "eyebrow": "Flexible packaging manufacturer · Peru",
-      "title": "Transforming ideas,",
-      "titleAccent": "protecting your brand",
-      "lead": "We design, develop and manufacture PE and PP flexible packaging that protects, preserves and enhances the value of your product.",
-      "chipFda": "FDA food-grade",
-      "chipRecycle": "Recyclable & compostable",
-      "chipPrint": "Full-color printing"
-    },
-    "process": {
-      "eyebrow": "Our production processes",
-      "title": "Full control, from resin to finished packaging",
-      "intro": "We integrate the entire production chain under one roof to guarantee quality, traceability and compliance in every delivery."
-    },
-    "products": {
-      "eyebrow": "Our products",
-      "title": "A packaging solution for every industry",
-      "intro": "We develop flexible packaging tailored to the demands of each industry."
-    }
-  },
-  "seo": {
-    "home": {
-      "title": "Gamma Plast — Flexible Packaging Manufacturer in Peru",
-      "description": "Peruvian manufacturer of PE and PP flexible packaging: pouches, bags, rolls and labels. Custom design, full-color flexographic printing and recyclable, compostable, FDA food-grade options."
-    },
-    "about": {
-      "title": "About us",
-      "description": "Meet Gamma Plast: we manufacture flexible packaging with quality, innovation and integrated processes —extrusion, printing, cutting and sealing— at our plant in Lima, Peru."
-    },
-    "products": {
-      "title": "Products",
-      "description": "Flexible packaging catalog by type: pouches, sealed bags, handled bags, rolls, sheets and labels. PE and PP solutions for food, industry, retail and agribusiness."
-    },
-    "news": {
-      "title": "News",
-      "description": "News from Gamma Plast and the flexible packaging sector: production capacity, sustainability and certifications."
-    },
-    "contact": {
-      "title": "Contact",
-      "description": "General contact for Gamma Plast, flexible packaging manufacturer in Ate, Lima. Send us your enquiry and we'll get back to you shortly."
-    },
-    "advisor": {
-      "title": "Contact an advisor",
-      "description": "Get a quote for your next flexible packaging project with Gamma Plast. Tell us about your product and a sales advisor will reach out with the ideal solution. Plant in Ate, Lima."
-    },
-    "careers": {
-      "title": "Work with us",
-      "description": "Join the Gamma Plast team. Leave your details and CV; we'll contact you if your profile matches our current openings."
-    }
-  },
-  "faq": {
-    "title": "Frequently asked questions",
-    "intro": "Quick answers about our flexible packaging. Need something more specific? Get in touch.",
-    "items": [
-      { "q": "What types of flexible packaging do you manufacture?", "a": "We produce pouches, sealed bags, handled bags, rolls, sheets and labels, plus application-specific solutions, in polyethylene (PE) and polypropylene (PP)." },
-      { "q": "Is the packaging food-safe?", "a": "Yes. We work with food-grade materials compliant with FDA regulations, backed by quality and safety controls at every production stage." },
-      { "q": "Do you make custom, made-to-order packaging?", "a": "Yes. We design and develop each package around your product, with full-color flexographic printing for your brand. Get in touch and an advisor will guide you from material to finish." },
-      { "q": "Do you offer recyclable or compostable options?", "a": "Yes. We have recycled and compostable materials and certifications such as RCS (Recycled Claim Standard), TÜV Austria OK compost and D2W, to support your transition to more responsible packaging." },
-      { "q": "Which industries do you serve?", "a": "Food and beverage, general industry, retail and e-commerce, and fishing and agribusiness." },
-      { "q": "What is the minimum order and lead time?", "a": "They depend on the format, material and volume. Send us the details of your project and a sales advisor will prepare a quote with quantities and timelines." }
-    ]
-  },
   "footer": {
     "navTitle": "Navigation",
     "contactTitle": "Contact",

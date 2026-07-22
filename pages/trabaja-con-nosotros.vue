@@ -3,13 +3,13 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const site = 'https://gammaplast.com.pe'
 
-useSeo({ title: t('seo.careers.title'), description: t('seo.careers.description') })
+const { title: seoTitle, description: seoDesc } = await usePageSeo('careers')
 useJsonLd({
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   url: site + localePath('/trabaja-con-nosotros'),
-  name: t('seo.careers.title'),
-  description: t('seo.careers.description'),
+  name: seoTitle,
+  description: seoDesc,
   isPartOf: { '@id': site + '/#website' },
   about: orgRef
 })
