@@ -1,0 +1,23 @@
+rules_version = '2';
+
+// Reglas de Storage — back office de Gamma Plast.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Imágenes de contenido (subidas desde /admin, mostradas en el sitio público):
+    // lectura pública, escritura solo autenticado.
+    match /content/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // CVs de postulaciones: privados. Nadie los toca desde el cliente; solo el Admin SDK
+    // (servidor) los escribe y los sirve mediante URL firmada temporal.
+    match /cv/{allPaths=**} {
+      allow read, write: if false;
+    }
+
+    // Todo lo demás: cerrado.
+    match /{allPaths=**} { allow read, write: if false; }
+  }
+}

@@ -1,0 +1,32 @@
+rules_version = '2';
+
+// Reglas de Firestore — back office de Gamma Plast.
+// Modelo: el contenido lo lee el sitio público vía Admin SDK (ignora reglas), pero dejamos
+// lectura pública abierta por si algún día se lee desde el cliente. Escritura de contenido:
+// solo staff autenticado. Leads: NADIE escribe desde el cliente (solo el Admin SDK, que ignora
+// reglas) y solo el staff autenticado los lee.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null; // usuarios creados a mano en consola = staff
+    }
+
+    // Contenido del sitio (lectura pública, escritura solo staff).
+    match /sectors/{id}        { allow read: if true; allow write: if isAdmin(); }
+    match /products/{id}       { allow read: if true; allow write: if isAdmin(); }
+    match /novedades/{id}      { allow read: if true; allow write: if isAdmin(); }
+    match /certifications/{id} { allow read: if true; allow write: if isAdmin(); }
+    match /certLogos/{id}      { allow read: if true; allow write: if isAdmin(); }
+    match /clientLogos/{id}    { allow read: if true; allow write: if isAdmin(); }
+    match /singletons/{id}     { allow read: if true; allow write: if isAdmin(); }
+
+    // Leads: escritura solo servidor (Admin SDK), lectura solo staff.
+    match /contactMessages/{id} { allow read: if isAdmin(); allow write: if false; }
+    match /advisorRequests/{id} { allow read: if isAdmin(); allow write: if false; }
+    match /jobApplications/{id} { allow read: if isAdmin(); allow write: if false; }
+
+    // Todo lo no declarado: cerrado.
+    match /{document=**} { allow read, write: if false; }
+  }
+}

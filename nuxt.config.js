@@ -14,7 +14,25 @@ export default defineNuxtConfig({
     resendApiKey: '',
     mailFrom: 'Gamma Plast <onboarding@resend.dev>',
     contactTo: 'comercial@gammaplast.com.pe, comercial2@gammaplast.com.pe',
-    careersTo: 'recursoshumanos@gammaplast.com.pe'
+    careersTo: 'recursoshumanos@gammaplast.com.pe',
+
+    // Firebase Admin SDK — SOLO servidor (lecturas públicas SSR cacheadas, escritura de leads, CV a Storage).
+    // La service account se guarda BASE64 en una sola env (NUXT_FIREBASE_SERVICE_ACCOUNT) para evitar
+    // que el salto de línea del PEM se rompa en Vercel; se decodifica + JSON.parse en runtime.
+    firebaseServiceAccount: '', // NUXT_FIREBASE_SERVICE_ACCOUNT (base64 del JSON de la service account)
+    firebaseStorageBucket: '',  // NUXT_FIREBASE_STORAGE_BUCKET (ej. gammaplast.appspot.com)
+
+    public: {
+      // Firebase Web SDK — cliente, SOLO se usa en /admin (login + CRUD + subida de imágenes).
+      // Claves públicas del app web (no son secretas; van al bundle cliente).
+      firebase: {
+        apiKey: '',        // NUXT_PUBLIC_FIREBASE_API_KEY
+        authDomain: '',    // NUXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+        projectId: '',     // NUXT_PUBLIC_FIREBASE_PROJECT_ID
+        storageBucket: '', // NUXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+        appId: ''          // NUXT_PUBLIC_FIREBASE_APP_ID
+      }
+    }
   },
 
   // Config de sitio compartida (nuxt-site-config): usada por el sitemap y el SEO.
