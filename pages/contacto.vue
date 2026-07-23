@@ -3,6 +3,8 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const site = 'https://gammaplast.com.pe'
 const { data: contact } = await useContact()
+const { data: pages } = await usePages()
+const P = computed(() => pages.value.contacto || {})
 
 const { title: seoTitle, description: seoDesc } = await usePageSeo('contact')
 useJsonLd({
@@ -60,8 +62,7 @@ async function submit () {
 
 <template>
   <div>
-    <PageHero eyebrow="Contacto" title="Estamos para ayudarte"
-      intro="¿Tienes una consulta general? Escríbenos y te responderemos a la brevedad." />
+    <PageHero :eyebrow="P.hero?.eyebrow" :title="P.hero?.title" :intro="P.hero?.intro" />
 
     <section class="sec">
       <div class="wrap grid lg:grid-cols-[1.15fr_.85fr] gap-12">
@@ -164,8 +165,8 @@ async function submit () {
             </div>
           </div>
           <div class="card p-6 bg-green-tint border-0">
-            <div class="font-display font-bold text-ink mb-1">¿Buscas cotizar un empaque?</div>
-            <p class="text-slate text-[.95rem] mb-4">Déjanos los datos de tu proyecto y un asesor te contactará con una propuesta.</p>
+            <div class="font-display font-bold text-ink mb-1">{{ P.card?.title }}</div>
+            <p class="text-slate text-[.95rem] mb-4">{{ P.card?.text }}</p>
             <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">{{ t('cta.advisor') }}</NuxtLink>
           </div>
           <div v-if="contact.mapEmbedUrl" class="card overflow-hidden">

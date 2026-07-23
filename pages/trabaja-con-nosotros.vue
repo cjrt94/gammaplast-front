@@ -3,6 +3,8 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const site = 'https://gammaplast.com.pe'
 
+const { data: pages } = await usePages()
+const hero = computed(() => pages.value.careers?.hero || {})
 const { title: seoTitle, description: seoDesc } = await usePageSeo('careers')
 useJsonLd({
   '@context': 'https://schema.org',
@@ -90,8 +92,7 @@ async function submit () {
 
 <template>
   <div>
-    <PageHero eyebrow="Trabaja con nosotros" title="Crece junto a Gamma Plast"
-      intro="¿Quieres formar parte de nuestro equipo? Déjanos tus datos y adjunta tu CV; te contactaremos si tu perfil encaja con nuestras vacantes." />
+    <PageHero :eyebrow="hero.eyebrow" :title="hero.title" :intro="hero.intro" />
 
     <section class="sec">
       <div class="wrap max-w-[720px]">

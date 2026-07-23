@@ -3,6 +3,8 @@ const { t } = useI18n()
 const localePath = useLocalePath()
 const site = 'https://gammaplast.com.pe'
 const { data: contact } = await useContact()
+const { data: pages } = await usePages()
+const hero = computed(() => pages.value.advisor?.hero || {})
 
 const { title: seoTitle, description: seoDesc } = await usePageSeo('advisor')
 useJsonLd({
@@ -66,8 +68,7 @@ async function submit () {
 
 <template>
   <div>
-    <PageHero eyebrow="Contacta a un asesor" title="Hablemos de tu próximo empaque"
-      intro="Cuéntanos sobre tu producto y un asesor te contactará para encontrar la solución de empaque flexible ideal." />
+    <PageHero :eyebrow="hero.eyebrow" :title="hero.title" :intro="hero.intro" />
 
     <section class="sec">
       <div class="wrap grid lg:grid-cols-[1.15fr_.85fr] gap-12">

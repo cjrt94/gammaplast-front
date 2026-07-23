@@ -10,6 +10,8 @@ if (!article.value) {
 }
 const { data: lista } = await useFetch('/api/content/novedades', { default: () => [] })
 const otras = computed(() => lista.value.filter((n) => n.slug !== route.params.slug).slice(0, 2))
+const { data: pages } = await usePages()
+const articleCta = computed(() => pages.value.novedades?.articleCta || '')
 const { t } = useI18n()
 const site = 'https://gammaplast.com.pe'
 
@@ -73,7 +75,7 @@ useJsonLd(breadcrumbLd([
             <p v-for="(p, i) in article.body" :key="i" class="reveal" :class="i === 0 ? 'text-[1.26rem] leading-relaxed text-ink' : ''">{{ p }}</p>
           </div>
           <div class="max-w-[680px] mx-auto mt-12 pt-8 border-t border-line reveal">
-            <p class="text-slate mb-4">¿Tienes un proyecto de empaque en mente?</p>
+            <p class="text-slate mb-4">{{ articleCta }}</p>
             <NuxtLink :to="localePath('/contacto')" class="btn btn-green">Contacta a un asesor</NuxtLink>
           </div>
         </div>

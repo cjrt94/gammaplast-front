@@ -16,7 +16,7 @@ const contenido = [
   ['Productos', '/admin/productos'], ['Materiales', '/admin/materiales'], ['Novedades', '/admin/novedades'],
   ['Certificaciones', '/admin/certificaciones'], ['Logos de clientes', '/admin/logos-clientes'],
   ['Logos de certificación', '/admin/logos-certificacion'], ['Contacto y datos', '/admin/contacto'],
-  ['SEO y FAQ', '/admin/seo']
+  ['Páginas', '/admin/paginas'], ['SEO y FAQ', '/admin/seo'], ['Ajustes del sitio', '/admin/ajustes']
 ]
 
 onMounted(async () => {

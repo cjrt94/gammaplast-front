@@ -6,6 +6,8 @@ const { t } = useI18n()
 const { data: content } = await useFetch('/api/content/nosotros', { default: () => ({ nosotros: {}, certifications: [] }) })
 const n = computed(() => content.value.nosotros || {})
 const certs = computed(() => content.value.certifications || [])
+const { data: pages } = await usePages()
+const cta = computed(() => pages.value.nosotrosCta || {})
 
 const { title: seoTitle, description: seoDesc } = await usePageSeo('about')
 useJsonLd({
@@ -162,8 +164,8 @@ useJsonLd(breadcrumbLd([
     <!-- CTA -->
     <section class="sec">
       <div class="wrap text-center max-w-[640px] mx-auto">
-        <h2 class="text-[clamp(1.7rem,2.6vw,2.2rem)] mb-3 reveal">Trabajemos juntos en tu próximo empaque</h2>
-        <p class="text-slate text-[1.08rem] mb-7 reveal max-w-[52ch] mx-auto">Somos tu aliado estratégico, desde la selección de materiales hasta la entrega final.</p>
+        <h2 class="text-[clamp(1.7rem,2.6vw,2.2rem)] mb-3 reveal">{{ cta.title }}</h2>
+        <p class="text-slate text-[1.08rem] mb-7 reveal max-w-[52ch] mx-auto">{{ cta.text }}</p>
         <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green reveal">Contacta a un asesor</NuxtLink>
       </div>
     </section>

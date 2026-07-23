@@ -59,7 +59,7 @@ useJsonLd({
     </section>
 
     <!-- Carousel infinito de logos de clientes (placeholder). Va debajo del hero. -->
-    <ClientLogos />
+    <ClientLogos :title="home.clientLogosTitle || 'Marcas que confían en nosotros'" />
 
     <!-- Certificaciones (logos del catálogo) -->
     <section class="border-y border-line bg-paper">

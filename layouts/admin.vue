@@ -17,7 +17,9 @@ const nav = [
     { label: 'Logos de clientes', to: '/admin/logos-clientes' },
     { label: 'Logos de certificación', to: '/admin/logos-certificacion' },
     { label: 'Contacto y datos', to: '/admin/contacto' },
-    { label: 'SEO y FAQ', to: '/admin/seo' }
+    { label: 'Páginas', to: '/admin/paginas' },
+    { label: 'SEO y FAQ', to: '/admin/seo' },
+    { label: 'Ajustes del sitio', to: '/admin/ajustes' }
   ] },
   { group: 'Bandeja', items: [
     { label: 'Mensajes de contacto', to: '/admin/leads/mensajes' },

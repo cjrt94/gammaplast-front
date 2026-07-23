@@ -2,6 +2,7 @@
 const { t } = useI18n()
 const localePath = useLocalePath()
 const { data: contact } = await useContact()
+const { data: settings } = await useSettings()
 const links = computed(() => [
   { to: localePath('/'), label: t('nav.home') },
   { to: localePath('/nosotros'), label: t('nav.about') },
@@ -18,7 +19,7 @@ const links = computed(() => [
       <div class="grid gap-10 md:grid-cols-[1.5fr_1fr_1.4fr] pb-10 border-b border-white/10">
         <div>
           <img src="/logo-white-h.png" alt="Gamma Plast" width="1650" height="560" class="h-11 w-auto mb-5" >
-          <p class="max-w-[34ch] text-[.96rem] leading-relaxed">{{ t('footer.about') }}</p>
+          <p class="max-w-[34ch] text-[.96rem] leading-relaxed">{{ settings.footerAbout || t('footer.about') }}</p>
         </div>
         <div>
           <h4 class="text-white font-display uppercase tracking-label text-[.82rem] mb-4">{{ t('footer.navTitle') }}</h4>
@@ -38,9 +39,7 @@ const links = computed(() => [
       <div class="flex flex-wrap justify-between items-center gap-5 pt-6 text-[.85rem]">
         <span>{{ t('footer.rights') }}</span>
         <div class="flex flex-wrap gap-4">
-          <span class="inline-flex items-center gap-1.5"><BaseIcon name="check" class="w-3.5 h-3.5 text-green" />{{ t('footer.certFda') }}</span>
-          <span class="inline-flex items-center gap-1.5"><BaseIcon name="recycle" class="w-3.5 h-3.5 text-green" />{{ t('footer.certRecycle') }}</span>
-          <span class="inline-flex items-center gap-1.5"><BaseIcon name="leaf" class="w-3.5 h-3.5 text-green" />{{ t('footer.certCompost') }}</span>
+          <span v-for="(b, i) in (settings.certBadges || [])" :key="i" class="inline-flex items-center gap-1.5"><BaseIcon :name="b.icon" class="w-3.5 h-3.5 text-green" />{{ b.label }}</span>
         </div>
       </div>
     </div>

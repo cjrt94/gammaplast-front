@@ -1,9 +1,11 @@
 <script setup>
 const site = 'https://gammaplast.com.pe'
 
-// Datos de contacto desde el CMS (única fuente de verdad). await → el head SSR recibe los datos.
+// Datos de contacto + ajustes desde el CMS. await → el head SSR recibe los datos.
 const { data: contact } = await useContact()
+const { data: settings } = await useSettings()
 const c = contact.value || {}
+const orgDescription = settings.value?.orgDescription || 'Fabricante peruano de empaques flexibles de PE y PP, reciclables y compostables, con certificación FDA.'
 const tel = (c.phonesRaw && c.phonesRaw.length) ? c.phonesRaw : ['+51908865429', '+51908858154']
 const email = (c.emails && c.emails[0]) || 'comercial@gammaplast.com.pe'
 const postal = {
@@ -31,7 +33,7 @@ useHead({
             url: site,
             logo: `${site}/logo.png`,
             image: `${site}/og-cover.jpg`,
-            description: 'Fabricante peruano de empaques flexibles de PE y PP, reciclables y compostables, con certificación FDA.',
+            description: orgDescription,
             email,
             telephone: tel,
             address: postal,

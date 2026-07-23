@@ -6,6 +6,8 @@ const { t } = useI18n()
 
 // Catálogo + SEO/FAQ desde Firestore (CMS). await → SSR/JSON-LD esperan los datos.
 const { data: catalog } = await useFetch('/api/content/catalog', { default: () => ({ sectors: [], products: [], materials: {} }) })
+const { data: pages } = await usePages()
+const P = computed(() => pages.value.productos || {})
 const sectors = computed(() => catalog.value.sectors || [])
 const products = computed(() => catalog.value.products || [])
 const materials = computed(() => catalog.value.materials || {})
@@ -88,10 +90,7 @@ const filterBtn = (on) =>
 
 <template>
   <div>
-    <PageHero
-      eyebrow="Nuestros productos"
-      title="Una solución de empaque para cada sector"
-      intro="Explora nuestra línea de empaques flexibles agrupada por sector. Filtra para ver las soluciones pensadas para tu industria." />
+    <PageHero :eyebrow="P.hero?.eyebrow" :title="P.hero?.title" :intro="P.hero?.intro" />
 
     <!-- Barra de filtro por sector (sticky bajo el header; 2 filas al envolver) -->
     <div class="sticky top-[72px] z-30 bg-paper/95 backdrop-blur-md border-b border-line">
@@ -143,9 +142,9 @@ const filterBtn = (on) =>
     <section class="sec-mist py-14">
       <div class="wrap">
         <div class="max-w-[640px] mb-9 reveal">
-          <span class="pill pill-outline">Estructuras y materiales</span>
-          <h2 class="text-[clamp(1.7rem,3vw,2.3rem)] mt-5 mb-3">Materiales a la medida de tu producto</h2>
-          <p class="text-slate text-[1.05rem]">Trabajamos estructuras monocapa, laminados y coextrusiones, en distintos colores y acabados.</p>
+          <span class="pill pill-outline">{{ P.materials?.eyebrow }}</span>
+          <h2 class="text-[clamp(1.7rem,3vw,2.3rem)] mt-5 mb-3">{{ P.materials?.title }}</h2>
+          <p class="text-slate text-[1.05rem]">{{ P.materials?.intro }}</p>
           <div class="flex items-center gap-2 mt-5" aria-label="Colores disponibles">
             <span class="text-[.8rem] font-display font-bold text-slate mr-1">Colores:</span>
             <span v-for="c in materials.colores" :key="c" class="w-5 h-5 rounded-full border border-line"
@@ -172,8 +171,7 @@ const filterBtn = (on) =>
         </div>
         <div class="mt-9 flex flex-wrap items-center justify-between gap-5 rounded-card bg-green-tint p-7 reveal">
           <div class="flex flex-wrap gap-3">
-            <span class="chip"><BaseIcon name="check" />Grado alimentario FDA</span>
-            <span class="chip"><BaseIcon name="recycle" />Reciclables y compostables</span>
+            <span v-for="(chip, i) in (P.chips || [])" :key="i" class="chip"><BaseIcon :name="chip.icon" />{{ chip.label }}</span>
           </div>
           <NuxtLink :to="localePath('/contacta-un-asesor')" class="btn btn-green">Contacta a un asesor</NuxtLink>
         </div>

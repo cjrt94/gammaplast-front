@@ -191,7 +191,40 @@ const home = {
     eyebrow: 'Nuestros productos',
     title: 'Una solución de empaque para cada industria',
     intro: 'Desarrollamos empaques flexibles a la medida de las exigencias de cada industria.'
-  }
+  },
+  clientLogosTitle: 'Marcas que confían en nosotros'
+}
+
+// Copys por página (héroes internos + bloques de marketing) — singletons/pages.
+const pages = {
+  productos: {
+    hero: { eyebrow: 'Nuestros productos', title: 'Una solución de empaque para cada sector', intro: 'Explora nuestra línea de empaques flexibles agrupada por sector. Filtra para ver las soluciones pensadas para tu industria.' },
+    materials: { eyebrow: 'Estructuras y materiales', title: 'Materiales a la medida de tu producto', intro: 'Trabajamos estructuras monocapa, laminados y coextrusiones, en distintos colores y acabados.' },
+    chips: [{ label: 'Grado alimentario FDA', icon: 'check' }, { label: 'Reciclables y compostables', icon: 'recycle' }]
+  },
+  novedades: {
+    hero: { eyebrow: 'Novedades', title: 'Noticias e información del sector', intro: 'Novedades de Gamma Plast y del mundo de los empaques flexibles y la industria del plástico.' },
+    articleCta: '¿Tienes un proyecto de empaque en mente?'
+  },
+  contacto: {
+    hero: { eyebrow: 'Contacto', title: 'Estamos para ayudarte', intro: '¿Tienes una consulta general? Escríbenos y te responderemos a la brevedad.' },
+    card: { title: '¿Buscas cotizar un empaque?', text: 'Déjanos los datos de tu proyecto y un asesor te contactará con una propuesta.' }
+  },
+  advisor: {
+    hero: { eyebrow: 'Contacta a un asesor', title: 'Hablemos de tu próximo empaque', intro: 'Cuéntanos sobre tu producto y un asesor te contactará para encontrar la solución de empaque flexible ideal.' }
+  },
+  careers: {
+    hero: { eyebrow: 'Trabaja con nosotros', title: 'Crece junto a Gamma Plast', intro: '¿Quieres formar parte de nuestro equipo? Déjanos tus datos y adjunta tu CV; te contactaremos si tu perfil encaja con nuestras vacantes.' }
+  },
+  nosotrosCta: { title: 'Trabajemos juntos en tu próximo empaque', text: 'Somos tu aliado estratégico, desde la selección de materiales hasta la entrega final.' }
+}
+
+// Ajustes globales del sitio — singletons/settings.
+const settings = {
+  footerAbout: 'Empresa peruana especializada en el diseño, desarrollo y fabricación de empaques flexibles de alta calidad, reciclables y compostables.',
+  topbarClaim: 'Empaques flexibles con propósito · Lima, Perú',
+  certBadges: [{ label: 'Normativa FDA', icon: 'check' }, { label: 'Reciclable', icon: 'recycle' }, { label: 'Compostable', icon: 'leaf' }],
+  orgDescription: 'Fabricante peruano de empaques flexibles de PE y PP, reciclables y compostables, con certificación FDA.'
 }
 
 // Contacto (única fuente de verdad — hoy duplicado en app.vue / footer / topbar / páginas).
@@ -229,7 +262,7 @@ const collections = {
   certLogos,
   clientLogos
 }
-const singletons = { materials, home, nosotros, contact, seo }
+const singletons = { materials, home, nosotros, contact, seo, pages, settings }
 
 // ── ejecución ───────────────────────────────────────────────────────────────
 async function main () {

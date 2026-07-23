@@ -3,6 +3,8 @@ const { t } = useI18n()
 const route = useRoute()
 const localePath = useLocalePath()
 const { data: contact } = await useContact()
+const { data: settings } = await useSettings()
+const claim = computed(() => settings.value?.topbarClaim || t('topbar.claim'))
 const phoneRaw = computed(() => contact.value?.phonesRaw?.[0] || '')
 const phoneShow = computed(() => contact.value?.phones?.[0] || '')
 const email = computed(() => contact.value?.emails?.[0] || '')
@@ -17,7 +19,7 @@ const isHome = computed(() => route.path === localePath('/'))
     <div class="wrap flex flex-wrap items-center justify-between gap-4 min-h-[40px] py-2">
       <div class="hidden sm:flex items-center gap-2">
         <span class="w-[7px] h-[7px] rounded-full bg-green inline-block" />
-        {{ t('topbar.claim') }}
+        {{ claim }}
       </div>
       <div class="flex flex-wrap items-center gap-5">
         <a :href="`tel:${phoneRaw}`" class="inline-flex items-center gap-1.5 hover:text-white transition-colors">

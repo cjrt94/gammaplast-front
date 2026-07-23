@@ -7,6 +7,8 @@ const site = 'https://gammaplast.com.pe'
 // Novedades desde el CMS (Firestore vía /api/content/novedades). await → SSR espera los datos
 // antes de renderizar el JSON-LD ItemList.
 const { data: novedades } = await useFetch('/api/content/novedades', { default: () => [] })
+const { data: pages } = await usePages()
+const hero = computed(() => pages.value.novedades?.hero || {})
 
 const { title: seoTitle, description: seoDesc } = await usePageSeo('news')
 useJsonLd({
@@ -35,8 +37,7 @@ useJsonLd(breadcrumbLd([
 
 <template>
   <div>
-    <PageHero eyebrow="Novedades" title="Noticias e información del sector"
-      intro="Novedades de Gamma Plast y del mundo de los empaques flexibles y la industria del plástico." />
+    <PageHero :eyebrow="hero.eyebrow" :title="hero.title" :intro="hero.intro" />
 
     <section class="sec">
       <div class="wrap">
