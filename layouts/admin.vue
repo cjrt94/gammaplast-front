@@ -23,8 +23,7 @@ const nav = [
   ] },
   { group: 'Bandeja', items: [
     { label: 'Mensajes de contacto', to: '/admin/leads/mensajes' },
-    { label: 'Solicitudes de asesor', to: '/admin/leads/asesores' },
-    { label: 'Postulaciones', to: '/admin/leads/postulaciones' }
+    { label: 'Solicitudes de asesor', to: '/admin/leads/asesores' }
   ] }
 ]
 

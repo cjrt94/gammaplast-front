@@ -6,10 +6,9 @@ const { ready, init } = useAdminAuth()
 
 const leads = [
   { key: 'mensajes', label: 'Mensajes de contacto', to: '/admin/leads/mensajes', col: 'contactMessages' },
-  { key: 'asesores', label: 'Solicitudes de asesor', to: '/admin/leads/asesores', col: 'advisorRequests' },
-  { key: 'postulaciones', label: 'Postulaciones', to: '/admin/leads/postulaciones', col: 'jobApplications' }
+  { key: 'asesores', label: 'Solicitudes de asesor', to: '/admin/leads/asesores', col: 'advisorRequests' }
 ]
-const counts = ref({ mensajes: null, asesores: null, postulaciones: null })
+const counts = ref({ mensajes: null, asesores: null })
 
 const contenido = [
   ['Home', '/admin/home'], ['Nosotros', '/admin/nosotros'], ['Sectores', '/admin/sectores'],

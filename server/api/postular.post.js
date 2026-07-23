@@ -34,23 +34,6 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 413, statusMessage: 'El CV supera los 5 MB.' })
   }
 
-  // Persistimos la postulación para la bandeja de /admin: CV a Storage (privado) + doc con la ruta.
-  // Independiente del email; try/catch por pieza → nunca rompe el submit.
-  let cvMeta = { cvPath: null, cvFilename: cv.filename }
-  try {
-    cvMeta = await uploadCv(cv)
-  } catch (e) {
-    console.error('[postular] uploadCv falló (se guarda el lead sin CV en Storage):', e?.message || e)
-  }
-  try {
-    await saveLead('jobApplications', {
-      nombre: d.nombre, apellido: d.apellido, telefono: d.telefono, correo: d.correo,
-      mensaje: d.mensaje, cvPath: cvMeta.cvPath, cvFilename: cvMeta.cvFilename
-    })
-  } catch (e) {
-    console.error('[postular] saveLead falló (se continúa con el email):', e?.message || e)
-  }
-
   const { resendApiKey, mailFrom, careersTo } = useRuntimeConfig(event)
   if (!resendApiKey) {
     console.error('[postular] RESEND_API_KEY no configurada')

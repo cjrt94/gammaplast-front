@@ -1,18 +1,16 @@
 <script setup>
-// Bandeja de leads: lista (más recientes primero), marca leído/no leído, elimina y —para
-// postulaciones— descarga el CV vía ruta autenticada. `fields` define qué columnas mostrar.
+// Bandeja de leads: lista (más recientes primero), marca leído/no leído y elimina.
+// `fields` define qué columnas mostrar.
 const props = defineProps({
   collection: { type: String, required: true },
   title: String,
   subtitle: String,
-  fields: { type: Array, default: () => [] }, // [{ key, label }]
-  hasCv: { type: Boolean, default: false }
+  fields: { type: Array, default: () => [] } // [{ key, label }]
 })
 const { list, markRead, remove } = useLeads(props.collection)
 const { confirm } = useConfirm()
 
 const rows = ref(null)
-const cvBusy = ref('')
 const reload = async () => { rows.value = await list() }
 onMounted(reload)
 
@@ -22,19 +20,6 @@ const toggleRead = async (row) => { await markRead(row.id, !row.read); row.read 
 const onDelete = async (row) => {
   if (await confirm({ title: '¿Eliminar registro?', message: 'Esta acción no se puede deshacer.' })) {
     await remove(row.id); await reload()
-  }
-}
-const downloadCv = async (row) => {
-  cvBusy.value = row.id
-  try {
-    const { $fbAuth } = useNuxtApp()
-    const token = await $fbAuth.currentUser.getIdToken()
-    const { url } = await $fetch('/api/admin/cv-url', { method: 'POST', body: { cvPath: row.cvPath }, headers: { authorization: `Bearer ${token}` } })
-    window.open(url, '_blank')
-  } catch (e) {
-    console.error('[cv]', e)
-  } finally {
-    cvBusy.value = ''
   }
 }
 </script>
@@ -64,10 +49,6 @@ const downloadCv = async (row) => {
         <p v-if="row.mensaje" class="text-body text-[.95rem] bg-mist rounded p-3 mb-3 whitespace-pre-wrap">{{ row.mensaje }}</p>
         <div class="flex flex-wrap items-center gap-3 text-[.85rem]">
           <button type="button" class="btn btn-ghost py-1.5 px-3" @click="toggleRead(row)">{{ row.read === false ? 'Marcar leída' : 'Marcar no leída' }}</button>
-          <button v-if="hasCv && row.cvPath" type="button" class="btn btn-ghost py-1.5 px-3" :disabled="cvBusy === row.id" @click="downloadCv(row)">
-            {{ cvBusy === row.id ? 'Generando…' : 'Descargar CV' }}
-          </button>
-          <span v-else-if="hasCv" class="text-slate">Sin CV en Storage</span>
           <button type="button" class="text-red-600 hover:underline ml-auto" @click="onDelete(row)">Eliminar</button>
         </div>
       </article>
