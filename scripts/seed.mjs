@@ -109,8 +109,7 @@ const nosotros = {
   certs: {
     pill: 'Certificaciones',
     title: 'Certificaciones que garantizan calidad, seguridad y confianza.',
-    intro: 'Nuestros empaques de PE y PP son biodegradables, compostables, reciclados y laminados, y cumplen la normativa FDA para contacto con alimentos.',
-    note: '* Isotipos oficiales pendientes de integrar.'
+    intro: 'Nuestros empaques de PE y PP son biodegradables, compostables, reciclados y laminados, y cumplen la normativa FDA para contacto con alimentos.'
   }
 }
 

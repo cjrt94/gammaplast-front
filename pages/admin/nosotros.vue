@@ -15,7 +15,7 @@ onMounted(async () => {
   form.value.misionVision ||= { pill: '', title: '', mision: '', vision: '' }
   form.value.procesos ||= { pill: '', title: '', intro: '', note: '', items: [] }
   form.value.galeria ||= { pill: '', title: '', intro: '', images: [] }
-  form.value.certs ||= { pill: '', title: '', intro: '', note: '' }
+  form.value.certs ||= { pill: '', title: '', intro: '' }
 })
 const onSave = () => run(() => save(form.value))
 </script>
@@ -108,7 +108,6 @@ const onSave = () => run(() => save(form.value))
           <div><label class="field-label">Título</label><input v-model="form.certs.title" class="field-input"></div>
         </div>
         <div><label class="field-label">Intro</label><textarea v-model="form.certs.intro" rows="2" class="field-input"></textarea></div>
-        <div><label class="field-label">Nota</label><input v-model="form.certs.note" class="field-input"></div>
         <p class="text-slate text-[.85rem]">Los ítems del grid (RCS, TÜV, FDA…) se editan en <NuxtLink class="text-green-700 underline" :to="localePath('/admin/certificaciones')">Certificaciones</NuxtLink>.</p>
       </div>
     </div>

@@ -154,7 +154,6 @@ useJsonLd(breadcrumbLd([
                   <div class="font-display font-bold text-ink text-[.95rem]">{{ c.code }}</div>
                 </li>
               </ul>
-              <p class="text-[.76rem] text-slate mt-5 text-center">{{ n.certs?.note }}</p>
             </div>
           </div>
         </div>
